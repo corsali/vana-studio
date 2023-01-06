@@ -17,7 +17,7 @@ const Generator = ({ authToken, email }) => {
       const result = await vanaPost(`jobs/text-to-image`, {
         prompt: prompt.replace(meRegex, '{target_token}'),
         email,
-        exhibit_name: 'vana-boilerplate-dev',
+        exhibit_name: 'vana-portrait-demo-dev',
         seed: -1
       }, authToken);
     } catch (error) {

@@ -43,7 +43,7 @@ export default function Home() {
       // We don't need this yet
       // const { exhibits } = await vanaGet('account/exhibits', {}, authToken);
 
-      const { urls } = await vanaGet('account/exhibits/vana-boilerplate-dev', {}, authToken);
+      const { urls } = await vanaGet('account/exhibits/vana-portrait-demo-dev', {}, authToken);
 
       setUser({ images: urls });
   }
@@ -187,7 +187,7 @@ export default function Home() {
           </a>
 
           <a
-            href="https://github.com/corsali/vana-boilerplate"
+            href="https://github.com/corsali/vana-portrait-demo"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
