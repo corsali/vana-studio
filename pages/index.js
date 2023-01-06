@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
-import config from '../config';
 import styles from '../styles/Home.module.css'
 import Generator from '../components/Generator'
-
+import { vanaGet, vanaPost } from '../vanaApi'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,38 +14,10 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState();
   const [authToken, setAuthToken] = useState();
 
-  const makeRequest = async (path, options={}) => {
-    if (authToken) {
-      options.headers = {
-        ...options.headers,
-        'Authorization': `Bearer ${authToken}`
-      }
-    }
-
-    const response = await fetch(`${config.VANA_API_URL}/${path}`, options);
-
-    const data = await response.json();
-
-    if (response.ok && data.success === true) {
-      return data;
-    } else {
-      throw new Error(data.message);
-    }
-  };
-
-  const post = async (path, body) =>
-    makeRequest(path, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify(body),
-    });
-
   const createLogin = async (email) => {
     setEmail(email);
     try {
-      await post('auth/create-login', {
+      await vanaPost('auth/create-login', {
         email,
       });
       setLoginState('promptCode');
@@ -57,7 +28,7 @@ export default function Home() {
 
   const logIn = async (code) => {
     try {
-      const { token } = await post('auth/login', {
+      const { token } = await vanaPost('auth/login', {
         email,
         code
       });
@@ -68,6 +39,15 @@ export default function Home() {
     }
   };
 
+  const refreshUser = async () => {
+      // We don't need this yet
+      // const { exhibits } = await vanaGet('account/exhibits', {}, authToken);
+
+      const { urls } = await vanaGet('account/exhibits/vana-boilerplate-dev', {}, authToken);
+
+      setUser({ images: urls });
+  }
+
   useEffect(() => {
     (async () => {
       if (!authToken) {
@@ -77,13 +57,14 @@ export default function Home() {
 
       setLoginState('loggedIn');
 
-      // We don't need this yet
-      // const { exhibits } = await makeRequest('account/exhibits');
+      const refreshUserWithTimeout = async () => {
+        await refreshUser();
+        setTimeout(refreshUserWithTimeout, 60000);
+      }
 
-      const { urls } = await makeRequest('account/exhibits/calligraphy');
-      // const { urls } = await makeRequest('account/exhibits/text-to-image');
+      refreshUserWithTimeout();
 
-      setUser({ images: urls });
+      return () => clearTimeout(refreshUserWithTimeout);
     })();
   }, [authToken]);
 
@@ -164,7 +145,7 @@ export default function Home() {
             </div>
           )}
 
-          {loginState === 'loggedIn' && !user.images.length && (
+          {loginState === 'loggedIn' && user && !user.images.length && (
             <div>
               <h1>Create your Vana Portrait</h1>
               <p>It seems we don't have a model for you yet.</p>
@@ -180,9 +161,9 @@ export default function Home() {
             </div>
           )}
 
-          {loginState === 'loggedIn' && user.images.length && (
+          {loginState === 'loggedIn' && user && user.images.length && (
             <div>
-              <Generator />
+              <Generator authToken={authToken} email={email} />
               {user.images.map((image, i) => (
                 <img src={image} key={i} />
               ))}
@@ -235,4 +216,4 @@ export default function Home() {
       </main>
     </>
   );
-}
+};
