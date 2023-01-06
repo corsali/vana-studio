@@ -1,46 +1,91 @@
+import { useEffect, useState } from 'react';
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
+import config from '../config';
 import styles from '../styles/Home.module.css'
 import Generator from '../components/Generator'
 
-import { useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [email, setEmail] = useState();
   const [user, setUser] = useState();
   const [loginState, setLoginState] = useState();
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState();
+  const [authToken, setAuthToken] = useState();
 
-  const logIn = async (code) => {
+  const makeRequest = async (path, options={}) => {
+    if (authToken) {
+      options.headers = {
+        ...options.headers,
+        'Authorization': `Bearer ${authToken}`
+      }
+    }
+
+    const response = await fetch(`${config.VANA_API_URL}/${path}`, options);
+
+    const data = await response.json();
+
+    if (response.ok && data.success === true) {
+      return data;
+    } else {
+      throw new Error(data.message);
+    }
+  };
+
+  const post = async (path, body) =>
+    makeRequest(path, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+
+  const createLogin = async (email) => {
+    setEmail(email);
     try {
-      const response = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            ok: true,
-            status: 200,
-            json: () => {
-              return {
-                images: ['https://portrait.vana.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F87172%2F1670918662-2053232767_go_soo_jung_closeup_portrait-beautiful_flat_illustrated_water_smoke_portrait-realistic_abstract_et.png%3Fauto%3Dformat%26q%3D40%26w%3D1200&w=640&q=75']
-              };
-            },
-          });
-        }, 1000);
+      await post('auth/create-login', {
+        email,
       });
-
-      if (response.status !== 200) {
-        throw new Error("An error occurred while logging in");
-      }
-      const data = await response.json();
-      if (response.ok) {
-        setUser({ images: data.images });
-      } else {
-        setErrorMessage(data.message);
-      }
+      setLoginState('promptCode');
     } catch (error) {
       setErrorMessage(error.message);
     }
   };
+
+  const logIn = async (code) => {
+    try {
+      const { token } = await post('auth/login', {
+        email,
+        code
+      });
+
+      setAuthToken(token);
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      if (!authToken) {
+        setLoginState();
+        return;
+      }
+
+      setLoginState('loggedIn');
+
+      // We don't need this yet
+      // const { exhibits } = await makeRequest('account/exhibits');
+
+      const { urls } = await makeRequest('account/exhibits/calligraphy');
+      // const { urls } = await makeRequest('account/exhibits/text-to-image');
+
+      setUser({ images: urls });
+    })();
+  }, [authToken]);
 
   return (
     <>
@@ -65,7 +110,7 @@ export default function Home() {
               <button
                 onClick={() =>
                   window
-                    .open("https://portrait.vana.com/create", "_blank")
+                    .open('https://portrait.vana.com/create', '_blank')
                     .focus()
                 }
               >
@@ -73,16 +118,21 @@ export default function Home() {
               </button>
               <p>New to Vana?</p>
               <p>Already have an account?</p>
-              <button onClick={() => setLoginState("promptEmail")}>
+              <button onClick={() => setLoginState('promptEmail')}>
                 Login
               </button>
             </div>
           )}
 
-          {loginState === "promptEmail" && (
+          {errorMessage && <div>{errorMessage}</div>}
+
+          {loginState === 'promptEmail' && (
             <div>
               <h1>Login with Vana</h1>
-              <form>
+              <form onSubmit={(event) => {
+                  event.preventDefault();
+                  createLogin(event.target.elements.email.value);
+                }}>
                 <label>
                   Email:
                   <input type="email" name="email" />
@@ -90,16 +140,18 @@ export default function Home() {
                 <input
                   type="submit"
                   value="Send Verification Code"
-                  onClick={() => setLoginState("promptCode")}
                 />
               </form>
             </div>
           )}
 
-          {loginState === "promptCode" && (
+          {loginState === 'promptCode' && (
             <div>
               <h1>Enter Verification Code</h1>
-              <form>
+              <form onSubmit={(event) => {
+                  event.preventDefault();
+                  logIn(event.target.elements.code.value);
+                }}>
                 <label>
                   Code:
                   <input type="text" name="code" />
@@ -107,17 +159,12 @@ export default function Home() {
                 <input
                   type="submit"
                   value="Login"
-                  onClick={async (event) => {
-                    event.preventDefault();
-                    await logIn(event.target.value);
-                    setLoginState("loggedIn");
-                  }}
                 />
               </form>
             </div>
           )}
 
-          {loginState === "loggedIn" && !user.images.length && (
+          {loginState === 'loggedIn' && !user.images.length && (
             <div>
               <h1>Create your Vana Portrait</h1>
               <p>It seems we don't have a model for you yet.</p>
@@ -126,14 +173,14 @@ export default function Home() {
                 value="Create Portrait on Vana"
                 onClick={() =>
                   window
-                    .open("https://portrait.vana.com/create", "_blank")
+                    .open('https://portrait.vana.com/create', '_blank')
                     .focus()
                 }
               />
             </div>
           )}
 
-          {loginState === "loggedIn" && user.images.length && (
+          {loginState === 'loggedIn' && user.images.length && (
             <div>
               <Generator />
               {user.images.map((image, i) => (
