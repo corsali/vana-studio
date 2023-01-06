@@ -43,7 +43,7 @@ export default function Home() {
   const refreshUser = async () => {
     const [exhibitPromise, portraitPromise] = [
       vanaGet("account/exhibits", {}, authToken),
-      vanaGet("account/exhibits/vana-portrait-demo-dev", {}, authToken),
+      vanaGet("account/exhibits/text-to-image", {}, authToken),
     ];
 
     const [exhibitsResponse, portraitResponse] = await Promise.all([
