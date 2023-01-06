@@ -1,3 +1,3 @@
 export default {
-  VANA_API_URL: 'http://api.vana.com/api/v0'
+  VANA_API_URL: 'https://api.vana.com/api/v0'
 };
