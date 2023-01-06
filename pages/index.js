@@ -10,6 +10,7 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   const [email, setEmail] = useState();
   const [user, setUser] = useState();
+  const [exhibits, setExhibits] = useState([]);
   const [loginState, setLoginState] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const [authToken, setAuthToken] = useState();
@@ -40,13 +41,19 @@ export default function Home() {
   };
 
   const refreshUser = async () => {
-      // We don't need this yet
-      // const { exhibits } = await vanaGet('account/exhibits', {}, authToken);
+    const [exhibitPromise, portraitPromise] = [
+      vanaGet("account/exhibits", {}, authToken),
+      vanaGet("account/exhibits/vana-portrait-demo-dev", {}, authToken),
+    ];
 
-      const { urls } = await vanaGet('account/exhibits/vana-portrait-demo-dev', {}, authToken);
+    const [exhibitsResponse, portraitResponse] = await Promise.all([
+      exhibitPromise,
+      portraitPromise,
+    ]);
 
-      setUser({ images: urls });
-  }
+    setExhibits(exhibitsResponse.exhibits);
+    setUser({ images: portraitResponse.urls });
+  };
 
   useEffect(() => {
     (async () => {
@@ -145,7 +152,7 @@ export default function Home() {
             </div>
           )}
 
-          {loginState === 'loggedIn' && user && !user.images.length && (
+          {loginState === 'loggedIn' && user && !exhibits.length && (
             <div>
               <h1>Create your Vana Portrait</h1>
               <p>It seems we don't have a model for you yet.</p>
@@ -161,7 +168,7 @@ export default function Home() {
             </div>
           )}
 
-          {loginState === 'loggedIn' && user && user.images.length && (
+          {loginState === 'loggedIn' && user && (
             <div>
               <Generator authToken={authToken} email={email} />
               {user.images.map((image, i) => (
