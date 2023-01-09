@@ -20,12 +20,16 @@ const vanaFetch = async (path, options = {}, token) => {
 };
 
 const post = async (path, body, token) =>
-  vanaFetch(path, {
-    headers: {
-      'Content-Type': 'application/json'
+  vanaFetch(
+    path,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(body),
     },
-    method: 'POST',
-    body: JSON.stringify(body),
-  }, token);
+    token
+  );
 
 export { vanaFetch, vanaFetch as vanaGet, post as vanaPost };
