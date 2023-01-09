@@ -18,6 +18,7 @@ const Generator = ({ authToken, email }) => {
         prompt: prompt.replace(meRegex, '{target_token}'),
         email,
         exhibit_name: 'text-to-image',
+        n_samples: 8,
         seed: -1
       }, authToken);
     } catch (error) {

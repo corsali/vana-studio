@@ -85,7 +85,7 @@ export default function Home() {
 
   const refreshUser = useCallback(async () => {
     console.info("Refreshing the user")
-    const refreshExhibits = async (exhibitNames) => {
+    const refreshExhibits = async (currentUser, exhibitNames) => {
       const exhibitsResponses = await Promise.all(
         exhibitNames.map((exhibit) =>
           vanaGet(`account/exhibits/${exhibit}`, {}, authToken).then(
@@ -101,7 +101,7 @@ export default function Home() {
           }
           return user;
         },
-        { ...user, exhibits: user.exhibits ?? {} }
+        { ...currentUser, exhibits: currentUser.exhibits ?? {} }
       );
 
       setUser(newUser);
@@ -110,26 +110,31 @@ export default function Home() {
         setRandomExhibitImages(getRandomImages(3, newUser.exhibits));
     };
 
-    const [exhibitsPromise, textToImagePromise] = [
+    const [exhibitsPromise, textToImagePromise, balancePromise] = [
       vanaGet("account/exhibits", {}, authToken),
       vanaGet("account/exhibits/text-to-image", {}, authToken),
+      vanaGet("account/balance", {}, authToken),
     ];
 
-    const [exhibitsResponse, textToImageResponse] = await Promise.all([
+    const [exhibitsResponse, textToImageResponse, balanceResponse] = await Promise.all([
       exhibitsPromise,
       textToImagePromise,
+      balancePromise
     ]);
 
-    // Populate the text-to-image exhibit quickly
-    setUser({
+    const newUser = {
+      balance: balanceResponse.balance,
       exhibits: {
         ...user.exhibits,
         "text-to-image": textToImageResponse.urls,
       },
-    });
+    };
+
+    // Populate the text-to-image exhibit quickly
+    setUser(newUser);
 
     // Now populate all exhibits
-    refreshExhibits(exhibitsResponse.exhibits);
+    refreshExhibits(newUser, exhibitsResponse.exhibits);
   }, [authToken]);
 
   useEffect(() => {
@@ -237,6 +242,9 @@ const LoggedIn = ({ user, email, authToken, hasExhibits, randomExhibitImages }) 
 
   return (
     <div>
+      <div style={{color: 'black'}}>
+        Credit balance: {user?.balance ?? 0}
+      </div>
       {randomExhibitImages?.map((image, i) => (
         <img src={image} key={i} />
       ))}
