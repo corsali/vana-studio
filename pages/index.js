@@ -15,12 +15,25 @@ import { vanaGet, vanaPost } from "vanaApi";
  */
 export default function Home() {
   const [email, setEmail] = useState();
-  const [user, setUser] = useState();
-  const [exhibits, setExhibits] = useState([]);
+  const [user, setUser] = useState({ exhibits: {} });
+  const [randomExhibitImages, setRandomExhibitImages] = useState([]);
   const [loginState, setLoginState] = useState("initial"); // initial, promptEmail, promptCode, loggedIn
   const [errorMessage, setErrorMessage] = useState();
-  const [authToken, setAuthToken] = useState();
   const [loading, setLoading] = useState(false);
+
+  // -- authToken setup --
+  let lsAuthToken
+  if (typeof window !== "undefined") {
+    lsAuthToken = window.localStorage.getItem('authToken');
+  }
+
+  const [authToken, setAuthToken] = useState(lsAuthToken);
+
+  if (typeof window !== "undefined") {
+    useEffect(() => window.localStorage.setItem('authToken', authToken), [authToken]);
+    // todo: handle token expiration
+  }
+  // -- end of authToken setup --
 
   const createLogin = useCallback(async (email) => {
     setEmail(email);
@@ -57,19 +70,66 @@ export default function Home() {
     [email]
   );
 
+  const getRandomImages = (count, exhibits) =>
+    Array(count)
+      .fill()
+      .map(() => {
+        const exhibitNames = Object.keys(exhibits);
+        const randomExhibit =
+          exhibitNames[Math.floor(Math.random() * exhibitNames.length)];
+        const randomExhibitImages = exhibits[randomExhibit];
+        return randomExhibitImages[
+          Math.floor(Math.random() * randomExhibitImages.length)
+        ];
+      });
+
   const refreshUser = useCallback(async () => {
-    const [exhibitPromise, portraitPromise] = [
+    console.info("Refreshing the user")
+    const refreshExhibits = async (exhibitNames) => {
+      const exhibitsResponses = await Promise.all(
+        exhibitNames.map((exhibit) =>
+          vanaGet(`account/exhibits/${exhibit}`, {}, authToken).then(
+            (response) => ({ name: exhibit, response })
+          )
+        )
+      );
+
+      const newUser = exhibitsResponses.reduce(
+        (user, { name, response }) => {
+          if (response.success) {
+            user.exhibits[name] = response.urls;
+          }
+          return user;
+        },
+        { ...user, exhibits: user.exhibits ?? {} }
+      );
+
+      setUser(newUser);
+
+      Object.keys(newUser.exhibits).length &&
+        setRandomExhibitImages(getRandomImages(3, newUser.exhibits));
+    };
+
+    const [exhibitsPromise, textToImagePromise] = [
       vanaGet("account/exhibits", {}, authToken),
       vanaGet("account/exhibits/text-to-image", {}, authToken),
     ];
 
-    const [exhibitsResponse, portraitResponse] = await Promise.all([
-      exhibitPromise,
-      portraitPromise,
+    const [exhibitsResponse, textToImageResponse] = await Promise.all([
+      exhibitsPromise,
+      textToImagePromise,
     ]);
 
-    setExhibits(exhibitsResponse.exhibits);
-    setUser({ images: portraitResponse.urls });
+    // Populate the text-to-image exhibit quickly
+    setUser({
+      exhibits: {
+        ...user.exhibits,
+        "text-to-image": textToImageResponse.urls,
+      },
+    });
+
+    // Now populate all exhibits
+    refreshExhibits(exhibitsResponse.exhibits);
   }, [authToken]);
 
   useEffect(() => {
@@ -136,8 +196,9 @@ export default function Home() {
             <LoggedIn
               user={user}
               email={email}
-              hasExhibits={!!exhibits.length}
+              hasExhibits={!!Object.keys(user.exhibits).length}
               authToken={authToken}
+              randomExhibitImages={randomExhibitImages}
             />
           )}
 
@@ -148,7 +209,7 @@ export default function Home() {
   );
 }
 
-const LoggedIn = ({ user, email, authToken, hasExhibits }) => {
+const LoggedIn = ({ user, email, authToken, hasExhibits, randomExhibitImages }) => {
   const handleCreate = useCallback(() => {
     window.open("https://portrait.vana.com/create", "_blank").focus();
   }, []);
@@ -176,8 +237,12 @@ const LoggedIn = ({ user, email, authToken, hasExhibits }) => {
 
   return (
     <div>
+      {randomExhibitImages?.map((image, i) => (
+        <img src={image} key={i} />
+      ))}
+
       <Generator authToken={authToken} email={email} />
-      {user.images.map((image, i) => (
+      {user.exhibits['text-to-image']?.map((image, i) => (
         <img src={image} key={i} />
       ))}
     </div>

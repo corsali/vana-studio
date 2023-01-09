@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { vanaPost } from 'vanaApi';
+
+const meRegex = /\bme\b/i;
 
 const Generator = ({ authToken, email }) => {
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-
-  const meRegex = /\b[mM][eE]\b/g
+  const [validPrompt, setValidPrompt] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,6 +27,10 @@ const Generator = ({ authToken, email }) => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    setValidPrompt(meRegex.test(prompt))
+  }, [prompt])
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -37,7 +42,7 @@ const Generator = ({ authToken, email }) => {
           value={prompt}
           onChange={(event) => setPrompt(event.target.value)}
         />
-        <button type="submit">Generate image</button>
+        <button type="submit" disabled={!validPrompt} >Generate image</button>
       </form>
       {isLoading && <p>Loading...</p>}
       {errorMessage && <p>Error: {errorMessage}</p>}
