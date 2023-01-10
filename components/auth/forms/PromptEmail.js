@@ -19,9 +19,9 @@ export const PromptEmail = ({ onGetCode, onSetLoginState, loading }) => {
   );
 
   return (
-    <div>
+    <>
       <h1>Login with Vana</h1>
-      <section className={styles.content}>
+      <section className={`${styles.content} space-y-4`}>
         <form onSubmit={handleSubmit} className={styles.form}>
           {/* Email: */}
           <input
@@ -47,13 +47,13 @@ export const PromptEmail = ({ onGetCode, onSetLoginState, loading }) => {
               </>
             )}
           </button>
-          <p className={styles.description}>
-            <a onClick={() => onSetLoginState("initial")} href="#">
-              Back
-            </a>
-          </p>
         </form>
+        <p className={styles.description}>
+          <a onClick={() => onSetLoginState("initial")} href="#">
+            Back
+          </a>
+        </p>
       </section>
-    </div>
+    </>
   );
 };

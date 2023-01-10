@@ -18,9 +18,9 @@ export const PromptCode = ({ onLogin, onSetLoginState, loading }) => {
   );
 
   return (
-    <div>
+    <>
       <h1>Enter Verification Code</h1>
-      <section className={styles.content}>
+      <section className={`${styles.content} space-y-4`}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="text"
@@ -32,14 +32,14 @@ export const PromptCode = ({ onLogin, onSetLoginState, loading }) => {
             onInput={handleInput}
             autoComplete="off"
           />
-          <button type="submit"> {loading ? <Spinner /> : <>Login</>}</button>
-          <p className={styles.description}>
-            <a onClick={() => onSetLoginState("promptEmail")} href="#">
-              Back
-            </a>
-          </p>
+          <button type="submit">{loading ? <Spinner /> : <>Login</>}</button>
         </form>
+        <p className={styles.description}>
+          <a onClick={() => onSetLoginState("promptEmail")} href="#">
+            Back
+          </a>
+        </p>
       </section>
-    </div>
+    </>
   );
 };

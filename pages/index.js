@@ -2,8 +2,9 @@ import { useEffect, useState, useCallback } from "react";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import Generator from "components/Generator";
-import { PromptCode } from "components/auth/forms/PromptCode";
 import { PromptEmail } from "components/auth/forms/PromptEmail";
+import { PromptCode } from "components/auth/forms/PromptCode";
+import { PromptLogin } from "components/auth/forms/PromptLogin";
 import { VanaLogo } from "components/icons/VanaLogo";
 import { GithubIcon } from "components/icons/GithubIcon";
 import { vanaGet, vanaPost } from "vanaApi";
@@ -110,25 +111,9 @@ export default function Home() {
         </a>
       </header>
       <main className={styles.main}>
-        <div className={styles.center}>
+        <div className={`${styles.center} ${styles.container} space-y-2`}>
           {loginState === "initial" && (
-            <div>
-              <h1>Vana Boilerplate</h1>
-              <section className={styles.content}>
-                <button
-                  onClick={() => setLoginState("promptEmail")}
-                  className={styles.primaryButton}
-                >
-                  Login
-                </button>
-                <p className={styles.description}>
-                  New to Vana?{" "}
-                  <a target="_blank" href="https://portrait.vana.com/create">
-                    Create your Portrait
-                  </a>
-                </p>
-              </section>
-            </div>
+            <PromptLogin onSetLoginState={setLoginState} />
           )}
 
           {loginState === "promptEmail" && (
@@ -168,17 +153,25 @@ const LoggedIn = ({ user, email, authToken, hasExhibits }) => {
     window.open("https://portrait.vana.com/create", "_blank").focus();
   }, []);
 
-  if (!hasExhibits) {
+  console.log(user);
+
+  if (hasExhibits) {
     return (
-      <div>
+      <>
         <h1>Create your Vana Portrait</h1>
-        <section className={styles.content}>
-          <p>It seems we don't have a model for you yet.</p>
-          <button type="submit" onClick={handleCreate}>
+        <section className={`${styles.content} space-y-3`}>
+          <p className="text-center">
+            It seems we don't have a model for you yet.
+          </p>
+          <button
+            type="submit"
+            onClick={handleCreate}
+            className={styles.primaryButton}
+          >
             Create Portrait on Vana
           </button>
         </section>
-      </div>
+      </>
     );
   }
 
