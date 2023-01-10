@@ -153,9 +153,8 @@ const LoggedIn = ({ user, email, authToken, hasExhibits }) => {
     window.open("https://portrait.vana.com/create", "_blank").focus();
   }, []);
 
-  console.log(user);
 
-  if (hasExhibits) {
+  if (!hasExhibits) {
     return (
       <>
         <h1>Create your Vana Portrait</h1>
