@@ -69,7 +69,7 @@ export default function Home() {
 
     setExhibits(exhibitsResponse.exhibits);
     setUser({ images: portraitResponse.urls });
-  }, []);
+  }, [authToken]);
 
   useEffect(() => {
     setLoginState(authToken ? "loggedIn" : "initial");

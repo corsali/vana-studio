@@ -30,6 +30,7 @@ export const PromptCode = ({ onLogin, onSetLoginState, loading }) => {
             autoFocus={true}
             value={input}
             onInput={handleInput}
+            autoComplete="off"
           />
           <button type="submit"> {loading ? <Spinner /> : <>Login</>}</button>
           <p className={styles.description}>
