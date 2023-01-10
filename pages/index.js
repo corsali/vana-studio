@@ -77,17 +77,18 @@ export default function Home() {
 
   useEffect(() => {
     const refreshUserWithTimeout = async () => {
+      // if the auth token was invalidated
+      if (!authToken) {
+        clearTimeout(refreshUserWithTimeout);
+
+        return;
+      }
+
       await refreshUser();
 
       // Refresh the user auth token every minute to prevent it's expiring.
       setTimeout(refreshUserWithTimeout, 60000);
     };
-
-    if (!authToken) {
-      clearTimeout(refreshUserWithTimeout);
-
-      return;
-    }
 
     refreshUserWithTimeout();
 
