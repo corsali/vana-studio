@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import config from '../config';
-import { vanaPost } from '../vanaApi';
+import { vanaPost } from 'vanaApi';
 
 const Generator = ({ authToken, email }) => {
   const [prompt, setPrompt] = useState('');
@@ -14,7 +13,7 @@ const Generator = ({ authToken, email }) => {
     setIsLoading(true);
 
     try {
-      const result = await vanaPost(`jobs/text-to-image`, {
+      await vanaPost(`jobs/text-to-image`, {
         prompt: prompt.replace(meRegex, '{target_token}'),
         email,
         exhibit_name: 'text-to-image',
