@@ -1,6 +1,6 @@
-import { Spinner } from "../icons/Spinner";
+import { Spinner } from "components/icons/Spinner";
 import { useState, useCallback } from "react";
-import styles from "../../styles/Home.module.css";
+import styles from "styles/Home.module.css";
 
 export const PromptCode = ({ onLogin, onSetLoginState, loading }) => {
   const [input, setInput] = useState("");

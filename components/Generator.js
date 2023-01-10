@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import config from '../config';
-import { vanaPost } from '../vanaApi';
+import { vanaPost } from 'vanaApi';
 
 const Generator = ({ authToken, email }) => {
   const [prompt, setPrompt] = useState('');

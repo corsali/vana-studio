@@ -1,13 +1,17 @@
 import { useEffect, useState, useCallback } from "react";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import Generator from "../components/Generator";
-import { PromptCode } from "../components/forms/PromptCode";
-import { PromptEmail } from "../components/forms/PromptEmail";
-import { VanaLogo } from "../components/icons/VanaLogo";
-import { GithubIcon } from "../components/icons/GithubIcon";
-import { vanaGet, vanaPost } from "../vanaApi";
+import styles from "styles/Home.module.css";
+import Generator from "components/Generator";
+import { PromptCode } from "components/auth/forms/PromptCode";
+import { PromptEmail } from "components/auth/forms/PromptEmail";
+import { VanaLogo } from "components/icons/VanaLogo";
+import { GithubIcon } from "components/icons/GithubIcon";
+import { vanaGet, vanaPost } from "vanaApi";
 
+/**
+ * The entry point for the demo app
+ * It contains the state management for the app flow.
+ */
 export default function Home() {
   const [email, setEmail] = useState();
   const [user, setUser] = useState();
@@ -52,7 +56,7 @@ export default function Home() {
     [email]
   );
 
-  const refreshUser = async () => {
+  const refreshUser = useCallback(async () => {
     const [exhibitPromise, portraitPromise] = [
       vanaGet("account/exhibits", {}, authToken),
       vanaGet("account/exhibits/text-to-image", {}, authToken),
@@ -65,35 +69,29 @@ export default function Home() {
 
     setExhibits(exhibitsResponse.exhibits);
     setUser({ images: portraitResponse.urls });
-  };
+  }, []);
 
   useEffect(() => {
-    (async () => {
-      if (!authToken) {
-        return;
-      }
-
-      setLoginState("loggedIn");
-
-      const refreshUserWithTimeout = async () => {
-        await refreshUser();
-        setTimeout(refreshUserWithTimeout, 60000);
-      };
-
-      refreshUserWithTimeout();
-
-      return () => clearTimeout(refreshUserWithTimeout);
-    })();
+    setLoginState(authToken ? "loggedIn" : "initial");
   }, [authToken]);
 
-  const handleSetLoginState = (state) => {
-    setLoginState(state);
-  };
+  useEffect(() => {
+    const refreshUserWithTimeout = async () => {
+      await refreshUser();
+
+      // Refresh the user auth token every minute to prevent it's expiring.
+      setTimeout(refreshUserWithTimeout, 60000);
+    };
+
+    refreshUserWithTimeout();
+
+    return () => clearTimeout(refreshUserWithTimeout);
+  }, [refreshUser]);
 
   return (
     <>
       <Head>
-        <title>My Vana App</title>
+        <title>Vana Boilerplate</title>
         <meta name="description" content="Generate portraits with Vana" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -129,7 +127,7 @@ export default function Home() {
           {loginState === "promptEmail" && (
             <PromptEmail
               onGetCode={createLogin}
-              onSetLoginState={handleSetLoginState}
+              onSetLoginState={setLoginState}
               loading={loading}
             />
           )}
@@ -138,7 +136,7 @@ export default function Home() {
             <PromptCode
               onLogin={logIn}
               loading={loading}
-              onSetLoginState={handleSetLoginState}
+              onSetLoginState={setLoginState}
             />
           )}
 

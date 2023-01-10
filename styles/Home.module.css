@@ -17,16 +17,6 @@
   padding: 8rem 0;
 }
 
-.center::before,
-.center::after {
-  content: "";
-  left: 50%;
-  position: absolute;
-  filter: blur(45px);
-  transform: translateZ(0);
-  z-index: -1;
-}
-
 /* Vana styles */
 .main h1 {
   font-size: 52px;
