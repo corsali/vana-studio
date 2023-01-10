@@ -83,10 +83,16 @@ export default function Home() {
       setTimeout(refreshUserWithTimeout, 60000);
     };
 
+    if (!authToken) {
+      clearTimeout(refreshUserWithTimeout);
+
+      return;
+    }
+
     refreshUserWithTimeout();
 
     return () => clearTimeout(refreshUserWithTimeout);
-  }, [refreshUser]);
+  }, [authToken, refreshUser]);
 
   return (
     <>
