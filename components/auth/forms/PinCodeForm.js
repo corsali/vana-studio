@@ -2,7 +2,7 @@ import { Spinner } from "components/icons/Spinner";
 import { useState, useCallback } from "react";
 import styles from "styles/Home.module.css";
 
-export const PromptCode = ({ onLogin, onSetLoginState, loading }) => {
+export const PinCodeForm = ({ onLogin, onSetLoginState, loading }) => {
   const [input, setInput] = useState("");
 
   const handleInput = useCallback((e) => {
@@ -20,7 +20,7 @@ export const PromptCode = ({ onLogin, onSetLoginState, loading }) => {
   return (
     <>
       <h1>Enter Verification Code</h1>
-      <section className={`${styles.content} space-y-4`}>
+      <section className="w-full space-y-4">
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="text"
@@ -35,7 +35,7 @@ export const PromptCode = ({ onLogin, onSetLoginState, loading }) => {
           <button type="submit">{loading ? <Spinner /> : <>Login</>}</button>
         </form>
         <p className={styles.description}>
-          <a onClick={() => onSetLoginState("promptEmail")} href="#">
+          <a onClick={() => onSetLoginState("EmailForm")} href="#">
             Back
           </a>
         </p>

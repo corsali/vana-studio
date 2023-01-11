@@ -3,7 +3,7 @@ import { useState, useCallback } from "react";
 import { ArrowIcon } from "components/icons/ArrowIcon";
 import styles from "styles/Home.module.css";
 
-export const PromptEmail = ({ onGetCode, onSetLoginState, loading }) => {
+export const EmailForm = ({ onGetCode, onSetLoginState, loading }) => {
   const [input, setInput] = useState("");
 
   const handleInput = useCallback((e) => {
@@ -21,7 +21,7 @@ export const PromptEmail = ({ onGetCode, onSetLoginState, loading }) => {
   return (
     <>
       <h1>Login with Vana</h1>
-      <section className={`${styles.content} space-y-4`}>
+      <section className="w-full space-y-4">
         <form onSubmit={handleSubmit} className={styles.form}>
           {/* Email: */}
           <input

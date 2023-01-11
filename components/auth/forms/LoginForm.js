@@ -1,12 +1,12 @@
 import styles from "styles/Home.module.css";
 
-export const PromptLogin = ({ onSetLoginState }) => {
+export const LoginForm = ({ onSetLoginState }) => {
   return (
     <>
       <h1>Vana Boilerplate</h1>
-      <section className={`${styles.content} space-y-4`}>
+      <section className="w-full space-y-4">
         <button
-          onClick={() => onSetLoginState("promptEmail")}
+          onClick={() => onSetLoginState("EmailForm")}
           className={styles.primaryButton}
         >
           Login
