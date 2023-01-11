@@ -40,7 +40,7 @@ export const Prompt = ({
       <h1>Create with your Portrait</h1>
       <section className="w-full space-y-4">
         <p>Here's some examples from your current portrait model:</p>
-        <div className={promptStyles.gallery}>
+        <div className={promptStyles.gallery} style={{ minHeight: 204 }}>
           {randomExhibitImages?.map((image, i) => (
             <div key={`${image}-${i}`} className={promptStyles.galleryImage}>
               <img src={image} key={i} />
