@@ -1,5 +1,4 @@
-import { VanaLogo } from "components/icons/VanaLogo";
-import { GithubIcon } from "components/icons/GithubIcon";
+import { VanaLogo, GithubIcon } from "components";
 import styles from "./Nav.module.css";
 
 const Nav = ({ children }) => {
