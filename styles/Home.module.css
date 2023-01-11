@@ -12,20 +12,16 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   position: relative;
-  padding-top: 8rem;
-  padding-bottom: 8rem;
+  padding-top: 7vh;
+  padding-bottom: 7vh;
 }
 
 .container {
   max-width: var(--max-width);
   padding-left: var(--space-2);
   padding-right: var(--space-2);
-}
-
-.content {
-  width: 100%;
 }
 
 /* Vana styles */
@@ -42,7 +38,7 @@
 
 .input {
   composes: field;
-  background-color: rgb(245, 245, 244);
+  background-color: var(--color-input);
   padding-left: 1rem;
   border: 2px solid transparent;
   outline: none;
@@ -56,6 +52,12 @@
 
 .input::placeholder {
   color: rgb(168 162 158);
+}
+
+.largeTextarea {
+  composes: input;
+  padding-top: var(--space-4);
+  height: 96px;
 }
 
 .button {
@@ -134,6 +136,12 @@
   border-bottom: 1px solid rgb(245, 245, 244);
 }
 
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .logo {
   background-color: rgb(245, 245, 244);
 }
@@ -157,8 +165,8 @@
     font-size: var(--heading-size-2);
   }
   .center {
-    padding-top: 8rem;
-    padding-bottom: 6rem;
+    padding-top: 10vh;
+    padding-bottom: 7vh;
   }
   .center::before {
     transform: none;
