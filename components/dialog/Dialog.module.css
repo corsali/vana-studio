@@ -26,7 +26,7 @@
   background-color: #fff;
   border-radius: 8px;
   border: 1px solid #888;
-  padding: var(--space-2);
+  padding: var(--space-1);
   width: 100%;
   max-width: var(--dialog-width);
 }

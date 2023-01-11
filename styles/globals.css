@@ -155,3 +155,10 @@ h3 {
 .overflow-hidden {
   overflow: hidden;
 }
+
+.pl-3 {
+  padding-left: var(--space-3);
+}
+.pl-4 {
+  padding-left: var(--space-4);
+}

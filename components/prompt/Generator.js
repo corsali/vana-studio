@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { vanaPost } from 'vanaApi';
-import { Dialog } from "components";
+import { Dialog, PromptAwaitingMessage } from "components";
 import styles from "./Prompt.module.css";
 import homeStyles from "styles/Home.module.css";
 
@@ -75,7 +75,7 @@ const Generator = ({ authToken, email }) => {
 
       {/* awaiting VanaPost */}
       <Dialog isOpen={isLoading}>
-        <p>Loading...</p>
+        <PromptAwaitingMessage />
       </Dialog>
     </>
   );
