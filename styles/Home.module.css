@@ -73,6 +73,11 @@
   gap: 4px;
 }
 
+.button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .button:hover {
   background-color: rgb(236 236 236);
 }

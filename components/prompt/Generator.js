@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { vanaPost } from 'vanaApi';
+import { Dialog } from "components";
 import styles from "./Prompt.module.css";
 import homeStyles from "styles/Home.module.css";
 
@@ -9,7 +10,7 @@ const Generator = ({ authToken, email }) => {
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [validPrompt, setValidPrompt] = useState(false);
+  const [validPrompt, setValidPrompt] = useState(true);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,15 +32,17 @@ const Generator = ({ authToken, email }) => {
   };
 
   useEffect(() => {
-    setValidPrompt(meRegex.test(prompt))
+    if (prompt.length > 20) {
+      setValidPrompt(meRegex.test(prompt))
+    }
   }, [prompt])
 
   return (
-    <div>
+    <>
       <form onSubmit={handleSubmit} className={styles.generator}>
         <label htmlFor="prompt-input" className={styles.generatorLabel}>
           <span>Write a detailed prompt to create with:</span>
-          <span className="table text-gray">Need some ideas?</span>
+          <span className="text-gray">Need some ideas?</span>
         </label>
         <textarea
           id="prompt-input"
@@ -58,10 +61,23 @@ const Generator = ({ authToken, email }) => {
         </button>
       </form>
 
-      {/* Validation */}
-      {isLoading && <p>Loading...</p>}
-      {errorMessage && <p>Error: {errorMessage}</p>}
-    </div>
+      {/* regex error */}
+      {!validPrompt && (
+        <p className="text-error font-medium">
+          You must include "me" in your prompt. Please try again.
+        </p>
+      )}
+
+      {/* submission error */}
+      {errorMessage && (
+        <p className="text-error font-medium">Error: {errorMessage}</p>
+      )}
+
+      {/* awaiting VanaPost */}
+      <Dialog isOpen={isLoading}>
+        <p>Loading...</p>
+      </Dialog>
+    </>
   );
 };
 

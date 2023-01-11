@@ -57,6 +57,7 @@ h6 {
 /* BASE STYLES */
 :root {
   --max-width: 680px;
+  --dialog-width: 584px;
   --space-1: 48px;
   --space-2: 24px;
   --space-3: 16px;
@@ -124,6 +125,10 @@ h3 {
   margin-right: var(--space-4);
 }
 
+.w-full {
+  width: 100%;
+}
+
 .text-center {
   text-align: center;
 }
@@ -132,8 +137,12 @@ h3 {
   color: #666;
 }
 
-.w-full {
-  width: 100%;
+.text-error {
+  color: #df0e0e;
+}
+
+.font-medium {
+  font-weight: 500;
 }
 
 .divider {
@@ -141,4 +150,8 @@ h3 {
   flex: 1;
   height: 100%;
   width: 1px;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
