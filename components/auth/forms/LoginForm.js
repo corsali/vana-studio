@@ -6,7 +6,7 @@ export const LoginForm = ({ onSetLoginState }) => {
       <h1>Vana Boilerplate</h1>
       <section className="w-full space-y-4">
         <button
-          onClick={() => onSetLoginState("EmailForm")}
+          onClick={() => onSetLoginState("emailForm")}
           className={styles.primaryButton}
         >
           Login

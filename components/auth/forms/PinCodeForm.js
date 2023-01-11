@@ -35,7 +35,7 @@ export const PinCodeForm = ({ onLogin, onSetLoginState, loading }) => {
           <button type="submit">{loading ? <Spinner /> : <>Login</>}</button>
         </form>
         <p className={styles.description}>
-          <a onClick={() => onSetLoginState("EmailForm")} href="#">
+          <a onClick={() => onSetLoginState("emailForm")} href="#">
             Back
           </a>
         </p>

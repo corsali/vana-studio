@@ -2,11 +2,11 @@ import { useEffect, useState, useCallback } from "react";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import Generator from "components/Generator";
-import { PromptEmail } from "components/auth/forms/PromptEmail";
-import { PromptCode } from "components/auth/forms/PromptCode";
-import { PromptLogin } from "components/auth/forms/PromptLogin";
-import { VanaLogo } from "components/icons/VanaLogo";
-import { GithubIcon } from "components/icons/GithubIcon";
+import {
+  EmailForm,
+  PinCodeForm,
+  LoginForm,
+} from "components";
 import { vanaGet, vanaPost } from "vanaApi";
 
 /**
@@ -17,7 +17,7 @@ export default function Home() {
   const [email, setEmail] = useState();
   const [user, setUser] = useState({ exhibits: {} });
   const [randomExhibitImages, setRandomExhibitImages] = useState([]);
-  const [loginState, setLoginState] = useState("initial"); // initial, promptEmail, promptCode, loggedIn
+  const [loginState, setLoginState] = useState("initial"); // initial, emailForm, pinCodeForm, loggedIn
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -43,7 +43,7 @@ export default function Home() {
       await vanaPost("auth/create-login", {
         email,
       });
-      setLoginState("promptCode");
+      setLoginState("pinCodeForm");
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
@@ -178,19 +178,19 @@ export default function Home() {
       <main className={styles.main}>
         <div className={`${styles.center} ${styles.container} space-y-2`}>
           {loginState === "initial" && (
-            <PromptLogin onSetLoginState={setLoginState} />
+            <LoginForm onSetLoginState={setLoginState} />
           )}
 
-          {loginState === "promptEmail" && (
-            <PromptEmail
+          {loginState === "emailForm" && (
+            <EmailForm
               onGetCode={createLogin}
               onSetLoginState={setLoginState}
               loading={loading}
             />
           )}
 
-          {loginState === "promptCode" && (
-            <PromptCode
+          {loginState === "pinCodeForm" && (
+            <PinCodeForm
               onLogin={logIn}
               loading={loading}
               onSetLoginState={setLoginState}
