@@ -22,15 +22,18 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   // -- authToken setup --
-  let lsAuthToken
+  let lsAuthToken;
   if (typeof window !== "undefined") {
-    lsAuthToken = window.localStorage.getItem('authToken');
+    lsAuthToken = window.localStorage.getItem("authToken");
   }
 
   const [authToken, setAuthToken] = useState(lsAuthToken);
 
   if (typeof window !== "undefined") {
-    useEffect(() => window.localStorage.setItem('authToken', authToken), [authToken]);
+    useEffect(() => {
+      // Prevent setting 'null' or 'undefined' values to the localstorage
+      window.localStorage.setItem("authToken", authToken ?? '');
+    }, [authToken]);
     // todo: handle token expiration
   }
   // -- end of authToken setup --
@@ -84,7 +87,7 @@ export default function Home() {
       });
 
   const refreshUser = useCallback(async () => {
-    console.info("Refreshing the user")
+    console.info("Refreshing the user");
     const refreshExhibits = async (currentUser, exhibitNames) => {
       const exhibitsResponses = await Promise.all(
         exhibitNames.map((exhibit) =>
@@ -116,11 +119,8 @@ export default function Home() {
       vanaGet("account/balance", {}, authToken),
     ];
 
-    const [exhibitsResponse, textToImageResponse, balanceResponse] = await Promise.all([
-      exhibitsPromise,
-      textToImagePromise,
-      balancePromise
-    ]);
+    const [exhibitsResponse, textToImageResponse, balanceResponse] =
+      await Promise.all([exhibitsPromise, textToImagePromise, balancePromise]);
 
     const newUser = {
       balance: balanceResponse.balance,
@@ -214,11 +214,16 @@ export default function Home() {
   );
 }
 
-const LoggedIn = ({ user, email, authToken, hasExhibits, randomExhibitImages }) => {
+const LoggedIn = ({
+  user,
+  email,
+  authToken,
+  hasExhibits,
+  randomExhibitImages,
+}) => {
   const handleCreate = useCallback(() => {
     window.open("https://portrait.vana.com/create", "_blank").focus();
   }, []);
-
 
   if (!hasExhibits) {
     return (
@@ -242,15 +247,13 @@ const LoggedIn = ({ user, email, authToken, hasExhibits, randomExhibitImages }) 
 
   return (
     <div>
-      <div style={{color: 'black'}}>
-        Credit balance: {user?.balance ?? 0}
-      </div>
+      <div style={{ color: "black" }}>Credit balance: {user?.balance ?? 0}</div>
       {randomExhibitImages?.map((image, i) => (
         <img src={image} key={i} />
       ))}
 
       <Generator authToken={authToken} email={email} />
-      {user.exhibits['text-to-image']?.map((image, i) => (
+      {user.exhibits["text-to-image"]?.map((image, i) => (
         <img src={image} key={i} />
       ))}
     </div>
