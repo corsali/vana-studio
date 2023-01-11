@@ -1,6 +1,7 @@
 export * from "./auth/forms/PromptEmail";
 export * from "./auth/forms/PromptLogin";
 export * from "./auth/forms/PromptCode";
+export * from "./dialog/Dialog";
 export * from "./icons/ArrowIcon";
 export * from "./icons/GithubIcon";
 export * from "./icons/Spinner";
