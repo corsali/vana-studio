@@ -1,5 +1,4 @@
-import { useState, useCallback } from "react";
-import Generator from "./Generator";
+import { useCallback } from "react";
 import homeStyles from "styles/Home.module.css";
 import promptStyles from "./Prompt.module.css";
 
@@ -21,7 +20,7 @@ export const Prompt = ({
         <h1>Create your Vana Portrait</h1>
         <section className="w-full space-y-3">
           <p className="text-center">
-            It seems we don't have a model for you yet.
+            You don't have a Portrait model to create with yet.
           </p>
           <button
             type="submit"
