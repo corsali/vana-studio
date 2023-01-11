@@ -3,9 +3,9 @@ import { VANA_GITHUB_URL } from "config";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import {
-  EmailForm,
-  PinCodeForm,
-  LoginForm,
+  PromptEmail,
+  PromptCode,
+  PromptLogin,
   Prompt,
   Generator,
   Nav,
