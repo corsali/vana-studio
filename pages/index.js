@@ -3,6 +3,8 @@ import { VANA_GITHUB_URL } from "config";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import Generator from "components/Generator";
+import { VanaLogo } from "components/icons/VanaLogo";
+import { GithubIcon } from "components/icons/GithubIcon";
 import {
   EmailForm,
   PinCodeForm,
@@ -170,12 +172,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      
       <header className={styles.header}>
         <VanaLogo />
         <a href={VANA_GITHUB_URL} target="_blank">
           <GithubIcon />
         </a>
       </header>
+
       <main className={styles.main}>
         <div className={`${styles.center} ${styles.container} space-y-2`}>
           {loginState === "initial" && (
