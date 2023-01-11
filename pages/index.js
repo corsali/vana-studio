@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { VANA_GITHUB_URL } from "config";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import {
@@ -25,18 +26,18 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   // -- authToken setup --
-  let lsAuthToken
+  let lsAuthToken;
   if (typeof window !== "undefined") {
-    lsAuthToken = window.localStorage.getItem('authToken');
+    lsAuthToken = window.localStorage.getItem("authToken");
   }
 
   const [authToken, setAuthToken] = useState(lsAuthToken);
 
   if (typeof window !== "undefined") {
-    useEffect(
-      () => window.localStorage.setItem("authToken", authToken),
-      [authToken]
-    );
+    useEffect(() => {
+      // Prevent setting 'null' or 'undefined' values to the localstorage
+      window.localStorage.setItem("authToken", authToken ?? "");
+    }, [authToken]);
     // todo: handle token expiration
   }
   // -- end of authToken setup --
@@ -110,7 +111,7 @@ export default function Home() {
       });
 
   const refreshUser = useCallback(async () => {
-    console.info("Refreshing the user")
+    console.info("Refreshing the user");
     const refreshExhibits = async (currentUser, exhibitNames) => {
       const exhibitsResponses = await Promise.all(
         exhibitNames.map((exhibit) =>
@@ -141,11 +142,8 @@ export default function Home() {
       vanaGet("account/balance", {}, authToken),
     ];
 
-    const [exhibitsResponse, textToImageResponse, balanceResponse] = await Promise.all([
-      exhibitsPromise,
-      textToImagePromise,
-      balancePromise
-    ]);
+    const [exhibitsResponse, textToImageResponse, balanceResponse] =
+      await Promise.all([exhibitsPromise, textToImagePromise, balancePromise]);
 
     const newUser = {
       balance: balanceResponse.balance,
@@ -242,4 +240,3 @@ export default function Home() {
     </>
   );
 }
-
