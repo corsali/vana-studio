@@ -195,12 +195,18 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header className={styles.header}>
-        <VanaLogo />
-        <a href={VANA_GITHUB_URL} target="_blank">
-          <GithubIcon />
-        </a>
-      </header>
+
+      {/* NAV */}
+      <Nav>
+        {loginState === "loggedIn" && (
+          <>
+            <div className="x">Credits: {user.balance ? user.balance : 0}</div>
+            <div className="divider"></div>
+          </>
+        )}
+      </Nav>
+
+      {/* CONTENT */}
       <main className={styles.main}>
         <div className={`${styles.center} ${styles.container} space-y-2`}>
           {loginState === "initial" && (
