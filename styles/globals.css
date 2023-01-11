@@ -1,20 +1,11 @@
-:root {
-  --max-width: 640px;
-  --space-1: 48px;
-  --space-2: 24px;
-  --space-3: 16px;
-  --space-4: 9px;
-  --heading-size-1: 44px;
-  --heading-size-2: 36px;
-  --heading-size-3: 24px;
-  --heading-size-4: 21px;
-  --font-size-1: 18px;
-  --font-size-2: 15px;
-  --font-size-3: 13px;
+/* RESET */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 * {
-  box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
@@ -23,6 +14,61 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  height: 100%;
+}
+
+body {
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* Create a root stacking context */
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* BASE STYLES */
+:root {
+  --max-width: 680px;
+  --space-1: 48px;
+  --space-2: 24px;
+  --space-3: 16px;
+  --space-4: 9px;
+  --heading-size-1: 36px;
+  --heading-size-2: 30px;
+  --heading-size-3: 24px;
+  --heading-size-4: 21px;
+  --font-size-1: 18px;
+  --font-size-2: 15px;
+  --font-size-3: 13px;
+  --color-input: rgb(245, 245, 244);
 }
 
 body {
@@ -42,6 +88,12 @@ a {
 a:hover {
   color: #000;
   text-decoration-color: #000;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.1;
 }
 
 /* UTILITIES */
@@ -74,4 +126,19 @@ a:hover {
 
 .text-center {
   text-align: center;
+}
+
+.text-gray {
+  color: #666;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.divider {
+  border-left: 1px solid #d5d5d5;
+  flex: 1;
+  height: 100%;
+  width: 1px;
 }

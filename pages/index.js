@@ -2,13 +2,13 @@ import { useEffect, useState, useCallback } from "react";
 import { VANA_GITHUB_URL } from "config";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
-import Generator from "components/Generator";
-import { VanaLogo } from "components/icons/VanaLogo";
-import { GithubIcon } from "components/icons/GithubIcon";
 import {
   EmailForm,
   PinCodeForm,
   LoginForm,
+  Prompt,
+  Generator,
+  Nav,
 } from "components";
 import { vanaGet, vanaPost } from "vanaApi";
 
@@ -20,6 +20,7 @@ export default function Home() {
   const [email, setEmail] = useState();
   const [user, setUser] = useState({ exhibits: {} });
   const [randomExhibitImages, setRandomExhibitImages] = useState([]);
+  const [exhibitExampleImages, setExhibitExampleImages] = useState([]);
   const [loginState, setLoginState] = useState("initial"); // initial, emailForm, pinCodeForm, loggedIn
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState(false);
@@ -76,6 +77,23 @@ export default function Home() {
     [email]
   );
 
+  const getPortraitExamples = (exhibits) => {
+    const firstThreeExhibits = Object.keys(exhibits).slice(1, 4);
+    const firstThreeExhibitsImages = firstThreeExhibits.map((item) => {
+      return exhibits[item][0];
+    });
+    // console.log(firstThreeExhibits);
+    // console.log(firstThreeExhibitsImages);
+
+    return firstThreeExhibitsImages;
+  };
+
+  useEffect(() => {
+    if (user && Object.keys(user.exhibits).length > 0) {
+      setExhibitExampleImages(getPortraitExamples(user.exhibits));
+    }
+  }, [user]);
+
   const getRandomImages = (count, exhibits) =>
     Array(count)
       .fill()
@@ -84,6 +102,9 @@ export default function Home() {
         const randomExhibit =
           exhibitNames[Math.floor(Math.random() * exhibitNames.length)];
         const randomExhibitImages = exhibits[randomExhibit];
+        // console.log(randomExhibit);
+        // console.log(randomExhibitImages);
+
         return randomExhibitImages[
           Math.floor(Math.random() * randomExhibitImages.length)
         ];
@@ -111,7 +132,6 @@ export default function Home() {
       );
 
       setUser(newUser);
-
       Object.keys(newUser.exhibits).length &&
         setRandomExhibitImages(getRandomImages(3, newUser.exhibits));
     };
@@ -164,6 +184,9 @@ export default function Home() {
     return () => clearTimeout(refreshUserWithTimeout);
   }, [authToken, refreshUser]);
 
+  // console.log("randomExhibitImages", randomExhibitImages);
+  // console.log("exhibitExampleImages", exhibitExampleImages);
+
   return (
     <>
       <Head>
@@ -203,13 +226,14 @@ export default function Home() {
           )}
 
           {loginState === "loggedIn" && user && (
-            <LoggedIn
+            <Prompt
               user={user}
-              email={email}
               hasExhibits={!!Object.keys(user.exhibits).length}
-              authToken={authToken}
+              // randomExhibitImages={exhibitExampleImages}
               randomExhibitImages={randomExhibitImages}
-            />
+            >
+              <Generator authToken={authToken} email={email} />
+            </Prompt>
           )}
 
           {errorMessage && <div className={styles.error}>{errorMessage}</div>}
@@ -218,49 +242,3 @@ export default function Home() {
     </>
   );
 }
-
-const LoggedIn = ({
-  user,
-  email,
-  authToken,
-  hasExhibits,
-  randomExhibitImages,
-}) => {
-  const handleCreate = useCallback(() => {
-    window.open("https://portrait.vana.com/create", "_blank").focus();
-  }, []);
-
-  if (!hasExhibits) {
-    return (
-      <>
-        <h1>Create your Vana Portrait</h1>
-        <section className={`${styles.content} space-y-3`}>
-          <p className="text-center">
-            It seems we don't have a model for you yet.
-          </p>
-          <button
-            type="submit"
-            onClick={handleCreate}
-            className={styles.primaryButton}
-          >
-            Create Portrait on Vana
-          </button>
-        </section>
-      </>
-    );
-  }
-
-  return (
-    <div>
-      <div style={{ color: "black" }}>Credit balance: {user?.balance ?? 0}</div>
-      {randomExhibitImages?.map((image, i) => (
-        <img src={image} key={i} />
-      ))}
-
-      <Generator authToken={authToken} email={email} />
-      {user.exhibits["text-to-image"]?.map((image, i) => (
-        <img src={image} key={i} />
-      ))}
-    </div>
-  );
-};

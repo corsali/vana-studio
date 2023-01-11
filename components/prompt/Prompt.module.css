@@ -1,0 +1,20 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.galleryImage {
+  aspect-ratio: 1 / 1;
+  background-color: var(--color-input);
+}
+
+.generator {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.generatorLabel {
+  display: flex;
+  justify-content: space-between;
+}

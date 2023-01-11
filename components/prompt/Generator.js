@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { vanaPost } from 'vanaApi';
+import styles from "./Prompt.module.css";
+import homeStyles from "styles/Home.module.css";
 
 const meRegex = /\bme\b/i;
 
@@ -34,21 +36,33 @@ const Generator = ({ authToken, email }) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="prompt-input">Prompt:</label>
-        <input
+      <form onSubmit={handleSubmit} className={styles.generator}>
+        <label htmlFor="prompt-input" className={styles.generatorLabel}>
+          <span>Write a detailed prompt to create with:</span>
+          <span className="table text-gray">Need some ideas?</span>
+        </label>
+        <textarea
           id="prompt-input"
           type="text"
           placeholder="Me eating blue spaghetti"
           value={prompt}
           onChange={(event) => setPrompt(event.target.value)}
+          className={homeStyles.largeTextarea}
         />
-        <button type="submit" disabled={!validPrompt} >Generate image</button>
+        <button
+          type="submit"
+          disabled={!validPrompt}
+          className={homeStyles.primaryButton}
+        >
+          Create image
+        </button>
       </form>
+
+      {/* Validation */}
       {isLoading && <p>Loading...</p>}
       {errorMessage && <p>Error: {errorMessage}</p>}
     </div>
   );
 };
 
-export default Generator;
+export { Generator };
