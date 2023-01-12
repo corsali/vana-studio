@@ -63,13 +63,13 @@ h6 {
   --space-2: clamp(16px, 0.7494rem + 0.9685vw, 24px);
   --space-3: clamp(12px, 0.6247rem + 0.4843vw, 16px);
   --space-4: clamp(8px, 0.4687rem + 0.1211vw, 9px);
-  --heading-size-1: 36px;
-  --heading-size-2: 30px;
-  --heading-size-3: 24px;
-  --heading-size-4: 21px;
-  --font-size-1: 18px;
-  --font-size-2: 15px;
-  --font-size-3: 13px;
+  --heading-size-1: clamp(30px, 1.687rem + 0.7264vw, 36px);
+  --heading-size-2: clamp(27px, 1.5935rem + 0.3632vw, 30px);
+  --heading-size-3: clamp(21px, 1.2185rem + 0.3632vw, 24px);
+  --heading-size-4: clamp(18px, 1.031rem + 0.3632vw, 21px);
+  --font-size-1: clamp(16px, 0.9373rem + 0.2421vw, 18px);
+  --font-size-2: clamp(13px, 0.7498rem + 0.2421vw, 15px);
+  --font-size-3: clamp(12px, 0.7187rem + 0.1211vw, 13px);
   --color-input: rgb(245, 245, 244);
 }
 
