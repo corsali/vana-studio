@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from "react";
-import { VANA_GITHUB_URL } from "config";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import {
@@ -9,8 +8,11 @@ import {
   Prompt,
   Generator,
   Nav,
+  getTextToImageUserExhibits,
+  getRandomUserExhibits,
+  getUserBalance,
 } from "components";
-import { vanaGet, vanaPost } from "vanaApi";
+import { vanaPost } from "vanaApi";
 
 /**
  * The entry point for the demo app
@@ -18,9 +20,11 @@ import { vanaGet, vanaPost } from "vanaApi";
  */
 export default function Home() {
   const [email, setEmail] = useState();
-  const [user, setUser] = useState({ exhibits: {} });
+  const [userBalance, setUserBalance] = useState(0);
+
+  const [textToImageExhibitImages, setTextToImageExhibitImages] = useState([]);
   const [randomExhibitImages, setRandomExhibitImages] = useState([]);
-  const [exhibitExampleImages, setExhibitExampleImages] = useState([]);
+
   const [loginState, setLoginState] = useState("initial"); // initial, emailForm, pinCodeForm, loggedIn
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState(false);
@@ -77,115 +81,52 @@ export default function Home() {
     [email]
   );
 
-  const getPortraitExamples = (exhibits) => {
-    const firstThreeExhibits = Object.keys(exhibits).slice(1, 4);
-    const firstThreeExhibitsImages = firstThreeExhibits.map((item) => {
-      return exhibits[item][0];
-    });
-    // console.log(firstThreeExhibits);
-    // console.log(firstThreeExhibitsImages);
+  // Get random user exhibit images
+  const populateRandomUserExhibits = useCallback(async (token) => {
+    const images = await getRandomUserExhibits(token, 3);
 
-    return firstThreeExhibitsImages;
-  };
+    setRandomExhibitImages(images);
+  }, []);
 
-  useEffect(() => {
-    if (user && Object.keys(user.exhibits).length > 0) {
-      setExhibitExampleImages(getPortraitExamples(user.exhibits));
+  // Get Text to Image exhibit images
+  const populateTextToImageExhibits = useCallback(async (token) => {
+    async function refreshImages() {
+      const images = await getTextToImageUserExhibits(token);
+
+      setTextToImageExhibitImages(images);
+
+      setTimeout(refreshImages, 60000);
     }
-  }, [user]);
 
-  const getRandomImages = (count, exhibits) =>
-    Array(count)
-      .fill()
-      .map(() => {
-        const exhibitNames = Object.keys(exhibits);
-        const randomExhibit =
-          exhibitNames[Math.floor(Math.random() * exhibitNames.length)];
-        const randomExhibitImages = exhibits[randomExhibit];
-        // console.log(randomExhibit);
-        // console.log(randomExhibitImages);
+    refreshImages();
 
-        return randomExhibitImages[
-          Math.floor(Math.random() * randomExhibitImages.length)
-        ];
-      });
+    return () => clearTimeout(refreshImages);
+  }, []);
 
-  const refreshUser = useCallback(async () => {
-    console.info("Refreshing the user");
-    const refreshExhibits = async (currentUser, exhibitNames) => {
-      const exhibitsResponses = await Promise.all(
-        exhibitNames.map((exhibit) =>
-          vanaGet(`account/exhibits/${exhibit}`, {}, authToken).then(
-            (response) => ({ name: exhibit, response })
-          )
-        )
-      );
+  // Get the user balance
+  const populateUserbalance = useCallback(async (token) => {
+    const balance = await getUserBalance(token);
 
-      const newUser = exhibitsResponses.reduce(
-        (user, { name, response }) => {
-          if (response.success) {
-            user.exhibits[name] = response.urls;
-          }
-          return user;
-        },
-        { ...currentUser, exhibits: currentUser.exhibits ?? {} }
-      );
-
-      setUser(newUser);
-      Object.keys(newUser.exhibits).length &&
-        setRandomExhibitImages(getRandomImages(3, newUser.exhibits));
-    };
-
-    const [exhibitsPromise, textToImagePromise, balancePromise] = [
-      vanaGet("account/exhibits", {}, authToken),
-      vanaGet("account/exhibits/text-to-image", {}, authToken),
-      vanaGet("account/balance", {}, authToken),
-    ];
-
-    const [exhibitsResponse, textToImageResponse, balanceResponse] =
-      await Promise.all([exhibitsPromise, textToImagePromise, balancePromise]);
-
-    const newUser = {
-      balance: balanceResponse.balance,
-      exhibits: {
-        ...user.exhibits,
-        "text-to-image": textToImageResponse.urls,
-      },
-    };
-
-    // Populate the text-to-image exhibit quickly
-    setUser(newUser);
-
-    // Now populate all exhibits
-    refreshExhibits(newUser, exhibitsResponse.exhibits);
-  }, [authToken]);
+    setUserBalance(balance);
+  }, []);
 
   useEffect(() => {
     setLoginState(authToken ? "loggedIn" : "initial");
   }, [authToken]);
 
   useEffect(() => {
-    const refreshUserWithTimeout = async () => {
-      // if the auth token was invalidated
-      if (!authToken) {
-        clearTimeout(refreshUserWithTimeout);
+    if (!authToken) {
+      return;
+    }
 
-        return;
-      }
-
-      await refreshUser();
-
-      // Refresh the user auth token every minute to prevent it's expiring.
-      setTimeout(refreshUserWithTimeout, 60000);
-    };
-
-    refreshUserWithTimeout();
-
-    return () => clearTimeout(refreshUserWithTimeout);
-  }, [authToken, refreshUser]);
-
-  // console.log("randomExhibitImages", randomExhibitImages);
-  // console.log("exhibitExampleImages", exhibitExampleImages);
+    (async () => {
+      await Promise.all([
+        populateRandomUserExhibits(authToken),
+        populateTextToImageExhibits(authToken),
+        populateUserbalance(authToken),
+      ]);
+    })();
+  }, [authToken]);
 
   return (
     <>
@@ -200,7 +141,7 @@ export default function Home() {
       <Nav>
         {loginState === "loggedIn" && (
           <>
-            <div className="x">Credits: {user.balance ? user.balance : 0}</div>
+            <div className="x">Credits: {userBalance}</div>
             <div className="divider"></div>
           </>
         )}
@@ -229,11 +170,9 @@ export default function Home() {
             />
           )}
 
-          {loginState === "loggedIn" && user && (
+          {loginState === "loggedIn" && (
             <Prompt
-              user={user}
-              hasExhibits={!!Object.keys(user.exhibits).length}
-              // randomExhibitImages={exhibitExampleImages}
+              textToImageExhibitImages={textToImageExhibitImages}
               randomExhibitImages={randomExhibitImages}
             >
               <Generator authToken={authToken} email={email} />
