@@ -12,3 +12,4 @@ export * from "./prompt/IdeasMessage";
 export * from "./prompt/Prompt";
 export * from "./prompt/PromptIdeas";
 export * from "./prompt/PromptAwaitingMessage";
+export * from "./user/user.service";

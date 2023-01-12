@@ -3,18 +3,15 @@ import homeStyles from "styles/Home.module.css";
 import promptStyles from "./Prompt.module.css";
 
 export const Prompt = ({
-  user,
   children,
-  hasExhibits,
   randomExhibitImages,
+  textToImageExhibitImages,
 }) => {
   const handleCreate = useCallback(() => {
     window.open("https://portrait.vana.com/create", "_blank").focus();
   }, []);
 
-  // console.log(user);
-
-  if (!hasExhibits) {
+  if (randomExhibitImages.length === 0) {
     return (
       <>
         <h1>Create your Vana Portrait</h1>
@@ -52,9 +49,9 @@ export const Prompt = ({
         {/* Generator component */}
         {children}
 
-        {user.exhibits["text-to-image"].length > 0 && (
+        {textToImageExhibitImages.length > 0 && (
           <div className={promptStyles.gallery}>
-            {user.exhibits["text-to-image"]?.map((image, i) => (
+            {textToImageExhibitImages.map((image, i) => (
               <div key={`${image}-${i}`} className={promptStyles.galleryImage}>
                 <img src={image} key={i} />
               </div>
