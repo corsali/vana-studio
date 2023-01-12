@@ -161,6 +161,14 @@ h3 {
   overflow: hidden;
 }
 
+.pt-3 {
+  padding-top: var(--space-3);
+}
+
+.pt-4 {
+  padding-top: var(--space-4);
+}
+
 .pl-3 {
   padding-left: var(--space-3);
 }
