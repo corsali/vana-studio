@@ -133,7 +133,10 @@ export default function Home() {
       <Head>
         <title>Vana Boilerplate</title>
         <meta name="description" content="Generate portraits with Vana" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
