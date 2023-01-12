@@ -4,6 +4,16 @@
   gap: var(--space-4);
 }
 
+.galleryHeight {
+  min-height: 204px;
+}
+
+@media (max-width: 680px) {
+  .galleryHeight {
+    min-height: 115px;
+  }
+}
+
 .galleryImage {
   aspect-ratio: 1 / 1;
   background-color: var(--color-input);
