@@ -93,7 +93,7 @@ export default function Home() {
     async function refreshImages() {
       const images = await getTextToImageUserExhibits(token);
 
-      setTextToImageExhibitImages(images);
+      setTextToImageExhibitImages(images.reverse());
 
       setTimeout(refreshImages, 60000);
     }
