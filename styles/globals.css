@@ -145,6 +145,10 @@ h3 {
   font-weight: 500;
 }
 
+.underline {
+  text-decoration: underline;
+}
+
 .divider {
   border-left: 1px solid #d5d5d5;
   flex: 1;

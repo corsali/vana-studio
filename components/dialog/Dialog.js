@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
 import styles from "./Dialog.module.css";
+import homeStyles from "styles/Home.module.css";
 
 const Dialog = ({
   title,
   isOpen,
   onClose,
+  showCloseButton,
   children,
 }) => {
   const dialogRef = useRef(null);
@@ -21,16 +23,29 @@ const Dialog = ({
     }
   }, [isOpen]);
 
+  const handleClose = () => {
+    onClose();
+    dialogRef.current.close();
+  };
+
   return (
     <dialog
       ref={dialogRef}
-      onCancel={onClose}
-      onClick={onClose}
+      // onCancel={handleClose}
+      onClick={showCloseButton ? handleClose : null}
       className={styles.dialog}
     >
       <div className={styles.dialogInner}>
         <h3>{title}</h3>
         {children}
+
+        {showCloseButton && (
+          <div className={styles.closeButtonSpace}>
+            <button onClick={handleClose} className={homeStyles.outlineButton}>
+              Close
+            </button>
+          </div>
+        )}
       </div>
     </dialog>
   );

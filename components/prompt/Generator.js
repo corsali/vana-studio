@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { vanaPost } from 'vanaApi';
-import { Dialog, PromptAwaitingMessage } from "components";
+import { Dialog, PromptAwaitingMessage, IdeasMessage } from "components";
 import styles from "./Prompt.module.css";
 import homeStyles from "styles/Home.module.css";
 
@@ -11,10 +11,13 @@ const Generator = ({ authToken, email }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [validPrompt, setValidPrompt] = useState(true);
+  const [showIdeas, setShowIdeas] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsLoading(true);
+
+    // isLoading triggers the awaiting dialog. We want to delay it a little so that if there's an error, the dialog doesn't flash up
+    setTimeout(() => { setIsLoading(true) }, 1000);
 
     try {
       await vanaPost(`jobs/text-to-image`, {
@@ -35,15 +38,28 @@ const Generator = ({ authToken, email }) => {
     if (prompt.length > 20) {
       setValidPrompt(meRegex.test(prompt))
     }
+    if (isLoading) {
+      setValidPrompt(meRegex.test(prompt))
+    }
   }, [prompt])
 
   return (
     <>
-      <form onSubmit={handleSubmit} className={styles.generator}>
-        <label htmlFor="prompt-input" className={styles.generatorLabel}>
-          <span>Write a detailed prompt to create with:</span>
-          <span className="text-gray">Need some ideas?</span>
-        </label>
+      {/* we want this block outside of the form so that the dialog button does not interfere with the form */}
+      <div className={styles.generatorLabel}>
+        <span>Write a detailed prompt:</span>
+        <span className="text-gray">
+          <button
+            onClick={() => setShowIdeas(true)}
+            className={homeStyles.unstyledButton}
+          >
+            Need some ideas?
+          </button>
+        </span>
+      </div>
+
+      {/* prompt form */}
+      <form onSubmit={handleSubmit} className="space-y-4">
         <textarea
           id="prompt-input"
           type="text"
@@ -76,6 +92,15 @@ const Generator = ({ authToken, email }) => {
       {/* awaiting VanaPost */}
       <Dialog isOpen={isLoading}>
         <PromptAwaitingMessage />
+      </Dialog>
+
+      {/* ideas */}
+      <Dialog 
+        isOpen={showIdeas} 
+        onClose={() => setShowIdeas(false)} 
+        showCloseButton
+      >
+        <IdeasMessage />
       </Dialog>
     </>
   );

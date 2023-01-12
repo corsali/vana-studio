@@ -30,3 +30,9 @@
   width: 100%;
   max-width: var(--dialog-width);
 }
+
+.closeButtonSpace {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--space-2);
+}

@@ -56,8 +56,9 @@
 
 .largeTextarea {
   composes: input;
-  padding-top: var(--space-4);
+  display: block;
   height: 96px;
+  padding-top: var(--space-4);
 }
 
 .button {
@@ -89,11 +90,24 @@
 }
 
 .primaryButton:hover {
-  background-color: rgb(49, 49, 49);
+  background-color: rgb(49 49 49);
+}
+
+.outlineButton {
+  composes: button;
+  background-color: transparent;
+  color: #000;
+  border-color: #000;
+}
+
+.outlineButton:hover {
+  background-color: rgb(0 0 0 / 0.1);
 }
 
 .unstyledButton {
   composes: button;
+  height: auto;
+  color: inherit;
 }
 
 .description {
