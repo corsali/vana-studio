@@ -7,7 +7,7 @@ const IdeasMessage = () => {
       <p className="">Sometimes, all it takes is attention.</p>
       <PromptIdeas className="pl-3" />
       <p className="">
-        Still stuck? <a href="mailto:neil@vana.com" style={{ textDecoration: "underline"}}>Ask Neil.</a>{" "}
+        Still stuck? <a href="mailto:neil@vana.com" style={{ textDecoration: "underline"}}>Ask Neil.</a>
       </p>
     </div>
   );
