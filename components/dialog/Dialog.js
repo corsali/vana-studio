@@ -24,8 +24,8 @@ const Dialog = ({
   }, [isOpen]);
 
   const handleClose = () => {
-    onClose();
     dialogRef.current.close();
+    onClose();
   };
 
   return (
