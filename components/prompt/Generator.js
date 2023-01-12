@@ -90,9 +90,11 @@ const Generator = ({ authToken, email }) => {
       )}
 
       {/* awaiting VanaPost */}
-      <Dialog isOpen={isLoading}>
-        <PromptAwaitingMessage />
-      </Dialog>
+      {!errorMessage && (
+        <Dialog isOpen={isLoading}>
+          <PromptAwaitingMessage />
+        </Dialog>
+      )}
 
       {/* ideas */}
       <Dialog 
