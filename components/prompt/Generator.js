@@ -53,7 +53,7 @@ const Generator = ({ authToken, email }) => {
             onClick={() => setShowIdeas(true)}
             className={homeStyles.unstyledButton}
           >
-            Need some ideas?
+            Need ideas?
           </button>
         </span>
       </div>
