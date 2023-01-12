@@ -27,7 +27,8 @@
   border-radius: 8px;
   border: 1px solid #888;
   padding: var(--space-1);
-  width: 100%;
+  margin: auto;
+  width: 90vw;
   max-width: var(--dialog-width);
 }
 
