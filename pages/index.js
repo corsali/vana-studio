@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { VANA_GITHUB_URL } from "config";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import Generator from "components/Generator";
@@ -32,7 +33,7 @@ export default function Home() {
   if (typeof window !== "undefined") {
     useEffect(() => {
       // Prevent setting 'null' or 'undefined' values to the localstorage
-      window.localStorage.setItem("authToken", authToken ?? '');
+      window.localStorage.setItem("authToken", authToken ?? "");
     }, [authToken]);
     // todo: handle token expiration
   }
@@ -171,7 +172,7 @@ export default function Home() {
       </Head>
       <header className={styles.header}>
         <VanaLogo />
-        <a href="https://github.com/corsali/vana-portrait-demo" target="_blank">
+        <a href={VANA_GITHUB_URL} target="_blank">
           <GithubIcon />
         </a>
       </header>
