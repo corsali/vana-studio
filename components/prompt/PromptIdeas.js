@@ -7,12 +7,6 @@ export const ideas = [
   "Write a poem about a time you felt like you were in a dream.",
   "Write a poem about a time you felt like you were in a dream.",
   "Write a poem about a time you felt like you were in a dream.",
-  "Write a poem about a time you felt like you were in a dream.",
-  "Write a poem about a time you felt like you were in a dream.",
-  "Write a poem about a time you felt like you were in a dream.",
-  "Write a poem about a time you felt like you were in a dream.",
-  "Write a poem about a time you felt like you were in a dream.",
-  "Write a poem about a time you felt like you were in a dream.",
 ];
 
 const PromptIdeas = ({ className }) => {
