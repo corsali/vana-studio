@@ -13,8 +13,6 @@ const Dialog = ({
 
   useEffect(() => {
     if (isOpen) {
-      // We want to use the dialog as a modal. It's not possible to use both the open attribute and the showModal() method to open a <dialog> element, because the open attribute controls the visibility of the dialog, and when it's true, the showModal() method can't be invoked. So we need to set the open attribute to false before calling showModal(). Learn more: https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement
-      dialogRef.current.open = false;
       dialogRef.current.showModal();
       document.body.classList.add("overflow-hidden"); // prevent bg scroll
     } else {
@@ -31,7 +29,7 @@ const Dialog = ({
   return (
     <dialog
       ref={dialogRef}
-      onClick={showCloseButton ? handleClose : null}
+      onClick={handleClose}
       className={styles.dialog}
     >
       <div className={styles.dialogInner}>
