@@ -31,7 +31,6 @@ const Dialog = ({
   return (
     <dialog
       ref={dialogRef}
-      // onCancel={handleClose}
       onClick={showCloseButton ? handleClose : null}
       className={styles.dialog}
     >
