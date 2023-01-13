@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { vanaPost } from 'vanaApi';
-import { Dialog, PromptAwaitingMessage, IdeasMessage } from "components";
+import { useEffect, useState } from "react";
+import { vanaPost } from "vanaApi";
+import { Dialog, Spinner, IdeasMessage } from "components";
 import styles from "./Prompt.module.css";
 import homeStyles from "styles/Home.module.css";
 
 const meRegex = /\bme\b/i;
 
 const Generator = ({ authToken, email }) => {
-  const [prompt, setPrompt] = useState('');
+  const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [validPrompt, setValidPrompt] = useState(true);
@@ -15,33 +15,42 @@ const Generator = ({ authToken, email }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
+    setValidPrompt(meRegex.test(prompt));
 
-    // isLoading triggers the awaiting dialog. We want to delay it a little so that if there's an error, the dialog doesn't flash up
-    setTimeout(() => { setIsLoading(true) }, 1000);
-
-    try {
-      await vanaPost(`jobs/text-to-image`, {
-        prompt: prompt.replace(meRegex, '{target_token}'),
-        email,
-        exhibit_name: 'text-to-image',
-        n_samples: 8,
-        seed: -1
-      }, authToken);
-    } catch (error) {
-      setErrorMessage('An error occurred while generating the image');
+    if (!validPrompt) {
+      setIsLoading(false);
+      return;
     }
 
-    setIsLoading(false);
+    try {
+      await vanaPost(
+        `jobs/text-to-image`,
+        {
+          prompt: prompt.replace(meRegex, "{target_token}"),
+          email,
+          exhibit_name: "text-to-image",
+          n_samples: 8,
+          seed: -1,
+        },
+        authToken
+      );
+    } catch (error) {
+      setErrorMessage("An error occurred while generating the image");
+    } finally {
+      // Reset the form after 3 seconds
+      setTimeout(() => {
+        setPrompt("");
+        setIsLoading(false);
+      }, 3000);
+    }
   };
 
   useEffect(() => {
     if (prompt.length > 20) {
-      setValidPrompt(meRegex.test(prompt))
+      setValidPrompt(meRegex.test(prompt));
     }
-    if (isLoading) {
-      setValidPrompt(meRegex.test(prompt))
-    }
-  }, [prompt])
+  }, [prompt]);
 
   return (
     <>
@@ -73,7 +82,7 @@ const Generator = ({ authToken, email }) => {
           disabled={!validPrompt}
           className={homeStyles.primaryButton}
         >
-          Create image
+          {isLoading ? <Spinner /> : <>Create image</>}
         </button>
       </form>
 
@@ -89,17 +98,10 @@ const Generator = ({ authToken, email }) => {
         <p className="text-error font-medium">Error: {errorMessage}</p>
       )}
 
-      {/* awaiting VanaPost */}
-      {!errorMessage && (
-        <Dialog isOpen={isLoading}>
-          <PromptAwaitingMessage />
-        </Dialog>
-      )}
-
-      {/* ideas */}
-      <Dialog 
-        isOpen={showIdeas} 
-        onClose={() => setShowIdeas(false)} 
+      {/* ideas dialog */}
+      <Dialog
+        isOpen={showIdeas}
+        onClose={() => setShowIdeas(false)}
         showCloseButton
       >
         <IdeasMessage />
