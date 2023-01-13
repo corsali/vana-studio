@@ -1,0 +1,31 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.galleryHeight {
+  min-height: 204px;
+}
+
+@media (max-width: 680px) {
+  .galleryHeight {
+    min-height: 115px;
+  }
+}
+
+.galleryImage {
+  aspect-ratio: 1 / 1;
+  background-color: var(--color-input);
+}
+
+.generator {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.generatorLabel {
+  display: flex;
+  justify-content: space-between;
+}

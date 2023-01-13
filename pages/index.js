@@ -1,14 +1,18 @@
 import { useEffect, useState, useCallback } from "react";
-import { VANA_GITHUB_URL } from "config";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
-import Generator from "components/Generator";
-import { PromptEmail } from "components/auth/forms/PromptEmail";
-import { PromptCode } from "components/auth/forms/PromptCode";
-import { PromptLogin } from "components/auth/forms/PromptLogin";
-import { VanaLogo } from "components/icons/VanaLogo";
-import { GithubIcon } from "components/icons/GithubIcon";
-import { vanaGet, vanaPost } from "vanaApi";
+import {
+  PromptEmail,
+  PromptCode,
+  PromptLogin,
+  Prompt,
+  Generator,
+  Nav,
+  getTextToImageUserExhibits,
+  getRandomUserExhibits,
+  getUserBalance,
+} from "components";
+import { vanaPost } from "vanaApi";
 
 /**
  * The entry point for the demo app
@@ -16,9 +20,13 @@ import { vanaGet, vanaPost } from "vanaApi";
  */
 export default function Home() {
   const [email, setEmail] = useState();
-  const [user, setUser] = useState({ exhibits: {} });
+  const [userBalance, setUserBalance] = useState(0);
+
+  const [textToImageExhibitImages, setTextToImageExhibitImages] = useState([]);
   const [randomExhibitImages, setRandomExhibitImages] = useState([]);
-  const [loginState, setLoginState] = useState("initial"); // initial, promptEmail, promptCode, loggedIn
+
+  // loginState is one of: initial, emailForm, pinCodeForm, loggedIn
+  const [loginState, setLoginState] = useState("initial"); 
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -74,108 +82,76 @@ export default function Home() {
     [email]
   );
 
-  const getRandomImages = (count, exhibits) =>
-    Array(count)
-      .fill()
-      .map(() => {
-        const exhibitNames = Object.keys(exhibits);
-        const randomExhibit =
-          exhibitNames[Math.floor(Math.random() * exhibitNames.length)];
-        const randomExhibitImages = exhibits[randomExhibit];
-        return randomExhibitImages[
-          Math.floor(Math.random() * randomExhibitImages.length)
-        ];
-      });
+  // Get random user exhibit images
+  const populateRandomUserExhibits = useCallback(async (token) => {
+    const images = await getRandomUserExhibits(token, 3);
 
-  const refreshUser = useCallback(async () => {
-    console.info("Refreshing the user");
-    const refreshExhibits = async (currentUser, exhibitNames) => {
-      const exhibitsResponses = await Promise.all(
-        exhibitNames.map((exhibit) =>
-          vanaGet(`account/exhibits/${exhibit}`, {}, authToken).then(
-            (response) => ({ name: exhibit, response })
-          )
-        )
-      );
+    setRandomExhibitImages(images);
+  }, []);
 
-      const newUser = exhibitsResponses.reduce(
-        (user, { name, response }) => {
-          if (response.success) {
-            user.exhibits[name] = response.urls;
-          }
-          return user;
-        },
-        { ...currentUser, exhibits: currentUser.exhibits ?? {} }
-      );
+  // Get Text to Image exhibit images
+  const populateTextToImageExhibits = useCallback(async (token) => {
+    async function refreshImages() {
+      const images = await getTextToImageUserExhibits(token);
 
-      setUser(newUser);
+      setTextToImageExhibitImages(images.reverse());
 
-      Object.keys(newUser.exhibits).length &&
-        setRandomExhibitImages(getRandomImages(3, newUser.exhibits));
-    };
+      setTimeout(refreshImages, 60000);
+    }
 
-    const [exhibitsPromise, textToImagePromise, balancePromise] = [
-      vanaGet("account/exhibits", {}, authToken),
-      vanaGet("account/exhibits/text-to-image", {}, authToken),
-      vanaGet("account/balance", {}, authToken),
-    ];
+    refreshImages();
 
-    const [exhibitsResponse, textToImageResponse, balanceResponse] =
-      await Promise.all([exhibitsPromise, textToImagePromise, balancePromise]);
+    return () => clearTimeout(refreshImages);
+  }, []);
 
-    const newUser = {
-      balance: balanceResponse.balance,
-      exhibits: {
-        ...user.exhibits,
-        "text-to-image": textToImageResponse.urls,
-      },
-    };
+  // Get the user balance
+  const populateUserbalance = useCallback(async (token) => {
+    const balance = await getUserBalance(token);
 
-    // Populate the text-to-image exhibit quickly
-    setUser(newUser);
-
-    // Now populate all exhibits
-    refreshExhibits(newUser, exhibitsResponse.exhibits);
-  }, [authToken]);
+    setUserBalance(balance);
+  }, []);
 
   useEffect(() => {
     setLoginState(authToken ? "loggedIn" : "initial");
   }, [authToken]);
 
   useEffect(() => {
-    const refreshUserWithTimeout = async () => {
-      // if the auth token was invalidated
-      if (!authToken) {
-        clearTimeout(refreshUserWithTimeout);
+    if (!authToken) {
+      return;
+    }
 
-        return;
-      }
-
-      await refreshUser();
-
-      // Refresh the user auth token every minute to prevent it's expiring.
-      setTimeout(refreshUserWithTimeout, 60000);
-    };
-
-    refreshUserWithTimeout();
-
-    return () => clearTimeout(refreshUserWithTimeout);
-  }, [authToken, refreshUser]);
+    (async () => {
+      await Promise.all([
+        populateRandomUserExhibits(authToken),
+        populateTextToImageExhibits(authToken),
+        populateUserbalance(authToken),
+      ]);
+    })();
+  }, [authToken]);
 
   return (
     <>
       <Head>
         <title>Vana Boilerplate</title>
         <meta name="description" content="Generate portraits with Vana" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header className={styles.header}>
-        <VanaLogo />
-        <a href={VANA_GITHUB_URL} target="_blank">
-          <GithubIcon />
-        </a>
-      </header>
+
+      {/* NAV */}
+      <Nav>
+        {loginState === "loggedIn" && (
+          <>
+            <div>Credits: {userBalance}</div>
+            <div className="divider"></div>
+          </>
+        )}
+      </Nav>
+
+      {/* CONTENT */}
       <main className={styles.main}>
         <div className={`${styles.center} ${styles.container} space-y-2`}>
           {loginState === "initial" && (
@@ -198,14 +174,13 @@ export default function Home() {
             />
           )}
 
-          {loginState === "loggedIn" && user && (
-            <LoggedIn
-              user={user}
-              email={email}
-              hasExhibits={!!Object.keys(user.exhibits).length}
-              authToken={authToken}
+          {loginState === "loggedIn" && (
+            <Prompt
+              textToImageExhibitImages={textToImageExhibitImages}
               randomExhibitImages={randomExhibitImages}
-            />
+            >
+              <Generator authToken={authToken} email={email} />
+            </Prompt>
           )}
 
           {errorMessage && <div className={styles.error}>{errorMessage}</div>}
@@ -214,49 +189,3 @@ export default function Home() {
     </>
   );
 }
-
-const LoggedIn = ({
-  user,
-  email,
-  authToken,
-  hasExhibits,
-  randomExhibitImages,
-}) => {
-  const handleCreate = useCallback(() => {
-    window.open("https://portrait.vana.com/create", "_blank").focus();
-  }, []);
-
-  if (!hasExhibits) {
-    return (
-      <>
-        <h1>Create your Vana Portrait</h1>
-        <section className={`${styles.content} space-y-3`}>
-          <p className="text-center">
-            It seems we don't have a model for you yet.
-          </p>
-          <button
-            type="submit"
-            onClick={handleCreate}
-            className={styles.primaryButton}
-          >
-            Create Portrait on Vana
-          </button>
-        </section>
-      </>
-    );
-  }
-
-  return (
-    <div>
-      <div style={{ color: "black" }}>Credit balance: {user?.balance ?? 0}</div>
-      {randomExhibitImages?.map((image, i) => (
-        <img src={image} key={i} />
-      ))}
-
-      <Generator authToken={authToken} email={email} />
-      {user.exhibits["text-to-image"]?.map((image, i) => (
-        <img src={image} key={i} />
-      ))}
-    </div>
-  );
-};

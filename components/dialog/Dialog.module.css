@@ -1,0 +1,39 @@
+.dialog[open] {
+  display: flex;
+}
+
+.dialog {
+  background-color: transparent;
+  border-color: transparent;
+  margin-top: 0 !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog:modal {
+  inset: 0;
+  height: 100vh;
+  max-height: 100vh;
+  width: 100vw;
+  max-width: 100vw;
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.dialogInner {
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #888;
+  padding: var(--space-1);
+  margin: auto;
+  width: 90vw;
+  max-width: var(--dialog-width);
+}
+
+.closeButtonSpace {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--space-2);
+}
