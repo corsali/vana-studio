@@ -2,7 +2,7 @@ const { VANA_API_URL } = require("./config");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   rewrites: rewritesApi,
 };
 
