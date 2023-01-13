@@ -11,6 +11,8 @@ export const Prompt = ({
     window.open("https://portrait.vana.com/create", "_blank").focus();
   }, []);
 
+  const noTextToImageExhibitImages = textToImageExhibitImages.length < 1;
+
   if (randomExhibitImages.length === 0) {
     return (
       <>
@@ -36,7 +38,9 @@ export const Prompt = ({
       <h1>Create with your Portrait</h1>
       <section className="w-full space-y-4">
         <p>Here's some examples from your current portrait model:</p>
-        <div className={`${promptStyles.gallery} ${promptStyles.galleryHeight}`}>
+        <div
+          className={`${promptStyles.gallery} ${promptStyles.galleryHeight}`}
+        >
           {randomExhibitImages?.map((image, i) => (
             <div key={`${image}-${i}`} className={promptStyles.galleryImage}>
               <img src={image} key={i} />
@@ -45,11 +49,26 @@ export const Prompt = ({
         </div>
       </section>
 
-      <section className="w-full space-y-4" style={{ paddingTop: 16 }}>
-        {/* Generator component */}
-        {children}
+      {/* Generator component */}
+      <section className="w-full space-y-4 pt-4">{children}</section>
 
-        {textToImageExhibitImages.length > 0 && (
+      <section className="w-full space-y-4 pt-4">
+        <p className={noTextToImageExhibitImages ? "text-gray" : ""}>
+          {noTextToImageExhibitImages
+            ? "After prompts run, your images will appear here…"
+            : "And here's your image results:"}
+        </p>
+
+        {noTextToImageExhibitImages ? (
+          <div className={promptStyles.gallery}>
+            {[1, 2, 3].map((image, i) => (
+              <div
+                key={`${image}-${i}`}
+                className={promptStyles.galleryImage}
+              ></div>
+            ))}
+          </div>
+        ) : (
           <div className={promptStyles.gallery}>
             {textToImageExhibitImages.map((image, i) => (
               <div key={`${image}-${i}`} className={promptStyles.galleryImage}>
