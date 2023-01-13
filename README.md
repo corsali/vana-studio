@@ -14,14 +14,24 @@ This project requires the following tools:
 
 ## Getting Started
 
-**Step 1. Clone the code into a fresh folder.**
+**Step 1. Fork the repository.**
+![](./assets/readme/1.jpeg)
+![](./assets/readme/2.jpeg)
+
+**Step 2. Add your team members.**
+![](./assets/readme/3.jpeg)
+![](./assets/readme/4.jpeg)
+
+**Step 3. Clone the code into a fresh folder.**
 
 ```
-$ git clone https://github.com/corsali/vana-portrait-demo.git
+$ git clone https://github.com/corsali/vana-portrait-demo.git #make sure you replaced the git link to your fork
 $ cd vana-portrait-demo
 ```
 
-**Step 2. Install Dependencies.**
+![](./assets/readme/5.jpeg)
+
+**Step 4. Install Dependencies.**
 
 Next, we need to install the project dependencies, which are listed in `package.json`.
 
@@ -29,17 +39,19 @@ Next, we need to install the project dependencies, which are listed in `package.
 $ npm install
 ```
 
-**Step 3. Run the app.**
+**Step 5. Run the app.**
 
 ```
 $ npm start
 ```
 
+![](./assets/readme/6.jpeg)
+
 Now you can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
 The app will become available on `http://localhost:3000`
 
-![](./assets/homepage.png)
+![](./assets/readme/homepage.png)
 
 ## Deploy on Vercel
 
