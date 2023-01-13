@@ -25,7 +25,8 @@ export default function Home() {
   const [textToImageExhibitImages, setTextToImageExhibitImages] = useState([]);
   const [randomExhibitImages, setRandomExhibitImages] = useState([]);
 
-  const [loginState, setLoginState] = useState("initial"); // initial, emailForm, pinCodeForm, loggedIn
+  // loginState is one of: initial, emailForm, pinCodeForm, loggedIn
+  const [loginState, setLoginState] = useState("initial"); 
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -144,7 +145,7 @@ export default function Home() {
       <Nav>
         {loginState === "loggedIn" && (
           <>
-            <div className="x">Credits: {userBalance}</div>
+            <div>Credits: {userBalance}</div>
             <div className="divider"></div>
           </>
         )}
