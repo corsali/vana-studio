@@ -6,7 +6,7 @@ import homeStyles from "styles/Home.module.css";
 
 const meRegex = /\bme\b/i;
 
-const Generator = ({ authToken, email }) => {
+const Generator = ({ authToken, email, onSubmit }) => {
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -35,7 +35,9 @@ const Generator = ({ authToken, email }) => {
         },
         authToken
       );
-    } catch (error) {
+
+      onSubmit();
+    } catch {
       setErrorMessage("An error occurred while generating the image");
     } finally {
       // Reset the form after 3 seconds

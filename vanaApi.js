@@ -15,7 +15,7 @@ const vanaFetch = async (path, options = {}, token) => {
   if (response.ok && data.success === true) {
     return data;
   } else {
-    throw new Error(data.message);
+    throw data;
   }
 };
 

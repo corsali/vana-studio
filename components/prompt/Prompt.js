@@ -5,13 +5,18 @@ import promptStyles from "./Prompt.module.css";
 export const Prompt = ({
   children,
   randomExhibitImages,
+  expectedGeneratorCount,
   textToImageExhibitImages,
 }) => {
   const handleCreate = useCallback(() => {
     window.open("https://portrait.vana.com/create", "_blank").focus();
   }, []);
 
-  const noTextToImageExhibitImages = textToImageExhibitImages.length < 1;
+  const generationDiff =
+    expectedGeneratorCount - textToImageExhibitImages.length;
+
+  const noTextToImageExhibitImages =
+    textToImageExhibitImages.length === 0 && generationDiff <= 0;
 
   if (randomExhibitImages.length === 0) {
     return (
@@ -70,6 +75,16 @@ export const Prompt = ({
           </div>
         ) : (
           <div className={promptStyles.gallery}>
+            {generationDiff > 0
+              ? new Array(generationDiff)
+                  .fill()
+                  .map((_, i) => (
+                    <div
+                      key={i}
+                      className={promptStyles.galleryImageLoading}
+                    ></div>
+                  ))
+              : undefined}
             {textToImageExhibitImages.map((image, i) => (
               <div key={`${image}-${i}`} className={promptStyles.galleryImage}>
                 <img src={image} key={i} />

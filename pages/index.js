@@ -14,6 +14,9 @@ import {
 } from "components";
 import { vanaPost } from "vanaApi";
 
+// Number of "text to images" generated per request.
+const imagesPerRequest = 8;
+
 /**
  * The entry point for the demo app
  * It contains the state management for the app flow.
@@ -26,9 +29,11 @@ export default function Home() {
   const [randomExhibitImages, setRandomExhibitImages] = useState([]);
 
   // loginState is one of: initial, emailForm, pinCodeForm, loggedIn
-  const [loginState, setLoginState] = useState("initial"); 
+  const [loginState, setLoginState] = useState("initial");
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState(false);
+
+  const [expectedGeneratorCount, setExpectedGeneratorCount] = useState(0);
 
   // -- authToken setup --
   let lsAuthToken;
@@ -82,6 +87,23 @@ export default function Home() {
     [email]
   );
 
+  const updateGeneratorCount = useCallback((count) => {
+    window.localStorage.setItem("expectedGeneratorCount", count);
+
+    setExpectedGeneratorCount(count);
+  }, []);
+
+  const handleGenerationSubmit = useCallback(() => {
+    let expectedGeneratorCount =
+      parseInt(window.localStorage.getItem("expectedGeneratorCount")) || 0;
+
+    if (expectedGeneratorCount < textToImageExhibitImages.length) {
+      expectedGeneratorCount = textToImageExhibitImages.length;
+    }
+
+    updateGeneratorCount(expectedGeneratorCount + imagesPerRequest);
+  }, [textToImageExhibitImages]);
+
   // Get random user exhibit images
   const populateRandomUserExhibits = useCallback(async (token) => {
     const images = await getRandomUserExhibits(token, 3);
@@ -121,13 +143,29 @@ export default function Home() {
     }
 
     (async () => {
-      await Promise.all([
-        populateRandomUserExhibits(authToken),
-        populateTextToImageExhibits(authToken),
-        populateUserbalance(authToken),
-      ]);
+      try {
+        await Promise.all([
+          populateRandomUserExhibits(authToken),
+          populateTextToImageExhibits(authToken),
+          populateUserbalance(authToken),
+        ]);
+      } catch (err) {
+        if (err.statusCode === 401) {
+          window.localStorage.removeItem("authToken");
+          setAuthToken();
+        }
+
+        throw err;
+      }
     })();
   }, [authToken]);
+
+  useEffect(() => {
+    const expectedGeneratorCount =
+      parseInt(window.localStorage.getItem("expectedGeneratorCount")) || 0;
+
+    updateGeneratorCount(expectedGeneratorCount);
+  }, []);
 
   return (
     <>
@@ -176,10 +214,15 @@ export default function Home() {
 
           {loginState === "loggedIn" && (
             <Prompt
+              expectedGeneratorCount={expectedGeneratorCount}
               textToImageExhibitImages={textToImageExhibitImages}
               randomExhibitImages={randomExhibitImages}
             >
-              <Generator authToken={authToken} email={email} />
+              <Generator
+                authToken={authToken}
+                email={email}
+                onSubmit={handleGenerationSubmit}
+              />
             </Prompt>
           )}
 
