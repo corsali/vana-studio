@@ -117,13 +117,13 @@ export default function Home() {
       const images = await getTextToImageUserExhibits(token);
 
       setTextToImageExhibitImages(images.reverse());
-
-      setTimeout(refreshImages, 60000);
     }
 
     refreshImages();
 
-    return () => clearTimeout(refreshImages);
+    const interval = setInterval(refreshImages, 60000);
+
+    return () => clearInterval(interval);
   }, []);
 
   // Get the user balance
