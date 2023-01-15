@@ -13,7 +13,7 @@ import {
   getUserBalance,
   GENERATED_SAMPLES,
 } from "components";
-import { vanaPost } from "vanaApi";
+import { vanaPost } from "api";
 
 /**
  * The entry point for the demo app
@@ -168,7 +168,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Vana Boilerplate</title>
+        <title>Vana Demo App</title>
         <meta name="description" content="Generate portraits with Vana" />
         <meta
           name="viewport"

@@ -1,4 +1,4 @@
-import { vanaGet } from "vanaApi";
+import { vanaGet } from "api";
 
 export async function getTextToImageUserExhibits(token) {
   return vanaGet("account/exhibits/text-to-image", {}, token).then(

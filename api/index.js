@@ -1,4 +1,4 @@
-import config from "./config";
+import config from "../config";
 
 const vanaFetch = async (path, options = {}, token) => {
   if (token) {

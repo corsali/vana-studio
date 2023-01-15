@@ -23,7 +23,7 @@ export const Prompt = ({
       <>
         <h1>Create your Vana Portrait</h1>
         <section className="w-full space-y-3">
-          <p className="text-center">
+          <p>
             You don't have a Portrait model to create with yet.
           </p>
           <button

@@ -1,7 +1,16 @@
 {
   "name": "vana-portrait-demo",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "A demo app for Next.js applications, showing the usage of Vana API.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/corsali/vana-portrait-demo.git"
+  },
+  "engines": {
+    "npm": ">=6",
+    "node": ">=14.6.0"
+  },
+  "author": "Vana (vana.com)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

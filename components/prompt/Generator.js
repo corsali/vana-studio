@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { vanaPost } from "vanaApi";
+import { vanaPost } from "api";
 import { Dialog, Spinner, IdeasMessage } from "components";
 import styles from "./Prompt.module.css";
 import homeStyles from "styles/Home.module.css";
