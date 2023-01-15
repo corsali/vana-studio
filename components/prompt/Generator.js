@@ -72,7 +72,7 @@ const Generator = ({ authToken, email }) => {
         <textarea
           id="prompt-input"
           type="text"
-          placeholder="Me eating blue spaghetti"
+          placeholder="A digital painting of me as a fantasy character, wielding a magic staff in a mystical forest"
           value={prompt}
           onChange={(event) => setPrompt(event.target.value)}
           className={homeStyles.largeTextarea}

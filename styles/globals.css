@@ -58,7 +58,7 @@ h6 {
 /* clamp computer: https://codesandbox.io/s/clamp-linear-intepolation-based-on-viewport-width-builder-forked-c37i3 */
 :root {
   --max-width: 680px;
-  --dialog-width: 584px;
+  --dialog-width: 680px;
   --space-1: clamp(32px, 1.4988rem + 1.937vw, 48px);
   --space-2: clamp(16px, 0.7494rem + 0.9685vw, 24px);
   --space-3: clamp(12px, 0.6247rem + 0.4843vw, 16px);
