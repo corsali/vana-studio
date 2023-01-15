@@ -6,6 +6,9 @@ import homeStyles from "styles/Home.module.css";
 
 const meRegex = /\bme\b/i;
 
+// Number of "text to image" samples generated per request.
+const GENERATED_SAMPLES = 8;
+
 const Generator = ({ authToken, email, onSubmit }) => {
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +33,7 @@ const Generator = ({ authToken, email, onSubmit }) => {
           prompt: prompt.replace(meRegex, "{target_token}"),
           email,
           exhibit_name: "text-to-image",
-          n_samples: 8,
+          n_samples: GENERATED_SAMPLES,
           seed: -1,
         },
         authToken

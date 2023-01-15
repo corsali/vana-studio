@@ -11,11 +11,9 @@ import {
   getTextToImageUserExhibits,
   getRandomUserExhibits,
   getUserBalance,
+  GENERATED_SAMPLES,
 } from "components";
 import { vanaPost } from "vanaApi";
-
-// Number of "text to images" generated per request.
-const imagesPerRequest = 8;
 
 /**
  * The entry point for the demo app
@@ -101,7 +99,7 @@ export default function Home() {
       expectedGeneratorCount = textToImageExhibitImages.length;
     }
 
-    updateGeneratorCount(expectedGeneratorCount + imagesPerRequest);
+    updateGeneratorCount(expectedGeneratorCount + GENERATED_SAMPLES);
   }, [textToImageExhibitImages]);
 
   // Get random user exhibit images
