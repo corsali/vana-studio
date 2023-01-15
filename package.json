@@ -1,7 +1,7 @@
 {
   "name": "vana-portrait-demo",
   "version": "1.0.0",
-  "description": "A demo app for Next.js applications, showing the usage of Vana API.",
+  "description": "A sample next.js application showcasing interactions with the Vana API.",
   "repository": {
     "type": "git",
     "url": "git://github.com/corsali/vana-portrait-demo.git"
