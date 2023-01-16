@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { Spinner } from "components/icons/Spinner";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import {
@@ -26,8 +27,8 @@ export default function Home() {
   const [textToImageExhibitImages, setTextToImageExhibitImages] = useState([]);
   const [randomExhibitImages, setRandomExhibitImages] = useState([]);
 
-  // loginState is one of: initial, emailForm, pinCodeForm, loggedIn
-  const [loginState, setLoginState] = useState("initial");
+  // loginState is one of: initial, emailForm, pinCodeForm, loggedIn, fetching
+  const [loginState, setLoginState] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -132,13 +133,12 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    setLoginState(authToken ? "loggedIn" : "initial");
-  }, [authToken]);
-
-  useEffect(() => {
     if (!authToken) {
+      setLoginState("initial");
       return;
     }
+
+    setLoginState("fetching");
 
     (async () => {
       try {
@@ -147,6 +147,8 @@ export default function Home() {
           populateTextToImageExhibits(authToken),
           populateUserbalance(authToken),
         ]);
+
+        setLoginState("loggedIn");
       } catch (err) {
         if (err.statusCode === 401) {
           window.localStorage.removeItem("authToken");
@@ -208,6 +210,16 @@ export default function Home() {
               loading={loading}
               onSetLoginState={setLoginState}
             />
+          )}
+
+          {loginState === "fetching" && (
+            <section className={`${styles.content} space-y-4`}>
+              <h1>Create with your Portrait</h1>
+              <p className={styles.description}>
+                Please wait, we are loading your gallery
+              </p>
+              <Spinner />
+            </section>
           )}
 
           {loginState === "loggedIn" && (
