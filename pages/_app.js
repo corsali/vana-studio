@@ -1,8 +1,8 @@
 import "styles/globals.css";
-import { Inter, Spectral } from "@next/font/google";
+import { Inter, Source_Serif_Pro } from "@next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
-const spectral = Spectral({ subsets: ["latin"], weight: '600' });
+const source = Source_Serif_Pro({ subsets: ["latin"], weight: '900' });
 
 export default function App({ Component, pageProps }) {
   return (
@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }) {
       <style jsx global>{`
         :root {
           --font-sans: ${inter.style.fontFamily};
-          --font-display: ${spectral.style.fontFamily};
+          --font-display: ${source.style.fontFamily};
         }
       `}</style>
       <Component {...pageProps} />
