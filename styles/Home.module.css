@@ -14,8 +14,8 @@
   justify-content: center;
   /* align-items: center; */
   position: relative;
-  padding-top: 7vh;
-  padding-bottom: 7vh;
+  padding-top: var(--space-1);
+  padding-bottom: var(--space-1);
 }
 
 .container {
@@ -184,8 +184,8 @@
     font-size: var(--heading-size-2);
   }
   .center {
-    padding-top: 10vh;
-    padding-bottom: 7vh;
+    padding-top: var(--space-2);
+    padding-bottom: var(--space-2);
   }
   .center::before {
     transform: none;
