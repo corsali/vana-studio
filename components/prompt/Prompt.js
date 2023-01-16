@@ -75,6 +75,7 @@ export const Prompt = ({
           </div>
         ) : (
           <div className={promptStyles.gallery}>
+            {/* placeholder gallery for an awaiting prompt job */}
             {generationDiff > 0
               ? new Array(generationDiff)
                   .fill()
@@ -85,6 +86,8 @@ export const Prompt = ({
                     ></div>
                   ))
               : undefined}
+
+            {/* all prompt results */}
             {textToImageExhibitImages.map((image, i) => (
               <div key={`${image}-${i}`} className={promptStyles.galleryImage}>
                 <img src={image} key={i} />
