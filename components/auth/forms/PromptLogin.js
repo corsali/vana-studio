@@ -3,7 +3,7 @@ import styles from "styles/Home.module.css";
 export const PromptLogin = ({ onSetLoginState }) => {
   return (
     <>
-      <h1>Vana Boilerplate</h1>
+      <h1 className="text-center">Vana Demo App</h1>
       <section className={`${styles.content} space-y-4`}>
         <button
           onClick={() => onSetLoginState("promptEmail")}

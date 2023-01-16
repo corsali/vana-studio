@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { vanaPost } from "vanaApi";
+import { vanaPost } from "api";
 import { Dialog, Spinner, IdeasMessage } from "components";
 import styles from "./Prompt.module.css";
 import homeStyles from "styles/Home.module.css";
 
 const meRegex = /\bme\b/i;
 
-const Generator = ({ authToken, email }) => {
+// Number of "text to image" samples generated per request.
+const GENERATED_SAMPLES = 8;
+
+const Generator = ({ authToken, email, onSubmit }) => {
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -30,12 +33,14 @@ const Generator = ({ authToken, email }) => {
           prompt: prompt.replace(meRegex, "{target_token}"),
           email,
           exhibit_name: "text-to-image",
-          n_samples: 8,
+          n_samples: GENERATED_SAMPLES,
           seed: -1,
         },
         authToken
       );
-    } catch (error) {
+
+      onSubmit();
+    } catch {
       setErrorMessage("An error occurred while generating the image");
     } finally {
       // Reset the form after 3 seconds
