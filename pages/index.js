@@ -192,6 +192,13 @@ export default function Home() {
       {/* CONTENT */}
       <main className={styles.main}>
         <div className={`${styles.center} ${styles.container} space-y-2`}>
+          {loginState === "fetching" && (
+            <>
+              <h1>Create with your Portrait</h1>
+              <Spinner />
+            </>
+          )}
+
           {loginState === "initial" && (
             <PromptLogin onSetLoginState={setLoginState} />
           )}
@@ -212,15 +219,6 @@ export default function Home() {
             />
           )}
 
-          {loginState === "fetching" && (
-            <section className={`${styles.content} space-y-4`}>
-              <h1>Create with your Portrait</h1>
-              <p className={styles.description}>
-                Please wait, we are loading your gallery
-              </p>
-              <Spinner />
-            </section>
-          )}
 
           {loginState === "loggedIn" && (
             <Prompt
