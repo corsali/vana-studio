@@ -7,8 +7,8 @@ export async function getTextToImageUserExhibits(token) {
 }
 
 export async function getRandomUserExhibits(token, count) {
-  const exhibitNames = await vanaGet("account/exhibits", {}, token).then(
-    (res) => res.exhibits
+  const exhibitNames = await vanaGet("account/exhibits", {}, token).then((res) =>
+    filterExhibits(res.exhibits)
   );
 
   const randomExhibits = Array(count)
@@ -32,4 +32,11 @@ export async function getRandomUserExhibits(token, count) {
 
 export async function getUserBalance(token) {
   return vanaGet("account/balance", {}, token).then((res) => res.balance);
+}
+
+// Filter out exhibits that shouldn't be visible for the user in the main gallery
+function filterExhibits(exhibitNames) {
+  const hiddenExhibits = ["text-to-image"];
+
+  return exhibitNames.filter((name) => !hiddenExhibits.includes(name));
 }
