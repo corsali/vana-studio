@@ -73,7 +73,7 @@ const Generator = ({ authToken, email, onSubmit }) => {
         <textarea
           id="prompt-input"
           type="text"
-          placeholder="Me eating blue spaghetti"
+          placeholder="Me eating green spaghetti"
           value={prompt}
           onChange={(event) => setPrompt(event.target.value)}
           className={homeStyles.largeTextarea}
