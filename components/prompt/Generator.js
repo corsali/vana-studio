@@ -62,7 +62,7 @@ const Generator = ({ authToken, email, onSubmit }) => {
       {/* we want this block outside of the form so that the dialog button does not interfere with the form */}
       <div className={styles.generatorLabel}>
         <span>
-          <Marker showArrow>2</Marker>Write a detailed prompt:
+          <Marker showArrow>2</Marker>Write a detailed prompt (including the word "me"):
         </span>
         <span className="text-gray">
           <button
@@ -89,10 +89,11 @@ const Generator = ({ authToken, email, onSubmit }) => {
           disabled={!validPrompt}
           className={homeStyles.primaryButton}
         >
-          {isLoading 
-            ? <Spinner /> 
-            : <>Create {GENERATED_SAMPLES} images (~2 mins)</>
-          }
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>Create {GENERATED_SAMPLES} images (~2 mins)</>
+          )}
         </button>
       </form>
 
