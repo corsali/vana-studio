@@ -7,7 +7,7 @@ import homeStyles from "styles/Home.module.css";
 const meRegex = /\bme\b/i;
 
 // Number of "text to image" samples generated per request.
-const GENERATED_SAMPLES = 8;
+export const GENERATED_SAMPLES = 8;
 
 const Generator = ({ authToken, email, onSubmit }) => {
   const [prompt, setPrompt] = useState("");
