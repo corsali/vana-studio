@@ -45,7 +45,7 @@ export const Prompt = ({
       <h1>Create with your Portrait</h1>
       <section className="w-full space-y-4">
         <p>
-          <Marker>1</Marker>Here's some examples from your{" "}
+          <Marker>1</Marker>Here are some examples from your{" "}
           <a
             href={config.VANA_PORTRAIT_URL}
             target="_blank"
@@ -74,7 +74,7 @@ export const Prompt = ({
           <Marker showArrow>3</Marker>
           {noTextToImageExhibitImages
             ? "After prompts run, your images will appear here:"
-            : "And here's your image results:"}
+            : "And here are your image results:"}
         </p>
 
         {noTextToImageExhibitImages ? (

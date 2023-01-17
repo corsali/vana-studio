@@ -18,11 +18,7 @@ const Generator = ({ authToken, email, onSubmit }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsLoading(true);
-    setValidPrompt(meRegex.test(prompt));
-
     if (!validPrompt) {
-      setIsLoading(false);
       return;
     }
 
@@ -52,9 +48,7 @@ const Generator = ({ authToken, email, onSubmit }) => {
   };
 
   useEffect(() => {
-    if (prompt.length > 20) {
-      setValidPrompt(meRegex.test(prompt));
-    }
+    setValidPrompt(meRegex.test(prompt));
   }, [prompt]);
 
   return (
@@ -98,7 +92,7 @@ const Generator = ({ authToken, email, onSubmit }) => {
       </form>
 
       {/* regex error */}
-      {!validPrompt && (
+      {!validPrompt && prompt.length > 20 && (
         <p className="text-error font-medium">
           You must include "me" in your prompt. Please try again.
         </p>
