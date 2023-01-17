@@ -19,27 +19,17 @@
   background-color: var(--color-input);
 }
 
-@keyframes placeHolderShimmer {
-  0% {
-    background-position: -300px 0
-  }
-  100% {
-    background-position: 300px 0
-  }
+.galleryImagePlaceholder {
+  composes: galleryImage;
+  background-color: white;
+  border: 1px solid var(--color-border);
 }
 
 .galleryImageLoading {
   composes: galleryImage;
-
-  animation-duration: 3s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-name: placeHolderShimmer;
-  animation-timing-function: linear;
-  background-color: #f6f7f8;
-  background: linear-gradient(to right, #eeeeee 8%, #ebebeb 18%, #eeeeee 33%);
-  background-size: 300px 204px;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .generator {
@@ -51,4 +41,27 @@
 .generatorLabel {
   display: flex;
   justify-content: space-between;
+}
+
+.marker {
+  --marker-size: 15px;
+  height: var(--marker-size);
+  width: var(--marker-size);
+  background-color: black;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 6px;
+  transform: translateY(-0.3em);
+  font-size: 8.5px;
+  font-weight: 800;
+  color: white;
+  position: relative;
+}
+
+.markerArrow {
+  position: absolute;
+  top: -30px;
+  color: var(--color-border);
 }

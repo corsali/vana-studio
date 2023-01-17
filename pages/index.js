@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { Spinner } from "components/icons/Spinner";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import {
@@ -26,8 +27,8 @@ export default function Home() {
   const [textToImageExhibitImages, setTextToImageExhibitImages] = useState([]);
   const [randomExhibitImages, setRandomExhibitImages] = useState([]);
 
-  // loginState is one of: initial, emailForm, pinCodeForm, loggedIn
-  const [loginState, setLoginState] = useState("initial");
+  // loginState is one of: initial, emailForm, pinCodeForm, loggedIn, fetching
+  const [loginState, setLoginState] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -132,13 +133,12 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    setLoginState(authToken ? "loggedIn" : "initial");
-  }, [authToken]);
-
-  useEffect(() => {
     if (!authToken) {
+      setLoginState("initial");
       return;
     }
+
+    setLoginState("fetching");
 
     (async () => {
       try {
@@ -147,6 +147,8 @@ export default function Home() {
           populateTextToImageExhibits(authToken),
           populateUserbalance(authToken),
         ]);
+
+        setLoginState("loggedIn");
       } catch (err) {
         if (err.statusCode === 401) {
           window.localStorage.removeItem("authToken");
@@ -190,6 +192,13 @@ export default function Home() {
       {/* CONTENT */}
       <main className={styles.main}>
         <div className={`${styles.center} ${styles.container} space-y-2`}>
+          {loginState === "fetching" && (
+            <>
+              <h1>Create with your Portrait</h1>
+              <Spinner />
+            </>
+          )}
+
           {loginState === "initial" && (
             <PromptLogin onSetLoginState={setLoginState} />
           )}
@@ -209,6 +218,7 @@ export default function Home() {
               onSetLoginState={setLoginState}
             />
           )}
+
 
           {loginState === "loggedIn" && (
             <Prompt

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { vanaPost } from "api";
-import { Dialog, Spinner, IdeasMessage } from "components";
+import { Dialog, Spinner, IdeasMessage, Marker } from "components";
 import styles from "./Prompt.module.css";
 import homeStyles from "styles/Home.module.css";
 
@@ -61,7 +61,9 @@ const Generator = ({ authToken, email, onSubmit }) => {
     <>
       {/* we want this block outside of the form so that the dialog button does not interfere with the form */}
       <div className={styles.generatorLabel}>
-        <span>Write a detailed prompt:</span>
+        <span>
+          <Marker showArrow>2</Marker>Write a detailed prompt:
+        </span>
         <span className="text-gray">
           <button
             onClick={() => setShowIdeas(true)}
@@ -87,7 +89,10 @@ const Generator = ({ authToken, email, onSubmit }) => {
           disabled={!validPrompt}
           className={homeStyles.primaryButton}
         >
-          {isLoading ? <Spinner /> : <>Create image</>}
+          {isLoading 
+            ? <Spinner /> 
+            : <>Create {GENERATED_SAMPLES} images (~2 mins)</>
+          }
         </button>
       </form>
 

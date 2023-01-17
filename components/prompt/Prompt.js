@@ -1,6 +1,8 @@
 import { useCallback } from "react";
+import { Marker, Spinner } from "components";
 import homeStyles from "styles/Home.module.css";
 import promptStyles from "./Prompt.module.css";
+import config from "config";
 
 export const Prompt = ({
   children,
@@ -42,7 +44,17 @@ export const Prompt = ({
     <>
       <h1>Create with your Portrait</h1>
       <section className="w-full space-y-4">
-        <p>Here's some examples from your current portrait model:</p>
+        <p>
+          <Marker>1</Marker>Here's some examples from your{" "}
+          <a
+            href={config.VANA_PORTRAIT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            current portrait model
+          </a>
+          :
+        </p>
         <div
           className={`${promptStyles.gallery} ${promptStyles.galleryHeight}`}
         >
@@ -58,9 +70,10 @@ export const Prompt = ({
       <section className="w-full space-y-4 pt-4">{children}</section>
 
       <section className="w-full space-y-4 pt-4">
-        <p className={noTextToImageExhibitImages ? "text-gray" : ""}>
+        <p>
+          <Marker showArrow>3</Marker>
           {noTextToImageExhibitImages
-            ? "After prompts run, your images will appear here…"
+            ? "After prompts run, your images will appear here:"
             : "And here's your image results:"}
         </p>
 
@@ -69,22 +82,19 @@ export const Prompt = ({
             {[1, 2, 3].map((image, i) => (
               <div
                 key={`${image}-${i}`}
-                className={promptStyles.galleryImage}
-              ></div>
+                className={promptStyles.galleryImagePlaceholder}
+              />
             ))}
           </div>
         ) : (
           <div className={promptStyles.gallery}>
             {/* placeholder gallery for an awaiting prompt job */}
             {generationDiff > 0
-              ? new Array(generationDiff)
-                  .fill()
-                  .map((_, i) => (
-                    <div
-                      key={i}
-                      className={promptStyles.galleryImageLoading}
-                    ></div>
-                  ))
+              ? new Array(generationDiff).fill().map((_, i) => (
+                  <div key={i} className={promptStyles.galleryImageLoading}>
+                    <Spinner />
+                  </div>
+                ))
               : undefined}
 
             {/* all prompt results */}

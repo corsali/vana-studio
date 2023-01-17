@@ -14,8 +14,8 @@
   justify-content: center;
   /* align-items: center; */
   position: relative;
-  padding-top: var(--space-1);
-  padding-bottom: var(--space-1);
+  padding-top: var(--space-lg);
+  padding-bottom: var(--space-lg);
 }
 
 .container {
@@ -182,10 +182,6 @@
 @media (max-width: 680px) {
   .main h1 {
     font-size: var(--heading-size-2);
-  }
-  .center {
-    padding-top: var(--space-2);
-    padding-bottom: var(--space-2);
   }
   .center::before {
     transform: none;
