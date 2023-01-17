@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { vanaPost } from "api";
-import { Dialog, Spinner, IdeasMessage, Marker } from "components";
+import { Dialog, Spinner, IdeasMessage, Marker, useAuth } from "components";
 import styles from "./Prompt.module.css";
 import homeStyles from "styles/Home.module.css";
 
@@ -9,7 +9,8 @@ const meRegex = /\bme\b/i;
 // Number of "text to image" samples generated per request.
 const GENERATED_SAMPLES = 8;
 
-const Generator = ({ authToken, email, onSubmit }) => {
+const Generator = ({ authToken, onSubmit }) => {
+  const auth = useAuth();
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -31,7 +32,7 @@ const Generator = ({ authToken, email, onSubmit }) => {
         `jobs/text-to-image`,
         {
           prompt: prompt.replace(meRegex, "{target_token}"),
-          email,
+          email: auth.user.email,
           exhibit_name: "text-to-image",
           n_samples: GENERATED_SAMPLES,
           seed: -1,
