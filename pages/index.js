@@ -236,6 +236,7 @@ export default function Home() {
               randomExhibitImages={randomExhibitImages}
             >
               <Generator
+                userBalance={userBalance}
                 authToken={authToken}
                 email={email}
                 onSubmit={handleGenerationSubmit}

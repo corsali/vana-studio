@@ -7,11 +7,12 @@ import homeStyles from "styles/Home.module.css";
 const meRegex = /\bme\b/i;
 
 const PROMPT_LIMIT = 16;
+const MINIMUM_CREDITS = 10;
 
 // Number of "text to image" samples generated per request.
 export const GENERATED_SAMPLES = 10;
 
-const Generator = ({ authToken, email, onSubmit }) => {
+const Generator = ({ authToken, userBalance, email, onSubmit }) => {
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   // Determines whether the form was submitted
@@ -44,8 +45,12 @@ const Generator = ({ authToken, email, onSubmit }) => {
       );
 
       onSubmit();
-    } catch {
-      setErrorMessage("An error occurred while generating the image");
+    } catch (e) {
+      let message = "An error occurred while generating the image"
+      if (e.statusCode === 400) {
+        message = `${e.message}. Try again with a different prompt.`
+      }
+      setErrorMessage(message);
     } finally {
       // Reset the form after 3 seconds
       setTimeout(() => {
@@ -89,7 +94,7 @@ const Generator = ({ authToken, email, onSubmit }) => {
         />
         <button
           type="submit"
-          disabled={!validPrompt && prompt.length > PROMPT_LIMIT && isSubmitted}
+          disabled={userBalance < MINIMUM_CREDITS || (!validPrompt && prompt.length > PROMPT_LIMIT && isSubmitted)}
           className={homeStyles.primaryButton}
         >
           {isLoading ? (
@@ -99,6 +104,12 @@ const Generator = ({ authToken, email, onSubmit }) => {
           )}
         </button>
       </form>
+
+      {typeof userBalance !== "undefined" && userBalance < MINIMUM_CREDITS && (
+        <p className="text-error font-medium">
+          You do not have enough credits. Get more at <a href="https://portrait.vana.com" target="_blank">portrait.vana.com</a>.
+        </p>
+      )}
 
       {/* regex error */}
       {!validPrompt && prompt.length > PROMPT_LIMIT && (
