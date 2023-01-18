@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from "react";
-import { Spinner } from "components/icons/Spinner";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import {
@@ -14,6 +13,7 @@ import {
   getRandomUserExhibits,
   getUserBalance,
   GENERATED_SAMPLES,
+  LogoutIcon,
 } from "components";
 import { vanaPost } from "api";
 
@@ -86,6 +86,11 @@ export default function Home() {
     },
     [email]
   );
+
+  const handleLogout = useCallback(() => {
+    window.localStorage.removeItem("authToken");
+    setAuthToken();
+  }, []);
 
   const updateGeneratorCount = useCallback((count) => {
     window.localStorage.setItem("expectedGeneratorCount", count);
@@ -186,6 +191,15 @@ export default function Home() {
           <>
             <div>Credits: {userBalance}</div>
             <div className="divider"></div>
+
+            <div
+              className={styles.logoutBtn}
+              onClick={handleLogout}
+              title="Logout"
+            >
+              <LogoutIcon />
+            </div>
+            <div className="divider"></div>
           </>
         )}
       </Nav>
@@ -193,9 +207,7 @@ export default function Home() {
       {/* CONTENT */}
       <main className={styles.main}>
         <div className={`${styles.center} ${styles.container} space-y-2`}>
-          {loginState === "fetching" && (
-            <PromptLoader />
-          )}
+          {loginState === "fetching" && <PromptLoader />}
 
           {loginState === "initial" && (
             <PromptLogin onSetLoginState={setLoginState} />
@@ -216,7 +228,6 @@ export default function Home() {
               onSetLoginState={setLoginState}
             />
           )}
-
 
           {loginState === "loggedIn" && (
             <Prompt

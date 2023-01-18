@@ -6,6 +6,7 @@ export * from "./icons/ArrowIcon";
 export * from "./icons/GithubIcon";
 export * from "./icons/Spinner";
 export * from "./icons/VanaLogo";
+export * from "./icons/LogoutIcon";
 export * from "./nav/Nav";
 export * from "./prompt/Generator";
 export * from "./prompt/IdeasMessage";
