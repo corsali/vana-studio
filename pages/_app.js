@@ -1,8 +1,9 @@
 import "styles/globals.css";
 import { Inter, Source_Serif_Pro } from "@next/font/google";
+import { AuthProvider } from 'components/auth/useAuth';
 
 const inter = Inter({ subsets: ["latin"] });
-const source = Source_Serif_Pro({ subsets: ["latin"], weight: '900' });
+const source = Source_Serif_Pro({ subsets: ["latin"], weight: "900" });
 
 export default function App({ Component, pageProps }) {
   return (
@@ -14,7 +15,9 @@ export default function App({ Component, pageProps }) {
           --font-display: ${source.style.fontFamily};
         }
       `}</style>
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
     </>
   );
 }

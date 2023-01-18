@@ -23,10 +23,10 @@ export const Prompt = ({
   if (randomExhibitImages.length === 0) {
     return (
       <>
-        <h1>Create your Vana Portrait</h1>
+        <h1>Create your Vana Portrait AI</h1>
         <section className="w-full space-y-3">
           <p>
-            You don't have a Portrait model to create with yet.
+            You don't have a Portrait AI model to create with yet.
           </p>
           <button
             type="submit"

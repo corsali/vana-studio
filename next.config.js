@@ -4,6 +4,15 @@ const { VANA_API_URL } = require("./config");
 const nextConfig = {
   reactStrictMode: false,
   rewrites: rewritesApi,
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/create",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 function rewritesApi() {
