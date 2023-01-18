@@ -52,7 +52,7 @@ export const PromptLoader = () => (
         <textarea
           id="prompt-input"
           type="text"
-          placeholder="Me eating green spaghetti"
+          placeholder="Realistic oil painting of me eating green spaghetti"
           className={homeStyles.largeTextarea}
           disabled
         />
