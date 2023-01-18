@@ -10,7 +10,7 @@ import config from "config";
 
 export const PromptLoader = () => (
   <>
-    <h1>Create with your Portrait</h1>
+    <h1>Create with your Portrait AI</h1>
     <section className="w-full space-y-4">
       <p>
         <Marker>1</Marker>Here are some examples from your{" "}
@@ -19,7 +19,7 @@ export const PromptLoader = () => (
           target="_blank"
           rel="noopener noreferrer"
         >
-          current portrait model
+          current Portrait AI model
         </a>
         :
       </p>
@@ -56,11 +56,7 @@ export const PromptLoader = () => (
           className={homeStyles.largeTextarea}
           disabled
         />
-        <button
-          type="submit"
-          className={homeStyles.primaryButton}
-          disabled
-        >
+        <button type="submit" className={homeStyles.primaryButton} disabled>
           <>Create {GENERATED_SAMPLES} images (~7 mins)</>
         </button>
       </form>
