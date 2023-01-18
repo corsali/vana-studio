@@ -6,6 +6,8 @@ import homeStyles from "styles/Home.module.css";
 
 const meRegex = /\bme\b/i;
 
+const PROMPT_LIMIT = 16;
+
 // Number of "text to image" samples generated per request.
 export const GENERATED_SAMPLES = 10;
 
@@ -87,7 +89,7 @@ const Generator = ({ authToken, email, onSubmit }) => {
         />
         <button
           type="submit"
-          disabled={!validPrompt && isSubmitted}
+          disabled={!validPrompt && prompt.length > PROMPT_LIMIT && isSubmitted}
           className={homeStyles.primaryButton}
         >
           {isLoading ? (
@@ -99,7 +101,7 @@ const Generator = ({ authToken, email, onSubmit }) => {
       </form>
 
       {/* regex error */}
-      {!validPrompt && isSubmitted && (
+      {!validPrompt && prompt.length > PROMPT_LIMIT && (
         <p className="text-error font-medium">
           You must include "me" in your prompt. Please try again.
         </p>
