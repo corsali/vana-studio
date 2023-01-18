@@ -42,7 +42,7 @@ export const Prompt = ({
 
   return (
     <>
-      <h1>Create with your Portrait</h1>
+      <h1>Create with your Portrait AI</h1>
       <section className="w-full space-y-4">
         <p>
           <Marker>1</Marker>Here are some examples from your{" "}
@@ -51,7 +51,7 @@ export const Prompt = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            current portrait model
+            current Portrait AI model
           </a>
           :
         </p>
