@@ -5,6 +5,7 @@ import styles from "styles/Home.module.css";
 import {
   PromptEmail,
   PromptCode,
+  PromptLoader,
   PromptLogin,
   Prompt,
   Generator,
@@ -193,10 +194,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={`${styles.center} ${styles.container} space-y-2`}>
           {loginState === "fetching" && (
-            <>
-              <h1>Create with your Portrait</h1>
-              <Spinner />
-            </>
+            <PromptLoader />
           )}
 
           {loginState === "initial" && (
