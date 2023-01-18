@@ -9,7 +9,7 @@ import { vanaPost } from "api";
  * The entry point for the demo app
  * It contains the state management for the app flow.
  */
-export default function Home() {
+export default function LoginPage() {
   const auth = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState();
