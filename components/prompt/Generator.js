@@ -33,7 +33,7 @@ const Generator = ({ authToken, userBalance, onSubmit }) => {
     setIsLoading(true);
 
     try {
-      await vanaPost(
+      const { success } = await vanaPost(
         `jobs/text-to-image`,
         {
           prompt: prompt.replace(meRegex, "{target_token}"),
@@ -45,7 +45,9 @@ const Generator = ({ authToken, userBalance, onSubmit }) => {
         authToken
       );
 
-      onSubmit();
+      if (success) {
+        onSubmit();
+      }
     } catch (e) {
       let message = "An error occurred while generating the image"
       if (e.statusCode === 400) {
