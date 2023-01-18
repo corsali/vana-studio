@@ -6,26 +6,31 @@ import homeStyles from "styles/Home.module.css";
 
 const meRegex = /\bme\b/i;
 
-// Number of "text to image" samples generated per request.
-export const GENERATED_SAMPLES = 8;
+const PROMPT_LIMIT = 16;
+const MINIMUM_CREDITS = 10;
 
-const Generator = ({ authToken, onSubmit }) => {
+// Number of "text to image" samples generated per request.
+export const GENERATED_SAMPLES = 10;
+
+const Generator = ({ authToken, userBalance, onSubmit }) => {
   const auth = useAuth();
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  // Determines whether the form was submitted
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [validPrompt, setValidPrompt] = useState(true);
   const [showIdeas, setShowIdeas] = useState(false);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    setIsLoading(true);
-    setValidPrompt(meRegex.test(prompt));
+    setIsSubmitted(true);
 
+    event.preventDefault();
     if (!validPrompt) {
-      setIsLoading(false);
       return;
     }
+
+    setIsLoading(true);
 
     try {
       await vanaPost(
@@ -41,8 +46,12 @@ const Generator = ({ authToken, onSubmit }) => {
       );
 
       onSubmit();
-    } catch {
-      setErrorMessage("An error occurred while generating the image");
+    } catch (e) {
+      let message = "An error occurred while generating the image"
+      if (e.statusCode === 400) {
+        message = `${e.message}. Try again with a different prompt.`
+      }
+      setErrorMessage(message);
     } finally {
       // Reset the form after 3 seconds
       setTimeout(() => {
@@ -53,9 +62,7 @@ const Generator = ({ authToken, onSubmit }) => {
   };
 
   useEffect(() => {
-    if (prompt.length > 20) {
-      setValidPrompt(meRegex.test(prompt));
-    }
+    setValidPrompt(meRegex.test(prompt));
   }, [prompt]);
 
   return (
@@ -63,7 +70,8 @@ const Generator = ({ authToken, onSubmit }) => {
       {/* we want this block outside of the form so that the dialog button does not interfere with the form */}
       <div className={styles.generatorLabel}>
         <span>
-          <Marker showArrow>2</Marker>Write a detailed prompt (including the word "me"):
+          <Marker showArrow>2</Marker>Write a detailed prompt (including the
+          word "me"):
         </span>
         <span className="text-gray">
           <button
@@ -80,14 +88,14 @@ const Generator = ({ authToken, onSubmit }) => {
         <textarea
           id="prompt-input"
           type="text"
-          placeholder="Me eating blue spaghetti"
+          placeholder="Realistic oil painting of me eating green spaghetti"
           value={prompt}
           onChange={(event) => setPrompt(event.target.value)}
           className={homeStyles.largeTextarea}
         />
         <button
           type="submit"
-          disabled={!validPrompt}
+          disabled={userBalance < MINIMUM_CREDITS || (!validPrompt && prompt.length > PROMPT_LIMIT && isSubmitted)}
           className={homeStyles.primaryButton}
         >
           {isLoading ? (
@@ -98,8 +106,14 @@ const Generator = ({ authToken, onSubmit }) => {
         </button>
       </form>
 
+      {typeof userBalance !== "undefined" && userBalance < MINIMUM_CREDITS && (
+        <p className="text-error font-medium">
+          You do not have enough credits. Get more at <a href="https://portrait.vana.com" target="_blank">portrait.vana.com</a>.
+        </p>
+      )}
+
       {/* regex error */}
-      {!validPrompt && (
+      {!validPrompt && prompt.length > PROMPT_LIMIT && (
         <p className="text-error font-medium">
           You must include "me" in your prompt. Please try again.
         </p>

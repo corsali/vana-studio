@@ -1,11 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
-import { Spinner } from "components/icons/Spinner";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import { useRouter } from "next/router";
 import {
+  PromptLoader,
   Prompt,
   Generator,
+  Logout,
   Nav,
   getTextToImageUserExhibits,
   getRandomUserExhibits,
@@ -130,6 +131,8 @@ export default function Home() {
           <>
             <div>Credits: {userBalance}</div>
             <div className="divider"></div>
+            <Logout />
+            <div className="divider"></div>
           </>
         )}
       </Nav>
@@ -138,10 +141,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={`${styles.center} ${styles.container} space-y-2`}>
           {loading ? (
-            <>
-              <h1>Create with your Portrait</h1>
-              <Spinner />
-            </>
+            <PromptLoader />
           ) : (
             <Prompt
               expectedGeneratorCount={expectedGeneratorCount}
@@ -149,6 +149,7 @@ export default function Home() {
               randomExhibitImages={randomExhibitImages}
             >
               <Generator
+                userBalance={userBalance}
                 authToken={authToken}
                 onSubmit={handleGenerationSubmit}
               />
