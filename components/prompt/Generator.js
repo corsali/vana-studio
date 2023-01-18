@@ -47,8 +47,8 @@ const Generator = ({ authToken, userBalance, email, onSubmit }) => {
       onSubmit();
     } catch (e) {
       let message = "An error occurred while generating the image"
-      if (e.statusCode === 400 && e.message && /^The text is/.test(e.message)) {
-        message = 'This prompt may violate our content policy. Try again with a different prompt.'
+      if (e.statusCode === 400) {
+        message = `${e.message}. Try again with a different prompt.`
       }
       setErrorMessage(message);
     } finally {
