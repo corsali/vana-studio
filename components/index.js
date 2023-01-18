@@ -10,6 +10,7 @@ export * from "./nav/Nav";
 export * from "./prompt/Generator";
 export * from "./prompt/IdeasMessage";
 export * from "./prompt/Prompt";
+export * from "./prompt/PromptLoader";
 export * from "./prompt/PromptIdeas";
 export * from "./prompt/PromptAwaitingMessage";
 export * from "./prompt/Marker";
