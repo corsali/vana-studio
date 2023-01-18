@@ -45,8 +45,12 @@ const Generator = ({ authToken, userBalance, email, onSubmit }) => {
       );
 
       onSubmit();
-    } catch {
-      setErrorMessage("An error occurred while generating the image");
+    } catch (e) {
+      let message = "An error occurred while generating the image"
+      if (e.statusCode === 400 && e.message && /^The text is/.test(e.message)) {
+        message = 'This prompt may violate our content policy. Try again with a different prompt.'
+      }
+      setErrorMessage(message);
     } finally {
       // Reset the form after 3 seconds
       setTimeout(() => {
