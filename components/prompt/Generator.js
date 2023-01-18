@@ -92,7 +92,7 @@ const Generator = ({ authToken, email, onSubmit }) => {
           {isLoading ? (
             <Spinner />
           ) : (
-            <>Create {GENERATED_SAMPLES} images (~2 mins)</>
+            <>Create {GENERATED_SAMPLES} images (~7 mins)</>
           )}
         </button>
       </form>
