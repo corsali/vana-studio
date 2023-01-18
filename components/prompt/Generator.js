@@ -22,6 +22,8 @@ const Generator = ({ authToken, email, onSubmit }) => {
       return;
     }
 
+    setIsLoading(true);
+
     try {
       await vanaPost(
         `jobs/text-to-image`,
