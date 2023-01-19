@@ -9,7 +9,11 @@ const Nav = ({ children }) => {
         {/* for the user credits account */}
         {children}
 
-        <a href="https://github.com/corsali/vana-portrait-demo" target="_blank">
+        <a
+          href="https://github.com/corsali/vana-portrait-demo"
+          target="_blank"
+          title="Fork it"
+        >
           <GithubIcon />
         </a>
       </div>

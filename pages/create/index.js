@@ -6,8 +6,8 @@ import {
   PromptLoader,
   Prompt,
   Generator,
-  Logout,
   Nav,
+  NavLoggedIn,
   getTextToImageUserExhibits,
   getRandomUserExhibits,
   getUserBalance,
@@ -128,22 +128,7 @@ export default function CreatePage() {
 
       {/* NAV */}
       <Nav>
-        {!loading && (
-          <>
-            <a
-              href={config.VANA_PORTRAIT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Your Portrait AI
-            </a>
-            <div className="divider"></div>
-            <div>Credits: {userBalance}</div>
-            <div className="divider"></div>
-            <Logout />
-            <div className="divider"></div>
-          </>
-        )}
+        {!loading && <NavLoggedIn userBalance={userBalance} />}
       </Nav>
 
       {/* CONTENT */}
