@@ -14,6 +14,7 @@ import {
   GENERATED_SAMPLES,
   useAuth,
 } from "components";
+import config from "config";
 
 /**
  * The entry point for the demo app
@@ -129,6 +130,14 @@ export default function CreatePage() {
       <Nav>
         {!loading && (
           <>
+            <a
+              href={config.VANA_PORTRAIT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Your Portrait AI
+            </a>
+            <div className="divider"></div>
             <div>Credits: {userBalance}</div>
             <div className="divider"></div>
             <Logout />
