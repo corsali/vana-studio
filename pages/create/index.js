@@ -6,8 +6,8 @@ import {
   PromptLoader,
   Prompt,
   Generator,
-  Logout,
   Nav,
+  NavLoggedIn,
   getTextToImageUserExhibits,
   getRandomUserExhibits,
   getUserBalance,
@@ -127,14 +127,7 @@ export default function CreatePage() {
 
       {/* NAV */}
       <Nav>
-        {!loading && (
-          <>
-            <div>Credits: {userBalance}</div>
-            <div className="divider"></div>
-            <Logout />
-            <div className="divider"></div>
-          </>
-        )}
+        {!loading && <NavLoggedIn userBalance={userBalance} />}
       </Nav>
 
       {/* CONTENT */}
