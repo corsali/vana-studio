@@ -11,7 +11,7 @@ export async function getRandomUserExhibits(token, count) {
     filterExhibits(res.exhibits)
   );
 
-  const randomExhibits = Array(Math.min(exhibitNames, count))
+  const randomExhibits = Array(count)
     .fill()
     .map(() => exhibitNames[Math.floor(Math.random() * exhibitNames.length)]);
 
