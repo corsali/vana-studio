@@ -42,7 +42,7 @@ $ npm install
 **Step 5. Run the app.**
 
 ```
-$ npm start
+$ npm run dev
 ```
 
 ![](./assets/readme/6.jpeg)
