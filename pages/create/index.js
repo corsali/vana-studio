@@ -9,7 +9,7 @@ import {
   Nav,
   NavLoggedIn,
   getTextToImageUserExhibits,
-  getRandomUserExhibits,
+  getUserExhibits,
   getUserBalance,
   GENERATED_SAMPLES,
   useAuth,
@@ -26,9 +26,8 @@ export default function CreatePage() {
   const [userBalance, setUserBalance] = useState(0);
 
   const [textToImageExhibitImages, setTextToImageExhibitImages] = useState([]);
-  const [randomExhibitImages, setRandomExhibitImages] = useState([]);
+  const [userExhibits, setUserExhibits] = useState([]);
 
-  // loginState is one of: initial, emailForm, pinCodeForm, loggedIn, fetching
   const [loading, setLoading] = useState();
 
   const [expectedGeneratorCount, setExpectedGeneratorCount] = useState(0);
@@ -50,11 +49,11 @@ export default function CreatePage() {
     updateGeneratorCount(expectedGeneratorCount + GENERATED_SAMPLES);
   }, [textToImageExhibitImages]);
 
-  // Get random user exhibit images
-  const populateRandomUserExhibits = useCallback(async (token) => {
-    const images = await getRandomUserExhibits(token, 3);
+  // Get a list of user's exhibits
+  const populateUserExhibits = useCallback(async (token) => {
+    const images = await getUserExhibits(token);
 
-    setRandomExhibitImages(images);
+    setUserExhibits(images);
   }, []);
 
   // Get Text to Image exhibit images
@@ -73,7 +72,7 @@ export default function CreatePage() {
   }, []);
 
   // Get the user balance
-  const populateUserbalance = useCallback(async (token) => {
+  const populateUserBalance = useCallback(async (token) => {
     const balance = await getUserBalance(token);
 
     setUserBalance(balance);
@@ -90,9 +89,9 @@ export default function CreatePage() {
     (async () => {
       try {
         await Promise.all([
-          populateRandomUserExhibits(authToken),
+          populateUserExhibits(authToken),
           populateTextToImageExhibits(authToken),
-          populateUserbalance(authToken),
+          populateUserBalance(authToken),
         ]);
       } catch (err) {
         if (err.statusCode === 401) {
@@ -139,7 +138,7 @@ export default function CreatePage() {
             <Prompt
               expectedGeneratorCount={expectedGeneratorCount}
               textToImageExhibitImages={textToImageExhibitImages}
-              randomExhibitImages={randomExhibitImages}
+              userExhibits={userExhibits}
             >
               <Generator
                 userBalance={userBalance}

@@ -29,7 +29,6 @@ const Dialog = ({
   return (
     <dialog
       ref={dialogRef}
-      onClick={handleClose}
       className={styles.dialog}
     >
       <div className={styles.dialogInner}>
