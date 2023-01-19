@@ -33,7 +33,7 @@ export const Prompt = ({
             onClick={handleCreate}
             className={homeStyles.primaryButton}
           >
-            Create Portrait on Vana
+            Create Portrait AI on Vana
           </button>
         </section>
       </>
