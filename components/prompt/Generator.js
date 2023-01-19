@@ -97,7 +97,10 @@ const Generator = ({ authToken, userBalance, onSubmit }) => {
         />
         <button
           type="submit"
-          disabled={userBalance < MINIMUM_CREDITS || (!validPrompt && prompt.length > PROMPT_LIMIT && isSubmitted)}
+          disabled={
+            userBalance < MINIMUM_CREDITS ||
+            (!validPrompt && prompt.length > PROMPT_LIMIT && isSubmitted)
+          }
           className={homeStyles.primaryButton}
         >
           {isLoading ? (
@@ -106,11 +109,16 @@ const Generator = ({ authToken, userBalance, onSubmit }) => {
             <>Create {GENERATED_SAMPLES} images (~7 mins)</>
           )}
         </button>
+        <div className="text-gray text-3">Each attempt is 10 credits</div>
       </form>
 
       {typeof userBalance !== "undefined" && userBalance < MINIMUM_CREDITS && (
         <p className="text-error font-medium">
-          You do not have enough credits. Get more at <a href="https://portrait.vana.com" target="_blank">portrait.vana.com</a>.
+          You do not have enough credits. Get more at{" "}
+          <a href="https://portrait.vana.com" target="_blank">
+            portrait.vana.com
+          </a>
+          .
         </p>
       )}
 

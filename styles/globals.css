@@ -136,6 +136,10 @@ h3 {
   margin-right: var(--space-4);
 }
 
+.text-3 {
+  font-size: var(--font-size-3);
+}
+
 .w-full {
   width: 100%;
 }
