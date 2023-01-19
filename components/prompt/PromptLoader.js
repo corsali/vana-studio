@@ -1,7 +1,6 @@
-import { Marker, Spinner, GENERATED_SAMPLES } from "components";
+import { Marker, GENERATED_SAMPLES } from "components";
 import homeStyles from "styles/Home.module.css";
 import promptStyles from "./Prompt.module.css";
-import config from "config";
 
 /* 
   A loader that replicates the skeletong of the Prompt layout.
