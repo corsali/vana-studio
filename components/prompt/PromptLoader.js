@@ -11,36 +11,12 @@ import config from "config";
 export const PromptLoader = () => (
   <>
     <h1>Create with your Portrait AI</h1>
-    <section className="w-full space-y-4">
-      <p>
-        <Marker>1</Marker>Here are some examples from your{" "}
-        <a
-          href={config.VANA_PORTRAIT_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          current Portrait AI model
-        </a>
-        :
-      </p>
-      <div className={`${promptStyles.gallery} ${promptStyles.galleryHeight}`}>
-        {[1, 2, 3].map((image, i) => (
-          <div
-            key={`${image}-${i}`}
-            className={promptStyles.galleryImageLoading}
-          >
-            <Spinner />
-          </div>
-        ))}
-      </div>
-    </section>
-
+    
     {/* Generator component */}
     <section className="w-full space-y-4 pt-4">
       <div className={promptStyles.generatorLabel}>
         <span>
-          <Marker showArrow>2</Marker>Write a detailed prompt (including the
-          word "me"):
+          <Marker>1</Marker>Write a detailed prompt (including the word "me"):
         </span>
         <span className="text-gray">
           <button className={homeStyles.unstyledButton} disabled>
@@ -66,8 +42,7 @@ export const PromptLoader = () => (
     {/* Images */}
     <section className="w-full space-y-4 pt-4">
       <p>
-        <Marker showArrow>3</Marker>After prompts run, your images will appear
-        here:
+        <Marker>2</Marker>After prompts run, your images will appear here:
       </p>
       <div className={promptStyles.gallery}>
         {[1, 2, 3].map((image, i) => (

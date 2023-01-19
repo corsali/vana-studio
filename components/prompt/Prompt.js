@@ -43,35 +43,13 @@ export const Prompt = ({
   return (
     <>
       <h1>Create with your Portrait AI</h1>
-      <section className="w-full space-y-4">
-        <p>
-          <Marker>1</Marker>Here are some examples from your{" "}
-          <a
-            href={config.VANA_PORTRAIT_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            current Portrait AI model
-          </a>
-          :
-        </p>
-        <div
-          className={`${promptStyles.gallery} ${promptStyles.galleryHeight}`}
-        >
-          {randomExhibitImages?.map((image, i) => (
-            <div key={`${image}-${i}`} className={promptStyles.galleryImage}>
-              <img src={image} key={i} />
-            </div>
-          ))}
-        </div>
-      </section>
-
+      
       {/* Generator component */}
       <section className="w-full space-y-4 pt-4">{children}</section>
 
       <section className="w-full space-y-4 pt-4">
         <p>
-          <Marker showArrow>3</Marker>
+          <Marker>2</Marker>
           {noTextToImageExhibitImages
             ? "After prompts run, your images will appear here:"
             : "And here are your image results:"}
