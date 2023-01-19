@@ -11,8 +11,11 @@ const Logout = () => {
   }, []);
 
   return (
-    <div className={styles.logoutBtn} onClick={handleLogout} title="Logout">
-      <LogoutIcon />
+    <div className={styles.logoutContainer} onClick={handleLogout} title="Logout">
+      <span>Log out</span>
+      <span className={styles.logoutBtn}>
+        <LogoutIcon />
+      </span>
     </div>
   );
 };
