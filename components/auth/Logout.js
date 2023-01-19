@@ -11,8 +11,8 @@ const Logout = () => {
   }, []);
 
   return (
-    <div className={styles.logoutContainer} onClick={handleLogout} title="Logout">
-      <span>Log out</span>
+    <div className={`${styles.logoutContainer} text-gray`} onClick={handleLogout} title="Logout">
+      <span>Sign out</span>
       <span className={styles.logoutBtn}>
         <LogoutIcon />
       </span>
