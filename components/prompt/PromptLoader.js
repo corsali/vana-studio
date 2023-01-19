@@ -16,7 +16,7 @@ export const PromptLoader = () => (
     <section className="w-full space-y-4 pt-4">
       <div className={promptStyles.generatorLabel}>
         <span>
-          <Marker>1</Marker>Write a detailed prompt (including the word "me"):
+          <Marker>1</Marker>Write a detailed prompt including the word "me":
         </span>
         <span className="text-gray">
           <button className={homeStyles.unstyledButton} disabled>
