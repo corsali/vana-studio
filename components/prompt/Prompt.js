@@ -6,7 +6,7 @@ import config from "config";
 
 export const Prompt = ({
   children,
-  randomExhibitImages,
+  userExhibits,
   expectedGeneratorCount,
   textToImageExhibitImages,
 }) => {
@@ -20,7 +20,7 @@ export const Prompt = ({
   const noTextToImageExhibitImages =
     textToImageExhibitImages.length === 0 && generationDiff <= 0;
 
-  if (randomExhibitImages.length === 0) {
+  if (userExhibits.length === 0) {
     return (
       <>
         <h1>Create your Vana Portrait AI</h1>
