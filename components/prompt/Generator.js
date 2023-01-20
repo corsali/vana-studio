@@ -37,7 +37,6 @@ const Generator = ({ authToken, userBalance, onSubmit }) => {
         `jobs/text-to-image`,
         {
           prompt: prompt.replace(meRegex, "{target_token}"),
-          email: auth.user.email,
           exhibit_name: "text-to-image",
           n_samples: GENERATED_SAMPLES,
           seed: -1,
