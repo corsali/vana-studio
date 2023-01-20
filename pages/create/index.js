@@ -61,7 +61,7 @@ export default function CreatePage() {
     async function refreshImages() {
       const images = await getTextToImageUserExhibits(token);
 
-      setTextToImageExhibitImages(images.reverse());
+      setTextToImageExhibitImages(images);
     }
 
     refreshImages();
@@ -125,9 +125,7 @@ export default function CreatePage() {
       </Head>
 
       {/* NAV */}
-      <Nav>
-        {!loading && <NavLoggedIn userBalance={userBalance} />}
-      </Nav>
+      <Nav>{!loading && <NavLoggedIn userBalance={userBalance} />}</Nav>
 
       {/* CONTENT */}
       <main className={styles.main}>
