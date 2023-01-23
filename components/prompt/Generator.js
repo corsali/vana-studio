@@ -7,12 +7,15 @@ import homeStyles from "styles/Home.module.css";
 const meRegex = /\bme\b/i;
 
 const PROMPT_LIMIT = 16;
-const MINIMUM_CREDITS = 10;
 
 // Number of "text to image" samples generated per request.
-export const GENERATED_SAMPLES = 10;
+// This is hard-coded to four because that's what POSTing to /images/generations produces.
+// https://vana.gitbook.io/api/rest-api-v0/generating-images#text-to-image
+export const GENERATED_SAMPLES = 4;
 
-const Generator = ({ authToken, userBalance, onSubmit }) => {
+const MINIMUM_CREDITS = GENERATED_SAMPLES;
+
+const Generator = ({ authToken, userBalance, onSubmit, onSuccess, onFailure }) => {
   const auth = useAuth();
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -33,19 +36,19 @@ const Generator = ({ authToken, userBalance, onSubmit }) => {
     setIsLoading(true);
 
     try {
-      const { success } = await vanaPost(
-        `jobs/text-to-image`,
+      onSubmit();
+      const { success, message } = await vanaPost(
+        `images/generations`,
         {
           prompt: prompt.replace(meRegex, "{target_token}"),
-          exhibit_name: "text-to-image",
-          n_samples: GENERATED_SAMPLES,
-          seed: -1,
         },
         authToken
       );
 
       if (success) {
-        onSubmit();
+        onSuccess();
+      } else {
+        throw new Error(message);
       }
     } catch (e) {
       let message = "An error occurred while generating the image"
@@ -53,12 +56,10 @@ const Generator = ({ authToken, userBalance, onSubmit }) => {
         message = `${e.message}. Try again with a different prompt.`
       }
       setErrorMessage(message);
+      onFailure();
     } finally {
-      // Reset the form after 3 seconds
-      setTimeout(() => {
-        setPrompt("");
-        setIsLoading(false);
-      }, 3000);
+      setPrompt("");
+      setIsLoading(false);
     }
   };
 
@@ -108,7 +109,7 @@ const Generator = ({ authToken, userBalance, onSubmit }) => {
             <>Create {GENERATED_SAMPLES} images (~7 mins)</>
           )}
         </button>
-        <div className="text-gray text-3">Each attempt is 10 credits</div>
+        <div className="text-gray text-3">Each attempt is {GENERATED_SAMPLES} credits</div>
       </form>
 
       {typeof userBalance !== "undefined" && userBalance < MINIMUM_CREDITS && (

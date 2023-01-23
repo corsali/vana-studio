@@ -34,7 +34,7 @@ export const PromptLoader = () => (
         <button type="submit" className={homeStyles.primaryButton} disabled>
           <>Create {GENERATED_SAMPLES} images (~7 mins)</>
         </button>
-        <div className="text-gray text-3">Each attempt is 10 credits</div>
+        <div className="text-gray text-3">Each attempt is {GENERATED_SAMPLES} credits</div>
       </form>
     </section>
 

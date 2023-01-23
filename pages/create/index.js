@@ -49,6 +49,13 @@ export default function CreatePage() {
     updateGeneratorCount(expectedGeneratorCount + GENERATED_SAMPLES);
   }, [textToImageExhibitImages]);
 
+  const handleGenerationFailure = useCallback(() => {
+    let expectedGeneratorCount =
+      parseInt(window.localStorage.getItem("expectedGeneratorCount")) || 0;
+
+    updateGeneratorCount(Math.max(0, expectedGeneratorCount - GENERATED_SAMPLES));
+  });
+
   // Get a list of user's exhibits
   const populateUserExhibits = useCallback(async (token) => {
     const images = await getUserExhibits(token);
@@ -78,7 +85,7 @@ export default function CreatePage() {
     setUserBalance(balance);
   }, []);
 
-  useEffect(() => {
+  const refreshUser = useCallback(() => {
     if (!authToken) {
       router.replace("/login");
       return;
@@ -103,7 +110,9 @@ export default function CreatePage() {
         setLoading(false);
       }
     })();
-  }, [authToken]);
+  }, [authToken])
+
+  useEffect(refreshUser, [authToken]);
 
   useEffect(() => {
     const expectedGeneratorCount =
@@ -142,6 +151,8 @@ export default function CreatePage() {
                 userBalance={userBalance}
                 authToken={authToken}
                 onSubmit={handleGenerationSubmit}
+                onSuccess={refreshUser}
+                onFailure={handleGenerationFailure}
               />
             </Prompt>
           )}
