@@ -68,7 +68,9 @@ export default function CreatePage() {
     async function refreshImages() {
       const images = await getTextToImageUserExhibits(token);
 
-      setTextToImageExhibitImages(images);
+      if (images.length > textToImageExhibitImages.length) {
+        setTextToImageExhibitImages(images);
+      }
     }
 
     refreshImages();
@@ -76,7 +78,7 @@ export default function CreatePage() {
     const interval = setInterval(refreshImages, 60000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [textToImageExhibitImages]);
 
   // Get the user balance
   const populateUserBalance = useCallback(async (token) => {

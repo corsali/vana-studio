@@ -106,7 +106,7 @@ const Generator = ({ authToken, userBalance, onSubmit, onSuccess, onFailure }) =
           {isLoading ? (
             <Spinner />
           ) : (
-            <>Create {GENERATED_SAMPLES} images (~7 mins)</>
+            <>Create {GENERATED_SAMPLES} images (~20 seconds)</>
           )}
         </button>
         <div className="text-gray text-3">Each attempt is {GENERATED_SAMPLES} credits</div>
