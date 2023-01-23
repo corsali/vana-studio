@@ -98,6 +98,7 @@ const Generator = ({ authToken, userBalance, onSubmit, onSuccess, onFailure }) =
         <button
           type="submit"
           disabled={
+            isLoading ||
             userBalance < MINIMUM_CREDITS ||
             (!validPrompt && prompt.length > PROMPT_LIMIT && isSubmitted)
           }
