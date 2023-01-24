@@ -15,7 +15,7 @@ export const GENERATED_SAMPLES = 4;
 
 const MINIMUM_CREDITS = GENERATED_SAMPLES;
 
-const Generator = ({ authToken, userBalance, onSubmit, onSuccess, onFailure }) => {
+const Generator = ({ authToken, userBalance, onSuccess }) => {
   const auth = useAuth();
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -36,8 +36,7 @@ const Generator = ({ authToken, userBalance, onSubmit, onSuccess, onFailure }) =
     setIsLoading(true);
 
     try {
-      onSubmit();
-      const { success, message } = await vanaPost(
+      const { success, message, data } = await vanaPost(
         `images/generations`,
         {
           prompt: prompt.replace(meRegex, "{target_token}"),
@@ -46,17 +45,21 @@ const Generator = ({ authToken, userBalance, onSubmit, onSuccess, onFailure }) =
       );
 
       if (success) {
-        onSuccess();
+        if (data.length < GENERATED_SAMPLES) {
+          throw new Error(`Received ${data.length} images, but ${GENERATED_SAMPLES} were expected.`);
+        } else {
+          onSuccess();
+        }
       } else {
         throw new Error(message);
       }
     } catch (e) {
-      let message = "An error occurred while generating the image"
+      let message = "An error occurred while generating the image."
       if (e.statusCode === 400) {
         message = `${e.message}. Try again with a different prompt.`
       }
       setErrorMessage(message);
-      onFailure();
+      console.error(e);
     } finally {
       setPrompt("");
       setIsLoading(false);

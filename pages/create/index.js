@@ -11,7 +11,6 @@ import {
   getTextToImageUserExhibits,
   getUserExhibits,
   getUserBalance,
-  GENERATED_SAMPLES,
   useAuth,
 } from "components";
 
@@ -29,32 +28,6 @@ export default function CreatePage() {
   const [userExhibits, setUserExhibits] = useState([]);
 
   const [loading, setLoading] = useState();
-
-  const [expectedGeneratorCount, setExpectedGeneratorCount] = useState(0);
-
-  const updateGeneratorCount = useCallback((count) => {
-    window.localStorage.setItem("expectedGeneratorCount", count);
-
-    setExpectedGeneratorCount(count);
-  }, []);
-
-  const handleGenerationSubmit = useCallback(() => {
-    let expectedGeneratorCount =
-      parseInt(window.localStorage.getItem("expectedGeneratorCount")) || 0;
-
-    if (expectedGeneratorCount < textToImageExhibitImages.length) {
-      expectedGeneratorCount = textToImageExhibitImages.length;
-    }
-
-    updateGeneratorCount(expectedGeneratorCount + GENERATED_SAMPLES);
-  }, [textToImageExhibitImages]);
-
-  const handleGenerationFailure = useCallback(() => {
-    let expectedGeneratorCount =
-      parseInt(window.localStorage.getItem("expectedGeneratorCount")) || 0;
-
-    updateGeneratorCount(Math.max(0, expectedGeneratorCount - GENERATED_SAMPLES));
-  });
 
   // Get a list of user's exhibits
   const populateUserExhibits = useCallback(async (token) => {
@@ -116,13 +89,6 @@ export default function CreatePage() {
 
   useEffect(refreshUser, [authToken]);
 
-  useEffect(() => {
-    const expectedGeneratorCount =
-      parseInt(window.localStorage.getItem("expectedGeneratorCount")) || 0;
-
-    updateGeneratorCount(expectedGeneratorCount);
-  }, []);
-
   return (
     <>
       <Head>
@@ -145,16 +111,13 @@ export default function CreatePage() {
             <PromptLoader />
           ) : (
             <Prompt
-              expectedGeneratorCount={expectedGeneratorCount}
               textToImageExhibitImages={textToImageExhibitImages}
               userExhibits={userExhibits}
             >
               <Generator
                 userBalance={userBalance}
                 authToken={authToken}
-                onSubmit={handleGenerationSubmit}
                 onSuccess={refreshUser}
-                onFailure={handleGenerationFailure}
               />
             </Prompt>
           )}
