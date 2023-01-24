@@ -38,19 +38,11 @@ export default function CreatePage() {
 
   // Get Text to Image exhibit images
   const populateTextToImageExhibits = useCallback(async (token) => {
-    async function refreshImages() {
-      const images = await getTextToImageUserExhibits(token);
+    const images = await getTextToImageUserExhibits(token);
 
-      if (images.length > textToImageExhibitImages.length) {
-        setTextToImageExhibitImages(images);
-      }
+    if (images.length > textToImageExhibitImages.length) {
+      setTextToImageExhibitImages(images);
     }
-
-    refreshImages();
-
-    const interval = setInterval(refreshImages, 60000);
-
-    return () => clearInterval(interval);
   }, [textToImageExhibitImages]);
 
   // Get the user balance
