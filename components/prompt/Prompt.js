@@ -7,18 +7,14 @@ import config from "config";
 export const Prompt = ({
   children,
   userExhibits,
-  expectedGeneratorCount,
   textToImageExhibitImages,
 }) => {
   const handleCreate = useCallback(() => {
     window.open("https://portrait.vana.com/create", "_blank").focus();
   }, []);
 
-  const generationDiff =
-    expectedGeneratorCount - textToImageExhibitImages.length;
-
   const noTextToImageExhibitImages =
-    textToImageExhibitImages.length === 0 && generationDiff <= 0;
+    textToImageExhibitImages.length === 0;
 
   if (userExhibits.length === 0) {
     return (
@@ -67,13 +63,6 @@ export const Prompt = ({
         ) : (
           <div className={promptStyles.gallery}>
             {/* placeholder gallery for an awaiting prompt job */}
-            {generationDiff > 0
-              ? new Array(generationDiff).fill().map((_, i) => (
-                  <div key={i} className={promptStyles.galleryImageLoading}>
-                    <Spinner />
-                  </div>
-                ))
-              : undefined}
 
             {/* all prompt results */}
             {textToImageExhibitImages.map((image, i) => (
