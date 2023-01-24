@@ -45,10 +45,12 @@ const Generator = ({ authToken, userBalance, onSuccess }) => {
       );
 
       if (success) {
+        // Tell the parent component the user has new data to load
+        onSuccess();
+
         if (data.length < GENERATED_SAMPLES) {
+          // TODO: this doesn't get displayed, because the parent re-renders due to onSuccess, fix this
           throw new Error(`Received ${data.length} images, but ${GENERATED_SAMPLES} were expected.`);
-        } else {
-          onSuccess();
         }
       } else {
         throw new Error(message);
