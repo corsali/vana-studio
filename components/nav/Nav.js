@@ -1,4 +1,4 @@
-import { VanaLogo, GithubIcon } from "components";
+import { VanaLogo } from "components";
 import styles from "./Nav.module.css";
 
 const Nav = ({ children }) => {
@@ -8,14 +8,6 @@ const Nav = ({ children }) => {
       <div className={styles.navRight}>
         {/* for the user credits account */}
         {children}
-
-        <a
-          href="https://github.com/corsali/vana-portrait-demo"
-          target="_blank"
-          title="Fork it"
-        >
-          <GithubIcon />
-        </a>
       </div>
     </nav>
   );

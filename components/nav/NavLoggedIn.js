@@ -15,7 +15,6 @@ const NavLoggedIn = ({ userBalance }) => {
       <div>Credits: {userBalance}</div>
       <div className="divider"></div>
       <Logout />
-      <div className="divider"></div>
     </>
   );
 };
