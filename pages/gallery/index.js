@@ -64,33 +64,31 @@ export default function GalleryPage() {
 
       {/* CONTENT */}
       <main className={styles.main}>
-        <section className={galleryStyles.container}>
+        <section className={`${styles.center} container space-y-3`}>
           {!loading && textToImageExhibitImages.length === 0 ? (
             <>
-              <div className={`${styles.center} space-y-4`}>
-                <h1>Your gallery</h1>
-              </div>
-              <section className="w-full space-y-3">
+              <h1>Your gallery</h1>
+              <section className="w-full space-y-4 pt-4">
                 <p>You don't have a Portrait AI model to create with yet.</p>
                 <button
                   type="submit"
                   onClick={handleCreate}
                   className={styles.primaryButton}
                 >
-                  Create Portrait AI on Vana
+                  Create your Portrait AI
                 </button>
               </section>
             </>
           ) : (
             <>
-              <div className={`${styles.center} space-y-4`}>
+              <div className="w-full space-y-5">
                 <h1>Your gallery</h1>
-                <div className={galleryStyles.backLink}>
+                <div className={`${galleryStyles.backLink} text-3`}>
                   <ArrowLeftIcon />
                   <Link href="/create">Back to create</Link>
                 </div>
               </div>
-              <section className="w-full space-y-4 pt-4">
+              <section className="w-full space-y-4 pt-3">
                 <div className={galleryStyles.gallery}>
                   {loading
                     ? new Array(8)
