@@ -23,4 +23,5 @@ export * from "./prompt/PromptIdeas";
 export * from "./prompt/PromptAwaitingMessage";
 export * from "./prompt/Marker";
 export * from "./user/user.service";
+export * from "./user/Credits";
 export * from "./warning/AIWarning";

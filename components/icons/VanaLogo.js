@@ -1,4 +1,4 @@
-import styles from "styles/Home.module.css";
+import styles from "./VanaLogo.module.css";
 
 export const VanaLogo = () => {
   return (
@@ -6,7 +6,7 @@ export const VanaLogo = () => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 64 64"
       fill="none"
-      style={{ width: 40, height: 40 }}
+      style={{ width: 30, height: 30 }}
       className={styles.logo}
     >
       <rect width="64" height="64"></rect>

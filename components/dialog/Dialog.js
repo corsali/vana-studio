@@ -7,6 +7,7 @@ const Dialog = ({
   isOpen,
   onClose,
   showCloseButton,
+  closeOnOutside = false,
   children,
 }) => {
   const dialogRef = useRef(null);
@@ -23,14 +24,24 @@ const Dialog = ({
 
   const handleClose = () => {
     dialogRef.current.close();
-    onClose();
   };
 
+  useEffect(() => {
+    dialogRef.current.addEventListener("close", () => {
+      onClose();
+    });
+
+    if (closeOnOutside) {
+      dialogRef.current.addEventListener("click", (e) => {
+        if (e.target === dialogRef.current) {
+          dialogRef.current.close();
+        }
+      });
+    }
+  }, []);
+
   return (
-    <dialog
-      ref={dialogRef}
-      className={styles.dialog}
-    >
+    <dialog ref={dialogRef} className={styles.dialog}>
       <div className={styles.dialogInner}>
         <h3>{title}</h3>
         {children}
