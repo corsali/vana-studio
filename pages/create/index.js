@@ -40,13 +40,16 @@ export default function CreatePage() {
   }, []);
 
   // Get Text to Image exhibit images
-  const populateTextToImageExhibits = useCallback(async (token) => {
-    const images = await getTextToImageUserExhibits(token);
+  const populateTextToImageExhibits = useCallback(
+    async (token) => {
+      const images = await getTextToImageUserExhibits(token);
 
-    if (images.length > textToImageExhibitImages.length) {
-      setTextToImageExhibitImages(images);
-    }
-  }, [textToImageExhibitImages]);
+      if (images.length > textToImageExhibitImages.length) {
+        setTextToImageExhibitImages(images);
+      }
+    },
+    [textToImageExhibitImages]
+  );
 
   // Get the user balance
   const populateUserBalance = useCallback(async (token) => {
@@ -80,7 +83,7 @@ export default function CreatePage() {
         setLoading(false);
       }
     })();
-  }, [authToken])
+  }, [authToken]);
 
   useEffect(refreshUser, [authToken]);
 
