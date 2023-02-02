@@ -3,6 +3,7 @@ const config = {
   VANA_GITHUB_URL: "https://github.com/corsali/vana-portrait-demo",
   VANA_PORTRAIT_URL: "https://portrait.vana.com",
   VANA_SUPPORT_EMAIL: "support@vana.com",
+  vanaTermsURL: "https://www.vana.com/terms-of-service",
 };
 
 module.exports = config;

@@ -10,6 +10,7 @@ import {
   Nav,
   NavLoggedIn,
   Dialog,
+  Footer,
   getTextToImageUserExhibits,
   getUserExhibits,
   getUserBalance,
@@ -148,6 +149,9 @@ export default function CreatePage() {
           )}
         </div>
       </main>
+      
+      {/* FOOTER */}
+      <Footer />
 
       {/* WARNING */}
       <Dialog

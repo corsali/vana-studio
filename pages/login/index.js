@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import Head from "next/head";
 import styles from "styles/Home.module.css";
 import { useRouter } from "next/router";
-import { PromptEmail, PromptCode, PromptLogin, Nav, useAuth } from "components";
+import { PromptEmail, PromptCode, PromptLogin, Nav, useAuth, Footer } from "components";
 import { vanaPost } from "api";
 
 /**
@@ -96,6 +96,9 @@ export default function LoginPage() {
           {errorMessage && <div className={styles.error}>{errorMessage}</div>}
         </div>
       </main>
+
+      {/* FOOTER */}
+      <Footer />
     </>
   );
 }
