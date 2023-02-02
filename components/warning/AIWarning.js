@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { InfoIcon } from "components";
+import { WarningIcon } from "components";
 
 import config from "config";
 
@@ -9,9 +9,9 @@ const AIWarning = ({ onOpen }) => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center gap-3">
-      <h3 className="font-sans font-medium flex items-center gap-1.5 text-md md:text-lg mb-1">
-        <InfoIcon />
+    <div className="flex flex-col justify-center gap-5">
+      <h3 className="flex items-center gap-6 mb-6">
+        <WarningIcon />
         Warning: AI is fun but a little unpredictable
       </h3>
       <p className="text-stone-500">
@@ -21,7 +21,7 @@ const AIWarning = ({ onOpen }) => {
       </p>
       <p className="text-stone-500">
         If anything you experience on Vana makes you feel uncomfortable, please{" "}
-        <a href={`mailto:${config.vanaSupportEmail}`} className="link">
+        <a href={`mailto:${config.vanaSupportEmail}`} className="underline">
           let us know
         </a>{" "}
         straight away.

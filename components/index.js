@@ -9,6 +9,7 @@ export * from "./icons/GithubIcon";
 export * from "./icons/LogoutIcon";
 export * from "./icons/Spinner";
 export * from "./icons/VanaLogo";
+export * from "./icons/WarningIcon";
 export * from "./nav/Nav";
 export * from "./nav/NavLoggedIn";
 export * from "./prompt/Generator";
