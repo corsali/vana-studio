@@ -137,13 +137,10 @@ export default function CreatePage() {
             <>
               <h1>Create with your Portrait AI</h1>
               <p>
-                You must be verified to use this application.<br /> To request
-                verification, please fill out{" "}
-                <a
-                  href="https://docs.google.com/forms/d/1p_7aPXV3A2aiHAx-TLQxNs2rtn4ft0QPXuJImnvSbHE/"
-                  target="_blank"
-                >
-                  this form
+                You must be verified to use this application.
+                <br /> To request verification, please visit
+                <a href="https://vana.com/vanastudio" target="_blank">
+                  this link
                 </a>
                 .
               </p>
