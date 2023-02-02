@@ -65,6 +65,8 @@ h6 {
   --space-2: clamp(16px, 0.6554rem + 1.3317vw, 27px);
   --space-3: clamp(12px, 0.6247rem + 0.4843vw, 16px);
   --space-4: clamp(9px, 0.4685rem + 0.3632vw, 12px);
+  --space-5: 7px;
+  --space-6: 4px;
   --heading-size-1: clamp(30px, 1.687rem + 0.7264vw, 36px);
   --heading-size-2: clamp(27px, 1.5935rem + 0.3632vw, 30px);
   --heading-size-3: clamp(21px, 1.2185rem + 0.3632vw, 24px);
@@ -178,9 +180,12 @@ h3 {
 .pt-3 {
   padding-top: var(--space-3);
 }
-
 .pt-4 {
   padding-top: var(--space-4);
+}
+
+.pb-lg {
+  padding-bottom: var(--space-lg);
 }
 
 .pl-3 {
@@ -189,9 +194,7 @@ h3 {
 .pl-4 {
   padding-left: var(--space-4);
 }
-.pb-lg {
-  padding-bottom: var(--space-lg);
-}
+
 .py-2 {
   padding-top: var(--space-2);
   padding-bottom: var(--space-2);
@@ -203,4 +206,28 @@ h3 {
 .py-4 {
   padding-top: var(--space-4);
   padding-bottom: var(--space-4);
+}
+
+.mb-6 {
+  margin-bottom: var(--space-6);
+}
+
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.justify-center {
+  justify-content: center;
+}
+.items-center {
+  align-items: center;
+}
+
+.gap-5 {
+  gap: var(--space-5);
+}
+.gap-6 {
+  gap: var(--space-6);
 }

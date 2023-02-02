@@ -3,17 +3,20 @@ import Head from "next/head";
 import styles from "styles/Home.module.css";
 import { useRouter } from "next/router";
 import {
+  AIWarning,
   PromptLoader,
   Prompt,
   Generator,
   Nav,
   NavLoggedIn,
+  Dialog,
   Footer,
   getTextToImageUserExhibits,
   getUserExhibits,
   getUserBalance,
   useAuth,
 } from "components";
+import { useLocalStorage, useHasMounted } from "hooks";
 
 /**
  * The entry point for the demo app
@@ -38,13 +41,16 @@ export default function CreatePage() {
   }, []);
 
   // Get Text to Image exhibit images
-  const populateTextToImageExhibits = useCallback(async (token) => {
-    const images = await getTextToImageUserExhibits(token);
+  const populateTextToImageExhibits = useCallback(
+    async (token) => {
+      const images = await getTextToImageUserExhibits(token);
 
-    if (images.length > textToImageExhibitImages.length) {
-      setTextToImageExhibitImages(images);
-    }
-  }, [textToImageExhibitImages]);
+      if (images.length > textToImageExhibitImages.length) {
+        setTextToImageExhibitImages(images);
+      }
+    },
+    [textToImageExhibitImages]
+  );
 
   // Get the user balance
   const populateUserBalance = useCallback(async (token) => {
@@ -78,9 +84,36 @@ export default function CreatePage() {
         setLoading(false);
       }
     })();
-  }, [authToken])
+  }, [authToken]);
 
   useEffect(refreshUser, [authToken]);
+
+  // Store whether user has seen AI warning in localStorage on mount
+  // We use strings rather than booleans, and parse them to booleans when determining to render
+  const [hasSeenWarning, setHasSeenWarning] = useLocalStorage(
+    "hasSeenWarning",
+    "false"
+    );
+
+  // Show AI warning on mount
+  const [showWarning, setShowWarning] = useState(false);
+  const hasMounted = useHasMounted();
+  useEffect(() => {
+    if (hasMounted) {
+      setTimeout(() => {
+        if (!JSON.parse(hasSeenWarning)) {
+          setShowWarning(true);
+        }
+      }, 1500);
+    }
+  }, [hasMounted]);
+
+  const setWarningInLocalStorage = () => {
+    setTimeout(() => {
+      setHasSeenWarning("true");
+    }, 1000);
+  }
+
 
   return (
     <>
@@ -116,9 +149,18 @@ export default function CreatePage() {
           )}
         </div>
       </main>
-
+      
       {/* FOOTER */}
       <Footer />
+
+      {/* WARNING */}
+      <Dialog
+        isOpen={showWarning}
+        onClose={() => setShowWarning(false)}
+        showCloseButton
+      >
+        <AIWarning onOpen={setWarningInLocalStorage} />
+      </Dialog>
     </>
   );
 }
