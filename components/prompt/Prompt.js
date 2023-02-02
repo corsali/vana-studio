@@ -83,7 +83,7 @@ export const Prompt = ({
               onClick={handleOpenGallery}
               className={homeStyles.primaryButton}
             >
-              Open gallery
+              View all images
             </button>
           </section>
         )}
