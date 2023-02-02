@@ -93,7 +93,7 @@ export default function CreatePage() {
   const [hasSeenWarning, setHasSeenWarning] = useLocalStorage(
     "hasSeenWarning",
     "false"
-    );
+  );
 
   // Show AI warning on mount
   const [showWarning, setShowWarning] = useState(false);
@@ -112,8 +112,7 @@ export default function CreatePage() {
     setTimeout(() => {
       setHasSeenWarning("true");
     }, 1000);
-  }
-
+  };
 
   return (
     <>
@@ -133,23 +132,42 @@ export default function CreatePage() {
       {/* CONTENT */}
       <main className={styles.main}>
         <div className={`${styles.center} ${styles.container} space-y-2`}>
-          {loading ? (
-            <PromptLoader />
-          ) : (
-            <Prompt
-              textToImageExhibitImages={textToImageExhibitImages}
-              userExhibits={userExhibits}
-            >
-              <Generator
-                userBalance={userBalance}
-                authToken={authToken}
-                onSuccess={refreshUser}
-              />
-            </Prompt>
+          {/* User is not Verified */}
+          {!auth?.user?.is_verified && (
+            <p>
+              You must be verified to use this application. To request
+              verification, please fill out{" "}
+              <a
+                href="https://docs.google.com/forms/d/1p_7aPXV3A2aiHAx-TLQxNs2rtn4ft0QPXuJImnvSbHE/"
+                target="_blank"
+              >
+                this form
+              </a>
+              .
+            </p>
+          )}
+
+          {auth?.user?.is_verified && (
+            <>
+              {loading ? (
+                <PromptLoader />
+              ) : (
+                <Prompt
+                  textToImageExhibitImages={textToImageExhibitImages}
+                  userExhibits={userExhibits}
+                >
+                  <Generator
+                    userBalance={userBalance}
+                    authToken={authToken}
+                    onSuccess={refreshUser}
+                  />
+                </Prompt>
+              )}
+            </>
           )}
         </div>
       </main>
-      
+
       {/* FOOTER */}
       <Footer />
 
