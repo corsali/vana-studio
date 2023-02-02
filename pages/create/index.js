@@ -138,7 +138,7 @@ export default function CreatePage() {
               <h1>Create with your Portrait AI</h1>
               <p>
                 Uh oh...access to Vana Studio beta is only available to a select
-                few. <br /> Get on the wait list now to{" "}
+                few. <br /> Get on the waitlist now to{" "}
                 <a href="https://vana.com/vanastudio" target="_blank">
                   reserve your spot
                 </a>
