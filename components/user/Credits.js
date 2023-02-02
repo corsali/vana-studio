@@ -54,9 +54,8 @@ const Credits = () => {
     <div className="space-y-4">
       <h2>Buy more credits</h2>
       <p>
-        If you'd like to keep exploring Vana's new Portrait Styles and our other
-        AI experiences, you can buy Vana Credits to help cover the computing
-        costs it takes to run these apps!
+        If you'd like to keep exploring Vana's AI experiences, you can buy Vana
+        Credits to help cover the computing costs it takes to run these apps!
       </p>
       <div className="flex">
         <button
@@ -71,9 +70,7 @@ const Credits = () => {
             <Spinner />
           ) : (
             <>
-              <b>
-                ${50 * config.REMIX_SINGLE_CREDIT_PRICE}
-              </b>{" "}
+              <b>${50 * config.REMIX_SINGLE_CREDIT_PRICE}</b>{" "}
               <span>(50 Credits)</span>
             </>
           )}
@@ -90,9 +87,7 @@ const Credits = () => {
             <Spinner />
           ) : (
             <>
-              <b>
-                ${100 * config.REMIX_SINGLE_CREDIT_PRICE}
-              </b>{" "}
+              <b>${100 * config.REMIX_SINGLE_CREDIT_PRICE}</b>{" "}
               <span>(100 Credits)</span>
             </>
           )}
