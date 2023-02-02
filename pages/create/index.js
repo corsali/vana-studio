@@ -117,7 +117,7 @@ export default function CreatePage() {
   return (
     <>
       <Head>
-        <title>Vana Demo App</title>
+        <title>Vana Studio</title>
         <meta name="description" content="Generate portraits with Vana" />
         <meta
           name="viewport"
@@ -131,7 +131,7 @@ export default function CreatePage() {
 
       {/* CONTENT */}
       <main className={styles.main}>
-        <div className={`${styles.center} ${styles.container} space-y-2`}>
+        <div className={`${styles.center} ${styles.container} space-y-3`}>
           {/* User is not Verified */}
           {!auth?.user?.is_verified && (
             <p>
