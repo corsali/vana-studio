@@ -3,16 +3,19 @@ import Head from "next/head";
 import styles from "styles/Home.module.css";
 import { useRouter } from "next/router";
 import {
+  AIWarning,
   PromptLoader,
   Prompt,
   Generator,
   Nav,
   NavLoggedIn,
+  Dialog,
   getTextToImageUserExhibits,
   getUserExhibits,
   getUserBalance,
   useAuth,
 } from "components";
+import { useLocalStorage, useHasMounted } from "hooks";
 
 /**
  * The entry point for the demo app
@@ -81,6 +84,33 @@ export default function CreatePage() {
 
   useEffect(refreshUser, [authToken]);
 
+  // Store whether user has seen AI warning in localStorage on mount
+  // We use strings rather than booleans, and parse them to booleans when determining to render
+  const [hasSeenWarning, setHasSeenWarning] = useLocalStorage(
+    "hasSeenWarning",
+    "false"
+    );
+
+  // Show AI warning on mount
+  const [showWarning, setShowWarning] = useState(false);
+  const hasMounted = useHasMounted();
+  useEffect(() => {
+    if (hasMounted) {
+      setTimeout(() => {
+        if (!JSON.parse(hasSeenWarning)) {
+          setShowWarning(true);
+        }
+      }, 1500);
+    }
+  }, [hasMounted]);
+
+  const setWarningInLocalStorage = () => {
+    setTimeout(() => {
+      setHasSeenWarning("true");
+    }, 1000);
+  }
+
+
   return (
     <>
       <Head>
@@ -115,6 +145,15 @@ export default function CreatePage() {
           )}
         </div>
       </main>
+
+      {/* WARNING */}
+      <Dialog
+        isOpen={showWarning}
+        onClose={() => setShowWarning(false)}
+        showCloseButton
+      >
+        <AIWarning onOpen={setWarningInLocalStorage} />
+      </Dialog>
     </>
   );
 }
