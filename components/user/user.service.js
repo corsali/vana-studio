@@ -1,4 +1,4 @@
-import { vanaGet } from "api";
+import { vanaGet, vanaPost } from "api";
 
 export async function getTextToImageUserExhibits(token) {
   return vanaGet("account/exhibits/text-to-image", {}, token).then(
@@ -16,4 +16,8 @@ export async function getUserAccount(token, userId) {
 
 export async function getUserBalance(token) {
   return vanaGet("account/balance", {}, token).then((res) => res.balance);
+}
+
+export async function createAuthorizedSession(token, body) {
+  return vanaPost("checkout/create-authorized-session", body, token);
 }
