@@ -9,6 +9,7 @@ export * from "./icons/VanaLogo";
 export * from "./icons/LogoutIcon";
 export * from "./nav/Nav";
 export * from "./nav/NavLoggedIn";
+export * from "./nav/Footer";
 export * from "./prompt/Generator";
 export * from "./prompt/IdeasMessage";
 export * from "./prompt/Prompt";

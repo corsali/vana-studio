@@ -8,6 +8,7 @@ import {
   Generator,
   Nav,
   NavLoggedIn,
+  Footer,
   getTextToImageUserExhibits,
   getUserExhibits,
   getUserBalance,
@@ -115,6 +116,9 @@ export default function CreatePage() {
           )}
         </div>
       </main>
+
+      {/* FOOTER */}
+      <Footer />
     </>
   );
 }
