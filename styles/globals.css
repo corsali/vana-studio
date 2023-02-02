@@ -100,11 +100,11 @@ a:hover {
 
 h1,
 h2,
-h3 {
-  font-family: var(--font-display);
+h3,
+.text-display {
   font-weight: 900;
   line-height: 1.1;
-  letter-spacing: -0.008em;
+  letter-spacing: -0.015em;
 }
 
 /* UTILITIES */
@@ -181,6 +181,10 @@ h3 {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 .pt-3 {
