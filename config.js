@@ -8,6 +8,7 @@ const config = {
   VANA_PORTRAIT_URL: "https://portrait.vana.com",
   VANA_SUPPORT_EMAIL: "support@vana.com",
   vanaTermsURL: "https://www.vana.com/terms-of-service",
+  vanaPrivacyURL: "https://www.vana.com/privacy-policy",
 };
 
 module.exports = config;

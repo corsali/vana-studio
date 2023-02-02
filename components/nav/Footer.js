@@ -6,8 +6,12 @@ const Footer = () => {
       <div className="mb-3 mx-auto">
         <hr style={{ border: "initial", borderTop: "1px solid #ddd"}} />
       </div>
-      <a href={config.vanaTermsURL} className="link">
-        Terms of use
+      <a href={config.vanaTermsURL} className="link" target="_blank">
+        Terms of Service
+      </a>
+      &nbsp;&nbsp;&nbsp;
+      <a href={config.vanaPrivacyURL} className="link" target="_blank">
+        Privacy Policy
       </a>
     </footer>
   );
