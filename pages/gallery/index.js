@@ -1,0 +1,117 @@
+import { useEffect, useState, useCallback } from "react";
+import galleryStyles from "./gallery.module.css";
+import styles from "styles/Home.module.css";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import {
+  ArrowLeftIcon,
+  Nav,
+  NavLoggedIn,
+  useAuth,
+  getTextToImageUserExhibits,
+  getUserBalance,
+} from "components";
+
+export default function GalleryPage() {
+  const router = useRouter();
+  const auth = useAuth();
+  const authToken = auth.token;
+  const [userBalance, setUserBalance] = useState(0);
+  const [loading, setLoading] = useState();
+  const [textToImageExhibitImages, setTextToImageExhibitImages] = useState([]);
+
+  // Get Text to Image exhibit images
+  const populateTextToImageExhibits = useCallback(async (token) => {
+    const images = await getTextToImageUserExhibits(token);
+
+    setTextToImageExhibitImages(images);
+  }, []);
+
+  // Get the user balance
+  const populateUserBalance = useCallback(async (token) => {
+    const balance = await getUserBalance(token);
+
+    setUserBalance(balance);
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (!authToken) {
+        return;
+      }
+
+      try {
+        setLoading(true);
+        await Promise.all([
+          populateTextToImageExhibits(authToken),
+          populateUserBalance(authToken),
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [populateTextToImageExhibits, populateUserBalance, authToken]);
+
+  const handleCreate = useCallback(() => {
+    router.push("/create");
+  }, []);
+
+  return (
+    <>
+      {/* NAV */}
+      <Nav>{!loading && <NavLoggedIn userBalance={userBalance} />}</Nav>
+      <main className={styles.main}>
+        <section className={galleryStyles.container}>
+          {!loading && textToImageExhibitImages.length === 0 ? (
+            <>
+              <div className={`${styles.center} space-y-4`}>
+                <h1>Your gallery</h1>
+              </div>
+              <section className="w-full space-y-3">
+                <p>You don't have a Portrait AI model to create with yet.</p>
+                <button
+                  type="submit"
+                  onClick={handleCreate}
+                  className={styles.primaryButton}
+                >
+                  Create Portrait AI on Vana
+                </button>
+              </section>
+            </>
+          ) : (
+            <>
+              <div className={`${styles.center} space-y-4`}>
+                <h1>Your gallery</h1>
+                <div className={galleryStyles.backLink}>
+                  <ArrowLeftIcon />
+                  <Link href="/create">Back to create</Link>
+                </div>
+              </div>
+              <section className="w-full space-y-4 pt-4">
+                <div className={galleryStyles.gallery}>
+                  {loading
+                    ? new Array(8)
+                        .fill(null)
+                        .map((image, i) => (
+                          <div
+                            key={`${image}-${i}`}
+                            className={galleryStyles.galleryImageLoading}
+                          />
+                        ))
+                    : textToImageExhibitImages.map((image, i) => (
+                        <div
+                          key={`${image}-${i}`}
+                          className={galleryStyles.galleryImage}
+                        >
+                          <img src={image} key={i} />
+                        </div>
+                      ))}
+                </div>
+              </section>
+            </>
+          )}
+        </section>
+      </main>
+    </>
+  );
+}

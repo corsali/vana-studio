@@ -1,7 +1,7 @@
 import { vanaGet } from "api";
 
-export async function getTextToImageUserExhibits(token) {
-  return vanaGet("account/exhibits/text-to-image", {}, token).then(
+export async function getTextToImageUserExhibits(token, limit) {
+  return vanaGet("account/exhibits/text-to-image", {}, token, { limit }).then(
     (res) => res.urls
   );
 }

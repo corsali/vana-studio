@@ -43,7 +43,7 @@ export default function CreatePage() {
   // Get Text to Image exhibit images
   const populateTextToImageExhibits = useCallback(
     async (token) => {
-      const images = await getTextToImageUserExhibits(token);
+      const images = await getTextToImageUserExhibits(token, 9);
 
       if (images.length > textToImageExhibitImages.length) {
         setTextToImageExhibitImages(images);
@@ -93,7 +93,7 @@ export default function CreatePage() {
   const [hasSeenWarning, setHasSeenWarning] = useLocalStorage(
     "hasSeenWarning",
     "false"
-    );
+  );
 
   // Show AI warning on mount
   const [showWarning, setShowWarning] = useState(false);
@@ -112,8 +112,7 @@ export default function CreatePage() {
     setTimeout(() => {
       setHasSeenWarning("true");
     }, 1000);
-  }
-
+  };
 
   return (
     <>
@@ -149,7 +148,7 @@ export default function CreatePage() {
           )}
         </div>
       </main>
-      
+
       {/* FOOTER */}
       <Footer />
 

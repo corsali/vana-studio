@@ -1,29 +1,32 @@
 import { useCallback } from "react";
-import { Marker, Spinner } from "components";
+import { Marker } from "components";
 import homeStyles from "styles/Home.module.css";
+import { useRouter } from "next/router";
 import promptStyles from "./Prompt.module.css";
-import config from "config";
 
 export const Prompt = ({
   children,
   userExhibits,
   textToImageExhibitImages,
 }) => {
+  const router = useRouter();
+
   const handleCreate = useCallback(() => {
     window.open("https://portrait.vana.com/create", "_blank").focus();
   }, []);
 
-  const noTextToImageExhibitImages =
-    textToImageExhibitImages.length === 0;
+  const handleOpenGallery = useCallback(() => {
+    router.push("/gallery");
+  }, []);
+
+  const noTextToImageExhibitImages = textToImageExhibitImages.length === 0;
 
   if (userExhibits.length === 0) {
     return (
       <>
         <h1>Create your Vana Portrait AI</h1>
         <section className="w-full space-y-3">
-          <p>
-            You don't have a Portrait AI model to create with yet.
-          </p>
+          <p>You don't have a Portrait AI model to create with yet.</p>
           <button
             type="submit"
             onClick={handleCreate}
@@ -39,7 +42,7 @@ export const Prompt = ({
   return (
     <>
       <h1>Create with your Portrait AI</h1>
-      
+
       {/* Generator component */}
       <section className="w-full space-y-4 pt-4">{children}</section>
 
@@ -71,6 +74,18 @@ export const Prompt = ({
               </div>
             ))}
           </div>
+        )}
+
+        {!noTextToImageExhibitImages && (
+          <section className="w-full space-y-3">
+            <button
+              type="submit"
+              onClick={handleOpenGallery}
+              className={homeStyles.primaryButton}
+            >
+              Open gallery
+            </button>
+          </section>
         )}
       </section>
     </>

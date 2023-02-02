@@ -1,6 +1,6 @@
 import config from "../config";
 
-const vanaFetch = async (path, options = {}, token) => {
+const vanaFetch = async (path, options = {}, token, params) => {
   if (token) {
     options.headers = {
       ...options.headers,
@@ -8,7 +8,11 @@ const vanaFetch = async (path, options = {}, token) => {
     };
   }
 
-  const response = await fetch(`${config.VANA_API_URL}/${path}`, options);
+  const searchParams = new URLSearchParams(sanitizeParams(params));
+  const response = await fetch(
+    `${config.VANA_API_URL}/${path}?${searchParams}`,
+    options
+  );
 
   const data = await response.json();
 
@@ -19,7 +23,7 @@ const vanaFetch = async (path, options = {}, token) => {
   }
 };
 
-const post = async (path, body, token) =>
+const post = async (path, body, token, params = {}) =>
   vanaFetch(
     path,
     {
@@ -29,7 +33,23 @@ const post = async (path, body, token) =>
       method: "POST",
       body: JSON.stringify(body),
     },
-    token
+    token,
+    params
   );
+
+/**
+ * Removes undefined values from the object
+ */
+function sanitizeParams(obj) {
+  if (!obj) {
+    return {};
+  }
+
+  Object.keys(obj).forEach((key) =>
+    obj[key] === undefined ? delete obj[key] : {}
+  );
+
+  return obj;
+}
 
 export { vanaFetch, vanaFetch as vanaGet, post as vanaPost };
