@@ -10,6 +10,10 @@ export async function getUserExhibits(token) {
   return await vanaGet("account/exhibits", {}, token);
 }
 
+export async function getUserAccount(token, userId) {
+  return await vanaGet(`account/${userId}`, {}, token);
+}
+
 export async function getUserBalance(token) {
   return vanaGet("account/balance", {}, token).then((res) => res.balance);
 }

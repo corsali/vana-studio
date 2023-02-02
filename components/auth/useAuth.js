@@ -1,5 +1,6 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { parseJWT } from "./auth.service";
+import { getUserAccount } from "../user/user.service";
 
 const getToken = () => {
   if (typeof window !== "undefined") {
@@ -33,9 +34,11 @@ export function AuthProvider({ children }) {
 
     const parsedToken = parseJWT(storedToken);
     if (parsedToken) {
-      setUser({
-        email: parsedToken.email,
-      });
+      const getUser = async () => {
+        const userResponse = await getUserAccount(storedToken, parsedToken.sub);
+        setUser(userResponse.account);
+      };
+      getUser();
     }
   }, []);
 

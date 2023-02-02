@@ -117,7 +117,7 @@ export default function CreatePage() {
   return (
     <>
       <Head>
-        <title>Vana Demo App</title>
+        <title>Vana Studio</title>
         <meta name="description" content="Generate portraits with Vana" />
         <meta
           name="viewport"
@@ -131,20 +131,39 @@ export default function CreatePage() {
 
       {/* CONTENT */}
       <main className={styles.main}>
-        <div className={`${styles.center} ${styles.container} space-y-2`}>
-          {loading ? (
-            <PromptLoader />
-          ) : (
-            <Prompt
-              textToImageExhibitImages={textToImageExhibitImages}
-              userExhibits={userExhibits}
-            >
-              <Generator
-                userBalance={userBalance}
-                authToken={authToken}
-                onSuccess={refreshUser}
-              />
-            </Prompt>
+        <div className={`${styles.center} ${styles.container} space-y-3`}>
+          {/* User is not Verified */}
+          {!auth?.user?.is_verified && (
+            <p>
+              You must be verified to use this application. To request
+              verification, please fill out{" "}
+              <a
+                href="https://docs.google.com/forms/d/1p_7aPXV3A2aiHAx-TLQxNs2rtn4ft0QPXuJImnvSbHE/"
+                target="_blank"
+              >
+                this form
+              </a>
+              .
+            </p>
+          )}
+
+          {auth?.user?.is_verified && (
+            <>
+              {loading ? (
+                <PromptLoader />
+              ) : (
+                <Prompt
+                  textToImageExhibitImages={textToImageExhibitImages}
+                  userExhibits={userExhibits}
+                >
+                  <Generator
+                    userBalance={userBalance}
+                    authToken={authToken}
+                    onSuccess={refreshUser}
+                  />
+                </Prompt>
+              )}
+            </>
           )}
         </div>
       </main>

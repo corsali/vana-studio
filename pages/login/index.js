@@ -58,7 +58,7 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Vana Demo App</title>
+        <title>Vana Studio</title>
         <meta name="description" content="Generate portraits with Vana" />
         <meta
           name="viewport"
@@ -72,7 +72,7 @@ export default function LoginPage() {
 
       {/* CONTENT */}
       <main className={styles.main}>
-        <div className={`${styles.center} ${styles.container} space-y-2`}>
+        <div className={`${styles.center} ${styles.container} space-y-3`}>
           {loginState === "initial" && (
             <PromptLogin onSetLoginState={setLoginState} />
           )}
