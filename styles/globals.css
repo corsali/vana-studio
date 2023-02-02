@@ -154,6 +154,9 @@ h3,
 .w-full {
   width: 100%;
 }
+.h-full {
+  height: 100%;
+}
 
 .text-center {
   text-align: center;
@@ -251,6 +254,9 @@ h3,
   align-items: center;
 }
 
+.gap-4 {
+  gap: var(--space-4);
+}
 .gap-5 {
   gap: var(--space-5);
 }
