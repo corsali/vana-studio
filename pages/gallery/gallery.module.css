@@ -1,0 +1,23 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.galleryImage {
+  aspect-ratio: 1 / 1;
+  background-color: var(--color-input);
+}
+
+.galleryImageLoading {
+  composes: galleryImage;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

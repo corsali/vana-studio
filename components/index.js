@@ -10,6 +10,8 @@ export * from "./icons/LogoutIcon";
 export * from "./icons/Spinner";
 export * from "./icons/VanaLogo";
 export * from "./icons/WarningIcon";
+export * from "./icons/LogoutIcon";
+export * from "./icons/ArrowLeftIcon";
 export * from "./nav/Nav";
 export * from "./nav/NavLoggedIn";
 export * from "./nav/Footer";

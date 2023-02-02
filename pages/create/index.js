@@ -43,7 +43,7 @@ export default function CreatePage() {
   // Get Text to Image exhibit images
   const populateTextToImageExhibits = useCallback(
     async (token) => {
-      const images = await getTextToImageUserExhibits(token);
+      const images = await getTextToImageUserExhibits(token, 9);
 
       if (images.length > textToImageExhibitImages.length) {
         setTextToImageExhibitImages(images);
@@ -131,20 +131,23 @@ export default function CreatePage() {
 
       {/* CONTENT */}
       <main className={styles.main}>
-        <div className={`${styles.center} ${styles.container} space-y-3`}>
+        <div className={`${styles.center} container space-y-3`}>
           {/* User is not Verified */}
           {!auth?.user?.is_verified && (
-            <p>
-              You must be verified to use this application. To request
-              verification, please fill out{" "}
-              <a
-                href="https://docs.google.com/forms/d/1p_7aPXV3A2aiHAx-TLQxNs2rtn4ft0QPXuJImnvSbHE/"
-                target="_blank"
-              >
-                this form
-              </a>
-              .
-            </p>
+            <>
+              <h1>Create with your Portrait AI</h1>
+              <p>
+                You must be verified to use this application.<br /> To request
+                verification, please fill out{" "}
+                <a
+                  href="https://docs.google.com/forms/d/1p_7aPXV3A2aiHAx-TLQxNs2rtn4ft0QPXuJImnvSbHE/"
+                  target="_blank"
+                >
+                  this form
+                </a>
+                .
+              </p>
+            </>
           )}
 
           {auth?.user?.is_verified && (

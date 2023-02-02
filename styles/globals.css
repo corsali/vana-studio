@@ -130,6 +130,9 @@ h3,
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
   margin-top: var(--space-4);
 }
+.space-y-5 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: var(--space-5);
+}
 
 .space-x-1 > :not([hidden]) ~ :not([hidden]) {
   margin-right: var(--space-1);
