@@ -10,6 +10,7 @@ import {
   useAuth,
   getTextToImageUserExhibits,
   getUserBalance,
+  Footer,
 } from "components";
 
 export default function GalleryPage() {
@@ -60,6 +61,8 @@ export default function GalleryPage() {
     <>
       {/* NAV */}
       <Nav>{!loading && <NavLoggedIn userBalance={userBalance} />}</Nav>
+
+      {/* CONTENT */}
       <main className={styles.main}>
         <section className={galleryStyles.container}>
           {!loading && textToImageExhibitImages.length === 0 ? (
@@ -112,6 +115,9 @@ export default function GalleryPage() {
           )}
         </section>
       </main>
+
+      {/* FOOTER */}
+      <Footer />
     </>
   );
 }
