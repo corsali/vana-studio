@@ -109,6 +109,12 @@ h3 {
 
 /* UTILITIES */
 
+.container {
+  max-width: var(--max-width);
+  padding-left: var(--space-2);
+  padding-right: var(--space-2);
+}
+
 .space-y-1 > :not([hidden]) ~ :not([hidden]) {
   margin-top: var(--space-1);
 }
@@ -208,7 +214,20 @@ h3 {
   padding-bottom: var(--space-4);
 }
 
-.mb-6 {
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.mb-3 {
+  margin-bottom: var(--space-3);
+}
+.mb-4 {
+  margin-bottom: var(--space-4);
+}
+.mb-5 {
+  margin-bottom: var(--space-5);
+}
+.mb-5 {
   margin-bottom: var(--space-6);
 }
 
