@@ -137,12 +137,12 @@ export default function CreatePage() {
             <>
               <h1>Create with your Portrait AI</h1>
               <p>
-                You must be verified to use this application.
-                <br /> To request verification, please visit{" "}
+                Uh oh...access to Vana Studio beta is only available to a select
+                few. <br /> Get on the wait list now to{" "}
                 <a href="https://vana.com/vanastudio" target="_blank">
-                  this link
+                  reserve your spot
                 </a>
-                .
+                !
               </p>
             </>
           )}
