@@ -6,6 +6,7 @@ const Footer = () => {
       <div className="mb-3 mx-auto">
         <hr style={{ border: "initial", borderTop: "1px solid #ddd"}} />
       </div>
+      <p>If you have any issues, please reach out to: <a href="mailto:support@vana.com">support@vana.com</a></p><br/>
       <a href={config.vanaTermsURL} className="link" target="_blank">
         Terms of Service
       </a>
