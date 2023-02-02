@@ -102,7 +102,6 @@ h1,
 h2,
 h3,
 .text-display {
-  /* font-family: var(--font-display); */
   font-weight: 900;
   line-height: 1.1;
   letter-spacing: -0.015em;
