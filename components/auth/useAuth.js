@@ -28,8 +28,9 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(auth.token);
   const [user, setUser] = useState();
 
+  const storedToken = getToken();
+
   useEffect(() => {
-    const storedToken = getToken();
     setToken(storedToken);
 
     const parsedToken = parseJWT(storedToken);
@@ -40,7 +41,7 @@ export function AuthProvider({ children }) {
       };
       getUser();
     }
-  }, []);
+  }, [storedToken]);
 
   const value = {
     user,
