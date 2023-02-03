@@ -136,7 +136,9 @@ export default function CreatePage() {
           {!auth.user ? (
             <>
               <h1>Create with your Portrait AI</h1>
-              <Spinner />
+              <div className="flex items-center justify-center py-2">
+                <Spinner />
+              </div>
             </>
           ) : (
             <CreateFlow
