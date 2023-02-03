@@ -15,6 +15,7 @@ import {
   getUserExhibits,
   getUserBalance,
   useAuth,
+  Spinner,
 } from "components";
 import { useLocalStorage, useHasMounted } from "hooks";
 
@@ -132,38 +133,21 @@ export default function CreatePage() {
       {/* CONTENT */}
       <main className={styles.main}>
         <div className={`${styles.center} container space-y-3`}>
-          {/* User is not Verified */}
-          {!auth?.user?.is_verified && (
+          {!auth.user ? (
             <>
               <h1>Create with your Portrait AI</h1>
-              <p>
-                Uh oh...access to Vana Studio beta is only available to a select
-                few. <br /> Get on the waitlist now to{" "}
-                <a href="https://vana.com/vanastudio" target="_blank">
-                  reserve your spot
-                </a>
-                !
-              </p>
+              <Spinner />
             </>
-          )}
-
-          {auth?.user?.is_verified && (
-            <>
-              {loading ? (
-                <PromptLoader />
-              ) : (
-                <Prompt
-                  textToImageExhibitImages={textToImageExhibitImages}
-                  userExhibits={userExhibits}
-                >
-                  <Generator
-                    userBalance={userBalance}
-                    authToken={authToken}
-                    onSuccess={refreshUser}
-                  />
-                </Prompt>
-              )}
-            </>
+          ) : (
+            <CreateFlow
+              loading={loading}
+              user={auth.user}
+              userExhibits={userExhibits}
+              textToImageExhibitImages={textToImageExhibitImages}
+              userBalance={userBalance}
+              authToken={authToken}
+              refreshUser={refreshUser}
+            />
           )}
         </div>
       </main>
@@ -182,3 +166,47 @@ export default function CreatePage() {
     </>
   );
 }
+
+export const CreateFlow = ({
+  user,
+  loading,
+  userExhibits,
+  textToImageExhibitImages,
+  userBalance,
+  authToken,
+  refreshUser,
+}) => {
+  if (!user.is_verified) {
+    return (
+      <>
+        {/* User is not Verified */}
+        <h1>Create with your Portrait AI</h1>
+        <p>
+          Uh oh...access to Vana Studio beta is only available to a select few.{" "}
+          <br /> Get on the waitlist now to{" "}
+          <a href="https://vana.com/vanastudio" target="_blank">
+            reserve your spot
+          </a>
+          !
+        </p>
+      </>
+    );
+  }
+
+  if (loading) {
+    return <PromptLoader />;
+  }
+
+  return (
+    <Prompt
+      textToImageExhibitImages={textToImageExhibitImages}
+      userExhibits={userExhibits}
+    >
+      <Generator
+        userBalance={userBalance}
+        authToken={authToken}
+        onSuccess={refreshUser}
+      />
+    </Prompt>
+  );
+};
