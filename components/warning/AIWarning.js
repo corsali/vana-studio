@@ -15,16 +15,15 @@ const AIWarning = ({ onOpen }) => {
         Warning: AI is fun but a little unpredictable
       </h3>
       <p className="text-stone-500">
-        Like Vana, AI doesn&apos;t discriminate so you might see yourself in a
-        different gender. Also, sometimes it dodges our moderation features, so
-        you might see some skin.
+        Ok, let’s get real. Vana Studio is still in Beta mode, so things might
+        get a little wacky. But hey, that’s part of the fun, right?
       </p>
       <p className="text-stone-500">
-        If anything you experience on Vana makes you feel uncomfortable, please{" "}
-        <a href={`mailto:${config.vanaSupportEmail}`} className="underline">
-          let us know
-        </a>{" "}
-        straight away.
+        Just remember, once you turn your imagination into pixels, there’s no
+        turning back. So choose your words wisely! And if you happen to create
+        something you regret, hit up our support squad and they’ll do their best
+        to make it disappear (no guarantees). Now go forth and unleash your
+        inner artist!
       </p>
     </div>
   );
