@@ -24,7 +24,7 @@ export const Prompt = ({
   if (userExhibits.length === 0) {
     return (
       <>
-        <h1>Create your Vana Portrait AI</h1>
+        <h1>Create with your Portrait AI</h1>
         <section className="w-full space-y-3">
           <p>You don't have a Portrait AI model to create with yet.</p>
           <button

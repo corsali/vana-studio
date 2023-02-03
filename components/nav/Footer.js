@@ -10,7 +10,7 @@ const Footer = () => {
         If you have any issues, please reach out to:{" "}
         <a href="mailto:support@vana.com">support@vana.com</a>
       </p>
-      <p className="flex justify-center gap-4 h-full">
+      <div className="flex justify-center gap-4 h-full">
         <a href={config.vanaTermsURL} className="link" target="_blank">
           Terms of Service
         </a>
@@ -18,7 +18,7 @@ const Footer = () => {
         <a href={config.vanaPrivacyURL} className="link" target="_blank">
           Privacy Policy
         </a>
-      </p>
+      </div>
     </footer>
   );
 };
