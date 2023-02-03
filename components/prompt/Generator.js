@@ -4,7 +4,7 @@ import { Dialog, Spinner, IdeasMessage, Marker, useAuth } from "components";
 import styles from "./Prompt.module.css";
 import homeStyles from "styles/Home.module.css";
 
-const meRegex = /\bme\b/i;
+import { replaceMe, testMe } from "utils/promptReplacer";
 
 const PROMPT_LIMIT = 16;
 
@@ -39,7 +39,7 @@ const Generator = ({ authToken, userBalance, onSuccess }) => {
       const { success, message, data } = await vanaPost(
         `images/generations`,
         {
-          prompt: prompt.replace(meRegex, "{target_token}"),
+          prompt: replaceMe(prompt),
         },
         authToken
       );
@@ -69,7 +69,7 @@ const Generator = ({ authToken, userBalance, onSuccess }) => {
   };
 
   useEffect(() => {
-    setValidPrompt(meRegex.test(prompt));
+    setValidPrompt(testMe(prompt));
   }, [prompt]);
 
   return (
