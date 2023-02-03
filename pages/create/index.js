@@ -160,10 +160,13 @@ export default function CreatePage() {
       {/* WARNING */}
       <Dialog
         isOpen={showWarning}
-        onClose={() => setShowWarning(false)}
+        onClose={() => {
+          setShowWarning(false);
+          setWarningInLocalStorage();
+        }}
         showCloseButton
       >
-        <AIWarning onOpen={setWarningInLocalStorage} />
+        <AIWarning />
       </Dialog>
     </>
   );

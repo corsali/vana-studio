@@ -1,13 +1,6 @@
-import { useEffect } from "react";
 import { WarningIcon } from "components";
 
-import config from "config";
-
-const AIWarning = ({ onOpen }) => {
-  useEffect(() => {
-    onOpen();
-  }, []);
-
+const AIWarning = () => {
   return (
     <div className="flex flex-col justify-center gap-5">
       <h3 className="flex items-center gap-6 mb-6">
