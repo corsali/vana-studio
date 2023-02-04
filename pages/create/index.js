@@ -189,7 +189,7 @@ export const CreateFlow = ({
         <p>
           Uh oh...access to Vana Studio beta is only available to a select few.{" "}
           <br /> Get on the waitlist now to{" "}
-          <a href="https://vana.com/vanastudio" target="_blank">
+          <a href="https://vana.com/studio" target="_blank">
             reserve your spot
           </a>
           !
