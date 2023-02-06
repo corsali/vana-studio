@@ -1,19 +1,21 @@
+import * as jose from "jose";
+
 export function parseJWT(token) {
   if (!token) {
     return;
   }
 
-  const base64Url = token.split(".")[1];
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  const jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split("")
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join("")
-  );
+  const claims = jose.decodeJwt(token);
 
-  return JSON.parse(jsonPayload);
+  // Check that JWT hasn't expired
+  if (claims && claims.exp) {
+    const isExpired = Date.now() >= claims.exp * 1000;
+    if (isExpired) {
+      console.warn("User's token has expired, logging out");
+      window.localStorage.removeItem("authToken");
+      return null;
+    }
+  }
+
+  return claims;
 }
