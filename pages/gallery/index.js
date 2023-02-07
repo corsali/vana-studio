@@ -38,6 +38,7 @@ export default function GalleryPage() {
   useEffect(() => {
     (async () => {
       if (!authToken) {
+        router.replace("/login");
         return;
       }
 
