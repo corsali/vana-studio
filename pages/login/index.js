@@ -59,7 +59,7 @@ export default function LoginPage() {
     <>
       <Head>
         <title>Vana Studio</title>
-        <meta name="description" content="Generate portraits with Vana" />
+        <meta name="description" content="Generate custom portraits with Vana" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
