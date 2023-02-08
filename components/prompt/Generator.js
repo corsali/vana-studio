@@ -120,11 +120,7 @@ const Generator = ({ authToken, userBalance, onSuccess }) => {
 
       {typeof userBalance !== "undefined" && userBalance < MINIMUM_CREDITS && (
         <p className="text-error font-medium">
-          You do not have enough credits. Get more at{" "}
-          <a href="https://portrait.vana.com" target="_blank">
-            portrait.vana.com
-          </a>
-          .
+          You do not have enough credits. Get more by clicking Credits in the upper right.
         </p>
       )}
 
