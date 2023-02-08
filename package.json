@@ -15,7 +15,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "doppler:dev": "doppler setup --project vana-studio --config development && doppler run -- npm run dev"
   },
   "dependencies": {
     "@next/font": "13.1.1",
