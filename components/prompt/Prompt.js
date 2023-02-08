@@ -69,8 +69,11 @@ export const Prompt = ({
 
             {/* all prompt results */}
             {textToImageExhibitImages.map((image, i) => (
-              <div key={`${image}-${i}`} className={promptStyles.galleryImage}>
-                <img src={image} key={i} />
+              <div
+                key={`${image.name}-${i}`}
+                className={promptStyles.galleryImage}
+              >
+                <img src={image.url} key={i} />
               </div>
             ))}
           </div>
