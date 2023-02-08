@@ -8,7 +8,7 @@ export const PromptLogin = ({ onSetLoginState }) => {
         {/* <span className="text-gray">Create images of yourself doing whatever you want with your Portrait AI.</span> */}
         <span className="text-gray">
           Create images of yourself in any style. In any place you can think of.
-          Doing what you wish. With your Vana Portrait AI.
+          Doing whatever you can dream up. With your Vana Portrait AI.
         </span>
       </h1>
 
