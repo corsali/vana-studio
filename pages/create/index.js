@@ -44,7 +44,7 @@ export default function CreatePage() {
   // Get Text to Image exhibit images
   const populateTextToImageExhibits = useCallback(
     async (token) => {
-      const images = await getTextToImageUserExhibits(token, 4);
+      const images = await getTextToImageUserExhibits(token, 9);
 
       if (images.length > textToImageExhibitImages.length) {
         setTextToImageExhibitImages(images);
