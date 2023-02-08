@@ -102,10 +102,10 @@ export default function GalleryPage() {
                         ))
                     : textToImageExhibitImages.map((image, i) => (
                         <div
-                          key={`${image}-${i}`}
+                          key={`${image.name}-${i}`}
                           className={galleryStyles.galleryImage}
                         >
-                          <img src={image} key={i} />
+                          <img src={image.url} key={i} />
                         </div>
                       ))}
                 </div>
