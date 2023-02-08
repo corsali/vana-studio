@@ -14,7 +14,7 @@ const AIWarning = () => {
         back. So choose your words wisely!
       </p>
       <p className="text-stone-500">
-        Our system has got your back. If it sees an image that might be NSFW,
+        Our system has got your back. If it sees an image that might be a no-no,
         it'll black it out. And if you happen to create something you
         regret, hit up our support squad and they'll do their best to make it
         disappear. Now go forth and unleash your inner artist!
