@@ -3,9 +3,8 @@ import { PromptIdeas } from "components";
 const IdeasMessage = () => {
   return (
     <div className="space-y-4">
-      <h2>Need ideas?</h2>
-      <p>Here are a few:</p>
-      <PromptIdeas className="pl-3" />
+      <h1>Need ideas?</h1>
+      <PromptIdeas className="pl-2" />
     </div>
   );
 };
