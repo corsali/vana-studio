@@ -11,6 +11,10 @@ const Footer = () => {
         <a href="mailto:support@vana.com">support@vana.com</a>
       </p>
       <div className="flex justify-center gap-4 h-full">
+      <a href={config.TYPEFORM_BUILDER_URL} className="link" target="_blank">
+          Build with Vana
+        </a>
+      <div className="divider" style={{ height: "18px", flex: "initial" }}></div>
         <a href={config.vanaTermsURL} className="link" target="_blank">
           Terms of Service
         </a>
