@@ -9,6 +9,8 @@ const config = {
   VANA_GITHUB_URL: "https://github.com/corsali/vana-portrait-demo",
   VANA_PORTRAIT_URL: "https://portrait.vana.com",
   VANA_SUPPORT_EMAIL: "support@vana.com",
+  VANA_BUILDER_EMAIL: "build@vana.com",
+  TYPEFORM_BUILDER_URL: "https://4eyuszgyknu.typeform.com/hey-builders",
   vanaTermsURL: "https://www.vana.com/terms-of-service",
   vanaPrivacyURL: "https://www.vana.com/privacy-policy",
 };
