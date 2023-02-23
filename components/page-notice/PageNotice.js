@@ -19,7 +19,7 @@ const Builder = () => (
         className={pageNoticeStyles.link}
       >
         <Icon icon="la:hand-peace" width="1.35em" />
-        <span>Build on GPT-me</span>
+        <span>Build with Vana</span>
       </a>
     </p>
   </PageNotice>
