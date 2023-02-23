@@ -16,9 +16,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "doppler:dev": "doppler setup --project vana-studio --config development && doppler run -- npm run dev"
+    "doppler:dev": "doppler setup --project vana-studio --config development && doppler run -- npm run dev",
+    "doppler:prod": "doppler setup --project vana-studio --config production && doppler run -- npm run dev"
   },
   "dependencies": {
+    "@iconify/react": "^4.1.0",
     "@next/font": "13.1.1",
     "jose": "^4.11.2",
     "next": "13.1.1",

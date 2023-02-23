@@ -74,7 +74,9 @@ h6 {
   --font-size-1: clamp(16px, 0.9373rem + 0.2421vw, 18px);
   --font-size-2: clamp(13px, 0.7498rem + 0.2421vw, 15px);
   --font-size-3: clamp(12px, 0.7187rem + 0.1211vw, 13px);
+  --color-gray-800: #1f2937;
   --color-gray: #757575;
+  --color-gray-100: #f3f4f6;
   --color-border: #ccc;
   --color-input: rgb(245, 245, 244);
 }
