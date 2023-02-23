@@ -11,13 +11,13 @@
   gap: 0.25rem;
   font-size: clamp(12px, 0.7187rem + 0.1211vw, 13px);
   line-height: 1.5;
-  color: #9b9b9b;
+  color: rgb(168 162 158);
 }
 
 .link {
   display: inline-flex;
   gap: 0.125rem;
-  color: #9b9b9b;
+  color: rgb(168 162 158);
 }
 
 .link:hover {
