@@ -21,7 +21,7 @@ export const PromptLogin = ({ onSetLoginState }) => {
         </button>
         <p className={styles.description}>
           New to Vana?{" "}
-          <a target="_blank" href="https://portrait.vana.com/create">
+          <a target="_blank" href="https://portraitv0.vana.com/create">
             Create your Portrait first
           </a>
         </p>

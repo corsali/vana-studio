@@ -1,7 +1,7 @@
-import { useCallback } from "react";
 import { Marker } from "components";
-import homeStyles from "styles/Home.module.css";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
+import homeStyles from "styles/Home.module.css";
 import promptStyles from "./Prompt.module.css";
 
 export const Prompt = ({
@@ -12,7 +12,7 @@ export const Prompt = ({
   const router = useRouter();
 
   const handleCreate = useCallback(() => {
-    window.open("https://portrait.vana.com/create", "_blank").focus();
+    window.open("https://portraitv0.vana.com/create", "_blank").focus();
   }, []);
 
   const handleOpenGallery = useCallback(() => {
